@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { Property, PropertyStatus, PropertyType } from '../../../core/models/property.model';
+import { PageResponse } from '../../../core/models/page-response.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { PropertyService } from '../../../core/services/property.service';
 
@@ -17,6 +18,7 @@ export class PropertiesComponent implements OnInit {
   readonly loading = signal(true);
   readonly error = signal(false);
   readonly updatingId = signal<number | null>(null);
+  readonly pageInfo = signal<Omit<PageResponse<Property>, 'content'> | null>(null);
   readonly propertyTypes: PropertyType[] = ['CASA', 'APARTAMENTO', 'TERRENO', 'COMERCIAL', 'CHACARA', 'OUTRO'];
   readonly propertyStatuses: PropertyStatus[] = ['RASCUNHO', 'PUBLICADO', 'INATIVO', 'VENDIDO'];
 
@@ -36,13 +38,21 @@ export class PropertiesComponent implements OnInit {
     this.loadProperties();
   }
 
-  loadProperties(): void {
+  loadProperties(page = this.pageInfo()?.page ?? 0): void {
     this.loading.set(true);
     this.error.set(false);
 
-    this.propertyService.listAdmin(this.filtersForm.getRawValue()).subscribe({
+    this.propertyService.listAdmin(this.filtersForm.getRawValue(), { page, size: 20 }).subscribe({
       next: (response) => {
         this.properties.set(response.content);
+        this.pageInfo.set({
+          page: response.page,
+          size: response.size,
+          totalElements: response.totalElements,
+          totalPages: response.totalPages,
+          first: response.first,
+          last: response.last
+        });
         this.loading.set(false);
       },
       error: () => {
@@ -53,7 +63,7 @@ export class PropertiesComponent implements OnInit {
   }
 
   applyFilters(): void {
-    this.loadProperties();
+    this.loadProperties(0);
   }
 
   clearFilters(): void {
@@ -63,7 +73,37 @@ export class PropertiesComponent implements OnInit {
       tipo: '',
       status: ''
     });
-    this.loadProperties();
+    this.loadProperties(0);
+  }
+
+  previousPage(): void {
+    const pageInfo = this.pageInfo();
+
+    if (!pageInfo || pageInfo.first) {
+      return;
+    }
+
+    this.loadProperties(pageInfo.page - 1);
+  }
+
+  nextPage(): void {
+    const pageInfo = this.pageInfo();
+
+    if (!pageInfo || pageInfo.last) {
+      return;
+    }
+
+    this.loadProperties(pageInfo.page + 1);
+  }
+
+  pageLabel(): string {
+    const pageInfo = this.pageInfo();
+
+    if (!pageInfo || pageInfo.totalPages === 0) {
+      return 'Pagina 0 de 0';
+    }
+
+    return `Pagina ${pageInfo.page + 1} de ${pageInfo.totalPages}`;
   }
 
   publish(property: Property): void {

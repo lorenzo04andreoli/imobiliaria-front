@@ -119,6 +119,18 @@
           </tbody>
         </table>
       </div>
+
+      @if (pageInfo(); as page) {
+        <div class="pagination">
+          <span>{{ page.totalElements }} imoveis</span>
+
+          <div>
+            <button type="button" [disabled]="page.first || loading()" (click)="previousPage()">Anterior</button>
+            <strong>{{ pageLabel() }}</strong>
+            <button type="button" [disabled]="page.last || loading()" (click)="nextPage()">Proxima</button>
+          </div>
+        </div>
+      }
     }
   </section>
 </main>

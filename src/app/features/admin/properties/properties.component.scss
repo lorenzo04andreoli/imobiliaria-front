@@ -189,6 +189,39 @@ td small {
   align-items: center;
 }
 
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.pagination > span {
+  color: #68737d;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.pagination > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pagination strong {
+  color: #26313b;
+  font-size: 0.9rem;
+}
+
+.pagination button {
+  min-height: 36px;
+  border: 1px solid #d9e0e6;
+  background: #ffffff;
+  color: #26313b;
+}
+
 @media (max-width: 720px) {
   .admin-shell {
     padding: 24px 16px;
@@ -209,5 +242,10 @@ td small {
   .header-actions button,
   .filter-actions button {
     flex: 1;
+  }
+
+  .pagination,
+  .pagination > div {
+    display: grid;
   }
 }

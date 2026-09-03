@@ -20,6 +20,11 @@ export interface PropertyAdminFilters {
   status: PropertyStatus | '';
 }
 
+export interface PropertyAdminPageParams {
+  page: number;
+  size: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -37,10 +42,13 @@ export class PropertyService {
     return this.http.get<PageResponse<Property>>(`${this.apiUrl}/imoveis`, { params });
   }
 
-  listAdmin(filters?: PropertyAdminFilters): Observable<PageResponse<Property>> {
+  listAdmin(
+    filters?: PropertyAdminFilters,
+    pageParams: PropertyAdminPageParams = { page: 0, size: 20 }
+  ): Observable<PageResponse<Property>> {
     let params = new HttpParams()
-      .set('page', 0)
-      .set('size', 20)
+      .set('page', pageParams.page)
+      .set('size', pageParams.size)
       .set('sort', 'criadoEm')
       .set('direction', 'desc');
 
