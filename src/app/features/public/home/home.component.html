@@ -15,13 +15,73 @@
 
   <section id="imoveis" class="section">
     <div class="section__header">
-      <span class="eyebrow">Catalogo</span>
-      <h2>Imoveis em destaque</h2>
+      <div>
+        <span class="eyebrow">Catalogo</span>
+        <h2>Imoveis em destaque</h2>
+      </div>
+      <p>Escolha um imovel e fale diretamente com a Eliane pelo WhatsApp.</p>
     </div>
 
-    <div class="empty-state">
-      <strong>Catalogo em preparacao</strong>
-      <p>O proximo passo sera conectar esta area com a API de imoveis.</p>
-    </div>
+    @if (loading()) {
+      <div class="empty-state">
+        <strong>Carregando imoveis</strong>
+        <p>Estamos buscando as oportunidades disponiveis.</p>
+      </div>
+    } @else if (error()) {
+      <div class="empty-state">
+        <strong>Nao foi possivel carregar os imoveis</strong>
+        <p>Tente novamente em alguns instantes.</p>
+      </div>
+    } @else if (properties().length === 0) {
+      <div class="empty-state">
+        <strong>Nenhum imovel publicado</strong>
+        <p>Assim que a Eliane publicar os imoveis, eles aparecem aqui.</p>
+      </div>
+    } @else {
+      <div class="property-grid">
+        @for (property of properties(); track property.id) {
+          <article class="property-card">
+            <a class="property-card__media" [routerLink]="['/imoveis', property.id]">
+              @if (coverImage(property); as imageUrl) {
+                <img [src]="imageUrl" [alt]="property.titulo" />
+              } @else {
+                <div class="property-card__placeholder">
+                  <span>{{ property.tipo }}</span>
+                </div>
+              }
+            </a>
+
+            <div class="property-card__body">
+              <div class="property-card__header">
+                <span>{{ property.tipo }}</span>
+                <strong>{{ formattedPrice(property) }}</strong>
+              </div>
+
+              <h3>
+                <a [routerLink]="['/imoveis', property.id]">{{ property.titulo }}</a>
+              </h3>
+
+              <p>{{ property.bairro }}, {{ property.cidade }}</p>
+
+              @if (propertyDetails(property)) {
+                <small>{{ propertyDetails(property) }}</small>
+              }
+
+              <div class="property-card__actions">
+                <a class="button button--primary" [routerLink]="['/imoveis', property.id]">Ver detalhes</a>
+                <a
+                  class="button button--whatsapp"
+                  [href]="whatsappLink(property)"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Tenho interesse
+                </a>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    }
   </section>
 </main>
