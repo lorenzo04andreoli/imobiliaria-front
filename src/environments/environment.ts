@@ -5,6 +5,6 @@ export const environment = {
     brokerName: 'Eliane',
     siteName: 'Eliane Corretora',
     tagline: 'Imoveis selecionados com atendimento direto pelo WhatsApp',
-    whatsappNumber: '5500000000000'
+    whatsappNumber: '554191513407'
   }
 };
