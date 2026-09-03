@@ -1,0 +1,81 @@
+<main class="admin-shell">
+  <header>
+    <div>
+      <span>Painel administrativo</span>
+      <h1>Imagens do imovel</h1>
+      @if (property()) {
+        <p>{{ property()!.titulo }}</p>
+      }
+    </div>
+    <a routerLink="/admin/imoveis">Voltar</a>
+  </header>
+
+  @if (loading()) {
+    <section class="empty-state">
+      <strong>Carregando imagens</strong>
+    </section>
+  } @else if (error() && !property()) {
+    <section class="empty-state">
+      <strong>Nao foi possivel carregar o imovel</strong>
+      <button type="button" (click)="loadData()">Tentar novamente</button>
+    </section>
+  } @else {
+    <section class="form-panel">
+      <h2>Adicionar imagem</h2>
+
+      <form [formGroup]="form" (ngSubmit)="addImage()">
+        <label class="field field-wide">
+          URL da imagem
+          <input type="url" formControlName="url" />
+        </label>
+
+        <label class="field">
+          Ordem
+          <input type="number" min="0" formControlName="ordem" />
+        </label>
+
+        <label class="checkbox-field">
+          <input type="checkbox" formControlName="capa" />
+          Usar como capa
+        </label>
+
+        <button type="submit" [disabled]="saving()">
+          {{ saving() ? 'Adicionando...' : 'Adicionar imagem' }}
+        </button>
+      </form>
+    </section>
+
+    @if (error()) {
+      <p class="form-error">Nao foi possivel concluir a acao.</p>
+    }
+
+    @if (images().length === 0) {
+      <section class="empty-state">
+        <strong>Nenhuma imagem cadastrada</strong>
+        <p>Adicione uma imagem por URL para aparecer na landing page.</p>
+      </section>
+    } @else {
+      <section class="image-grid" aria-label="Imagens cadastradas">
+        @for (image of images(); track image.id) {
+          <article>
+            <img [src]="imageUrl(image)" [alt]="property()?.titulo ?? 'Imagem do imovel'" />
+
+            <div>
+              <span>{{ image.capa ? 'Capa' : 'Imagem' }}</span>
+              <small>Ordem {{ image.ordem }}</small>
+            </div>
+
+            <div class="card-actions">
+              <button type="button" [disabled]="updatingId() !== null || image.capa" (click)="setCover(image)">
+                Definir capa
+              </button>
+              <button class="danger" type="button" [disabled]="updatingId() !== null" (click)="removeImage(image)">
+                Remover
+              </button>
+            </div>
+          </article>
+        }
+      </section>
+    }
+  }
+</main>

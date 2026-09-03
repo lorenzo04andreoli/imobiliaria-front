@@ -9,6 +9,12 @@ export interface PropertyImage {
   capa: boolean;
 }
 
+export interface PropertyImageRequest {
+  url: string;
+  ordem: number | null;
+  capa: boolean;
+}
+
 export interface Property {
   id: number;
   titulo: string;

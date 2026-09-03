@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { appConfig } from '../config/app-config';
 import { PageResponse } from '../models/page-response.model';
-import { Property, PropertyRequest } from '../models/property.model';
+import { Property, PropertyImage, PropertyImageRequest, PropertyRequest } from '../models/property.model';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +47,22 @@ export class PropertyService {
 
   update(id: number, request: PropertyRequest): Observable<Property> {
     return this.http.put<Property>(`${this.apiUrl}/admin/imoveis/${id}`, request);
+  }
+
+  listImages(id: number): Observable<PropertyImage[]> {
+    return this.http.get<PropertyImage[]>(`${this.apiUrl}/admin/imoveis/${id}/imagens`);
+  }
+
+  addImage(id: number, request: PropertyImageRequest): Observable<PropertyImage> {
+    return this.http.post<PropertyImage>(`${this.apiUrl}/admin/imoveis/${id}/imagens`, request);
+  }
+
+  setCoverImage(id: number, imageId: number): Observable<PropertyImage> {
+    return this.http.patch<PropertyImage>(`${this.apiUrl}/admin/imoveis/${id}/imagens/${imageId}/capa`, {});
+  }
+
+  removeImage(id: number, imageId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/admin/imoveis/${id}/imagens/${imageId}`);
   }
 
   publish(id: number): Observable<Property> {

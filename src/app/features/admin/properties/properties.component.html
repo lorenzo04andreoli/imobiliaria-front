@@ -51,6 +51,7 @@
                   <div class="row-actions">
                     <a [routerLink]="['/imoveis', property.id]" target="_blank" rel="noopener">Ver</a>
                     <a [routerLink]="['/admin/imoveis', property.id, 'editar']">Editar</a>
+                    <a [routerLink]="['/admin/imoveis', property.id, 'imagens']">Imagens</a>
                     <button
                       type="button"
                       [disabled]="updatingId() === property.id || property.status === 'PUBLICADO'"
