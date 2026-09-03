@@ -74,6 +74,47 @@ section {
   background: #ffffff;
 }
 
+.filters-panel {
+  margin-bottom: 18px;
+}
+
+form {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.5fr) minmax(160px, 1fr) minmax(140px, 0.8fr) minmax(140px, 0.8fr) auto;
+  gap: 14px;
+  align-items: end;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  color: #394653;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+input,
+select {
+  min-height: 42px;
+  border: 1px solid #cbd5df;
+  border-radius: 6px;
+  padding: 0 12px;
+  background: #ffffff;
+  color: #26313b;
+  font: inherit;
+}
+
+input:focus,
+select:focus {
+  border-color: #8a6042;
+  outline: none;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 10px;
+}
+
 .empty-state {
   display: grid;
   gap: 12px;
@@ -157,11 +198,16 @@ td small {
     display: grid;
   }
 
+  form {
+    grid-template-columns: 1fr;
+  }
+
   .header-actions {
     width: 100%;
   }
 
-  .header-actions button {
+  .header-actions button,
+  .filter-actions button {
     flex: 1;
   }
 }

@@ -10,6 +10,45 @@
     </div>
   </header>
 
+  <section class="filters-panel">
+    <form [formGroup]="filtersForm" (ngSubmit)="applyFilters()">
+      <label>
+        Buscar
+        <input type="search" formControlName="q" />
+      </label>
+
+      <label>
+        Cidade
+        <input type="text" formControlName="cidade" />
+      </label>
+
+      <label>
+        Tipo
+        <select formControlName="tipo">
+          <option value="">Todos</option>
+          @for (type of propertyTypes; track type) {
+            <option [value]="type">{{ type }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        Status
+        <select formControlName="status">
+          <option value="">Todos</option>
+          @for (status of propertyStatuses; track status) {
+            <option [value]="status">{{ status }}</option>
+          }
+        </select>
+      </label>
+
+      <div class="filter-actions">
+        <button type="submit">Filtrar</button>
+        <button class="button-secondary" type="button" (click)="clearFilters()">Limpar</button>
+      </div>
+    </form>
+  </section>
+
   <section>
     @if (loading()) {
       <p>Carregando imoveis...</p>
@@ -20,8 +59,8 @@
       </div>
     } @else if (properties().length === 0) {
       <div class="empty-state">
-        <strong>Nenhum imovel cadastrado</strong>
-        <p>Use o botao de novo imovel para iniciar o catalogo.</p>
+        <strong>Nenhum imovel encontrado</strong>
+        <p>Ajuste os filtros ou cadastre um novo imovel.</p>
       </div>
     } @else {
       <div class="table-wrap">

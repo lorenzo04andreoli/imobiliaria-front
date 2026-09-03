@@ -4,7 +4,21 @@ import { Observable } from 'rxjs';
 
 import { appConfig } from '../config/app-config';
 import { PageResponse } from '../models/page-response.model';
-import { Property, PropertyImage, PropertyImageRequest, PropertyRequest } from '../models/property.model';
+import {
+  Property,
+  PropertyImage,
+  PropertyImageRequest,
+  PropertyRequest,
+  PropertyStatus,
+  PropertyType
+} from '../models/property.model';
+
+export interface PropertyAdminFilters {
+  q: string;
+  cidade: string;
+  tipo: PropertyType | '';
+  status: PropertyStatus | '';
+}
 
 @Injectable({
   providedIn: 'root'
@@ -23,12 +37,28 @@ export class PropertyService {
     return this.http.get<PageResponse<Property>>(`${this.apiUrl}/imoveis`, { params });
   }
 
-  listAdmin(): Observable<PageResponse<Property>> {
-    const params = new HttpParams()
+  listAdmin(filters?: PropertyAdminFilters): Observable<PageResponse<Property>> {
+    let params = new HttpParams()
       .set('page', 0)
       .set('size', 20)
       .set('sort', 'criadoEm')
       .set('direction', 'desc');
+
+    if (filters?.q.trim()) {
+      params = params.set('q', filters.q.trim());
+    }
+
+    if (filters?.cidade.trim()) {
+      params = params.set('cidade', filters.cidade.trim());
+    }
+
+    if (filters?.tipo) {
+      params = params.set('tipo', filters.tipo);
+    }
+
+    if (filters?.status) {
+      params = params.set('status', filters.status);
+    }
 
     return this.http.get<PageResponse<Property>>(`${this.apiUrl}/admin/imoveis`, { params });
   }
