@@ -168,17 +168,13 @@
   <section class="location-band">
     <div>
       <span class="eyebrow">Atendimento local</span>
-      <h2>Imoveis em Paranagua e regiao</h2>
+      <h2>Imoveis em Paranagua</h2>
       <p>Compra e venda com atendimento direto, sem etapas desnecessarias.</p>
     </div>
 
-    @if (publishedCities().length > 0) {
-      <div class="location-tags" aria-label="Cidades com imoveis publicados">
-        @for (city of publishedCities(); track city) {
-          <span>{{ city }}</span>
-        }
-      </div>
-    }
+    <div class="location-tags" aria-label="Area de atendimento">
+      <span>Paranagua</span>
+    </div>
   </section>
 
   <section class="conversion-band">
