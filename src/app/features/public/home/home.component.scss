@@ -1,0 +1,112 @@
+.public-page {
+  min-height: 100vh;
+  background: #f7f4ef;
+  color: #1f2933;
+}
+
+.hero {
+  display: grid;
+  min-height: 72vh;
+  align-items: end;
+  padding: 96px 24px 56px;
+  background:
+    linear-gradient(180deg, rgb(31 41 51 / 20%), rgb(31 41 51 / 78%)),
+    url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1800&q=80')
+      center / cover;
+  color: #ffffff;
+}
+
+.hero__content,
+.section {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+
+.hero__content {
+  display: grid;
+  gap: 18px;
+}
+
+.eyebrow {
+  color: #b08968;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  max-width: 760px;
+  font-size: clamp(3rem, 7vw, 6.25rem);
+  line-height: 0.95;
+}
+
+.hero p {
+  max-width: 560px;
+  color: #f3eee8;
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.button {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0 18px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.button--primary {
+  background: #b08968;
+  color: #ffffff;
+}
+
+.button--secondary {
+  border-color: rgb(255 255 255 / 56%);
+  color: #ffffff;
+}
+
+.section {
+  padding: 64px 24px;
+}
+
+.section__header {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.section h2 {
+  color: #26313b;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.empty-state {
+  display: grid;
+  gap: 8px;
+  border: 1px solid #dfd5c8;
+  border-radius: 8px;
+  padding: 24px;
+  background: #fffaf4;
+}
+
+.empty-state p {
+  color: #68737d;
+}
