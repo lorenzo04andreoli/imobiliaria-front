@@ -127,6 +127,20 @@ export class PropertyService {
     return this.http.post<PropertyImage>(`${this.apiUrl}/admin/imoveis/${id}/imagens/upload`, formData);
   }
 
+  reorderImages(id: number, imageIds: number[]): Observable<PropertyImage[]> {
+    return this.http.put<PropertyImage[]>(`${this.apiUrl}/admin/imoveis/${id}/imagens/ordem`, {
+      imagemIds: imageIds
+    });
+  }
+
+  setCoverImage(id: number, imageId: number): Observable<PropertyImage> {
+    return this.http.patch<PropertyImage>(`${this.apiUrl}/admin/imoveis/${id}/imagens/${imageId}/capa`, {});
+  }
+
+  removeImage(id: number, imageId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/admin/imoveis/${id}/imagens/${imageId}`);
+  }
+
   publish(id: number): Observable<Property> {
     return this.http.patch<Property>(`${this.apiUrl}/admin/imoveis/${id}/publicar`, {});
   }

@@ -16,6 +16,7 @@ export class PropertyDetailComponent implements OnInit {
   readonly property = signal<Property | null>(null);
   readonly loading = signal(true);
   readonly error = signal(false);
+  readonly activeImageIndex = signal<number | null>(null);
 
   private readonly route = inject(ActivatedRoute);
   private readonly propertyService = inject(PropertyService);
@@ -44,6 +45,36 @@ export class PropertyDetailComponent implements OnInit {
 
   images(property: Property): PropertyImage[] {
     return [...property.imagens].sort((first, second) => first.ordem - second.ordem);
+  }
+
+  openGallery(index: number): void {
+    this.activeImageIndex.set(index);
+  }
+
+  closeGallery(): void {
+    this.activeImageIndex.set(null);
+  }
+
+  previousImage(property: Property): void {
+    const index = this.activeImageIndex();
+    const images = this.images(property);
+
+    if (index === null || images.length === 0) {
+      return;
+    }
+
+    this.activeImageIndex.set(index === 0 ? images.length - 1 : index - 1);
+  }
+
+  nextImage(property: Property): void {
+    const index = this.activeImageIndex();
+    const images = this.images(property);
+
+    if (index === null || images.length === 0) {
+      return;
+    }
+
+    this.activeImageIndex.set(index === images.length - 1 ? 0 : index + 1);
   }
 
   imageUrl(image: PropertyImage): string {

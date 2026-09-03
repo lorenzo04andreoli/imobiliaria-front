@@ -37,8 +37,10 @@
 
       @if (images(selectedProperty).length > 0) {
         <section class="gallery" aria-label="Fotos do imovel">
-          @for (image of images(selectedProperty); track image.id) {
-            <img [src]="imageUrl(image)" [alt]="selectedProperty.titulo" />
+          @for (image of images(selectedProperty); track image.id; let index = $index) {
+            <button type="button" (click)="openGallery(index)" [attr.aria-label]="'Abrir foto ' + (index + 1)">
+              <img [src]="imageUrl(image)" [alt]="selectedProperty.titulo" />
+            </button>
           }
         </section>
       }
@@ -67,6 +69,47 @@
           </dl>
         </aside>
       </section>
+
+      @if (activeImageIndex() !== null) {
+        @let galleryImages = images(selectedProperty);
+        @let activeImage = galleryImages[activeImageIndex()!];
+
+        <div class="lightbox" role="dialog" aria-modal="true" aria-label="Galeria de fotos">
+          <button class="lightbox__backdrop" type="button" aria-label="Fechar galeria" (click)="closeGallery()"></button>
+
+          <div class="lightbox__content">
+            <button class="lightbox__close" type="button" aria-label="Fechar galeria" (click)="closeGallery()">
+              Fechar
+            </button>
+
+            @if (galleryImages.length > 1) {
+              <button
+                class="lightbox__nav lightbox__nav--previous"
+                type="button"
+                aria-label="Foto anterior"
+                (click)="previousImage(selectedProperty)"
+              >
+                &lt;
+              </button>
+            }
+
+            <img [src]="imageUrl(activeImage)" [alt]="selectedProperty.titulo" />
+
+            @if (galleryImages.length > 1) {
+              <button
+                class="lightbox__nav lightbox__nav--next"
+                type="button"
+                aria-label="Proxima foto"
+                (click)="nextImage(selectedProperty)"
+              >
+                &gt;
+              </button>
+            }
+
+            <span class="lightbox__counter">{{ activeImageIndex()! + 1 }} / {{ galleryImages.length }}</span>
+          </div>
+        </div>
+      }
     }
   </div>
 </main>
