@@ -13,10 +13,12 @@ import { WhatsappService } from '../../../core/services/whatsapp.service';
   styleUrl: './property-detail.component.scss'
 })
 export class PropertyDetailComponent implements OnInit {
+  readonly brand = appConfig.brand;
   readonly property = signal<Property | null>(null);
   readonly loading = signal(true);
   readonly error = signal(false);
   readonly activeImageIndex = signal<number | null>(null);
+  readonly menuOpen = signal(false);
 
   private readonly route = inject(ActivatedRoute);
   private readonly propertyService = inject(PropertyService);
@@ -53,6 +55,14 @@ export class PropertyDetailComponent implements OnInit {
 
   closeGallery(): void {
     this.activeImageIndex.set(null);
+  }
+
+  toggleMenu(): void {
+    this.menuOpen.update((isOpen) => !isOpen);
+  }
+
+  closeMenu(): void {
+    this.menuOpen.set(false);
   }
 
   previousImage(property: Property): void {
@@ -112,6 +122,10 @@ export class PropertyDetailComponent implements OnInit {
 
   whatsappLink(property: Property): string {
     return this.whatsappService.createPropertyInterestLink(property);
+  }
+
+  contactLink(): string {
+    return `https://wa.me/${this.brand.whatsappNumber}`;
   }
 
   private apiOrigin(): string {

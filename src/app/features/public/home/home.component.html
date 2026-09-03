@@ -5,10 +5,22 @@
       <span>Corretora de Imoveis</span>
     </a>
 
-    <nav aria-label="Navegacao principal">
-      <a href="#imoveis">Imoveis</a>
-      <a href="#contato">Contato</a>
-      <a routerLink="/admin/login">Admin</a>
+    <button
+      class="menu-toggle"
+      type="button"
+      [attr.aria-expanded]="menuOpen()"
+      aria-label="Abrir menu"
+      (click)="toggleMenu()"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav [class.is-open]="menuOpen()" aria-label="Navegacao principal">
+      <a href="#imoveis" (click)="closeMenu()">Imoveis</a>
+      <a href="#contato" (click)="closeMenu()">Contato</a>
+      <a routerLink="/admin/login" (click)="closeMenu()">Admin</a>
     </nav>
   </header>
 
@@ -183,16 +195,23 @@
   </section>
 
   <footer id="contato" class="site-footer">
-    <div>
-      <span class="eyebrow">Sobre</span>
-      <h2>{{ brand.brokerName }}</h2>
+    <div class="site-footer__brand">
+      <strong>Eliane</strong>
+      <span>Corretora de Imoveis</span>
       <p>{{ brand.tagline }}.</p>
     </div>
 
-    <div>
-      <span class="eyebrow">Contato</span>
-      <a [href]="contactLink()" target="_blank" rel="noopener">Falar pelo WhatsApp</a>
+    <div class="site-footer__links">
+      <span>Mapa do site</span>
+      <a href="#topo">Inicio</a>
+      <a href="#imoveis">Imoveis</a>
       <a routerLink="/admin/login">Area administrativa</a>
+    </div>
+
+    <div class="site-footer__links">
+      <span>Contato</span>
+      <a [href]="contactLink()" target="_blank" rel="noopener">Falar pelo WhatsApp</a>
+      <p>Atendimento direto para compra e venda de imoveis.</p>
     </div>
   </footer>
 </main>

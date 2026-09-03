@@ -1,6 +1,5 @@
 .detail-page {
   min-height: 100vh;
-  padding: 24px 24px 72px;
   background: var(--color-page);
   color: var(--color-text);
 }
@@ -8,9 +7,71 @@
 .detail-page__inner {
   width: min(1180px, 100%);
   margin: 0 auto;
+  padding: 24px 24px 72px;
 }
 
-.mobile-brand {
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid var(--color-line);
+  padding: 16px 32px;
+  background: rgb(255 255 255 / 88%);
+  backdrop-filter: blur(12px);
+}
+
+.site-brand,
+.site-header nav {
+  display: inline-flex;
+  align-items: center;
+}
+
+.site-brand {
+  gap: 10px;
+  color: var(--color-primary-dark);
+  text-decoration: none;
+}
+
+.site-brand strong {
+  color: var(--color-accent-dark);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+  line-height: 0.9;
+}
+
+.site-brand span {
+  max-width: 120px;
+  color: var(--color-primary-dark);
+  font-size: 0.8rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.site-header nav {
+  gap: 6px;
+}
+
+.site-header nav a {
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.site-header nav a:hover {
+  background: var(--color-panel-soft);
+  color: var(--color-primary-dark);
+}
+
+.menu-toggle {
   display: none;
 }
 
@@ -248,6 +309,53 @@ h1 {
   display: none;
 }
 
+.site-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(180px, 0.7fr) minmax(220px, 0.9fr);
+  gap: 32px;
+  margin-top: 48px;
+  padding: 56px max(24px, calc((100vw - 1120px) / 2));
+  background: #101513;
+  color: var(--color-panel);
+}
+
+.site-footer > div {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.site-footer__brand strong {
+  color: var(--color-accent);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 3.2rem;
+  line-height: 0.9;
+}
+
+.site-footer__brand span,
+.site-footer__links span {
+  color: var(--color-panel);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.site-footer p {
+  color: #b7c1bd;
+  line-height: 1.6;
+}
+
+.site-footer a {
+  color: #edf5ef;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: var(--color-accent);
+}
+
 dl {
   display: grid;
   gap: 14px;
@@ -373,46 +481,80 @@ dd {
   .contact-card {
     position: static;
   }
+
+  .site-footer {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 620px) {
   .detail-page {
-    padding: 0 0 76px;
     background: var(--color-panel);
   }
 
   .detail-page__inner {
     width: 100%;
+    padding: 0 0 76px;
   }
 
-  .mobile-brand {
-    display: flex;
-    min-height: 108px;
-    align-items: center;
-    justify-content: center;
+  .site-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
     border-bottom: 1px solid var(--color-line);
-    padding: 18px 16px;
+    padding: 14px 16px;
+    background: rgb(255 255 255 / 94%);
+  }
+
+  .site-brand {
+    justify-self: start;
+  }
+
+  .site-brand strong {
+    font-size: 2.25rem;
+  }
+
+  .site-brand span {
+    max-width: 108px;
+  }
+
+  .site-header nav {
+    display: none;
+    width: 100%;
+    grid-column: 1 / -1;
+    gap: 6px;
+    justify-content: stretch;
+  }
+
+  .site-header nav.is-open {
+    display: grid;
+  }
+
+  .site-header nav a {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    border: 1px solid var(--color-line);
     background: var(--color-panel);
   }
 
-  .mobile-brand a {
+  .menu-toggle {
     display: grid;
-    justify-items: center;
-    color: var(--color-primary-dark);
-    text-decoration: none;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border: 1px solid var(--color-line);
+    border-radius: 6px;
+    background: var(--color-panel);
+    cursor: pointer;
   }
 
-  .mobile-brand strong {
-    color: var(--color-accent-dark);
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 2.7rem;
-    font-weight: 700;
-    line-height: 0.9;
-  }
-
-  .mobile-brand span {
-    color: var(--color-primary-dark);
-    font-size: 0.76rem;
+  .menu-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--color-primary-dark);
     letter-spacing: 0;
     text-transform: none;
   }
@@ -575,6 +717,12 @@ dd {
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-width: 1.8;
+  }
+
+  .site-footer {
+    grid-template-columns: 1fr;
+    margin-top: 32px;
+    padding: 42px 16px;
   }
 
   .lightbox {

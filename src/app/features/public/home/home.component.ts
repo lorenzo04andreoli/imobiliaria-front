@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   readonly properties = signal<Property[]>([]);
   readonly loading = signal(true);
   readonly error = signal(false);
+  readonly menuOpen = signal(false);
   readonly propertyTypes: PropertyType[] = ['CASA', 'APARTAMENTO', 'TERRENO', 'COMERCIAL', 'CHACARA', 'OUTRO'];
 
   private readonly formBuilder = inject(FormBuilder);
@@ -65,6 +66,14 @@ export class HomeComponent implements OnInit {
       precoMax: null
     });
     this.loadProperties();
+  }
+
+  toggleMenu(): void {
+    this.menuOpen.update((isOpen) => !isOpen);
+  }
+
+  closeMenu(): void {
+    this.menuOpen.set(false);
   }
 
   coverImage(property: Property): string | null {
