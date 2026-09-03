@@ -1,8 +1,72 @@
 <main class="detail-page">
-  <a routerLink="/">Voltar</a>
-  <section>
-    <span>Imovel</span>
-    <h1>Detalhes em preparacao</h1>
-    <p>Esta pagina sera conectada ao detalhe publico da API.</p>
-  </section>
+  <div class="detail-page__inner">
+    <a class="back-link" routerLink="/">Voltar para imoveis</a>
+
+    @if (loading()) {
+      <section class="empty-state">
+        <strong>Carregando imovel</strong>
+        <p>Estamos buscando os detalhes deste imovel.</p>
+      </section>
+    } @else if (error() || !property()) {
+      <section class="empty-state">
+        <strong>Imovel nao encontrado</strong>
+        <p>Volte para a pagina inicial e escolha outro imovel.</p>
+      </section>
+    } @else {
+      @let selectedProperty = property()!;
+
+      <section class="detail-hero">
+        <div class="detail-hero__content">
+          <span>{{ selectedProperty.tipo }}</span>
+          <h1>{{ selectedProperty.titulo }}</h1>
+          <p>{{ selectedProperty.bairro }}, {{ selectedProperty.cidade }}</p>
+
+          <div class="detail-hero__actions">
+            <strong>{{ formattedPrice(selectedProperty) }}</strong>
+            <a
+              class="button button--whatsapp"
+              [href]="whatsappLink(selectedProperty)"
+              target="_blank"
+              rel="noopener"
+            >
+              Tenho interesse
+            </a>
+          </div>
+        </div>
+      </section>
+
+      @if (images(selectedProperty).length > 0) {
+        <section class="gallery" aria-label="Fotos do imovel">
+          @for (image of images(selectedProperty); track image.id) {
+            <img [src]="imageUrl(image)" [alt]="selectedProperty.titulo" />
+          }
+        </section>
+      }
+
+      <section class="detail-content">
+        <div class="description">
+          <span>Descricao</span>
+          <p>{{ selectedProperty.descricao }}</p>
+        </div>
+
+        <aside class="facts">
+          <span>Detalhes</span>
+
+          <dl>
+            <div>
+              <dt>Localizacao</dt>
+              <dd>{{ selectedProperty.bairro }}, {{ selectedProperty.cidade }}</dd>
+            </div>
+
+            @for (detail of propertyDetails(selectedProperty); track detail) {
+              <div>
+                <dt>{{ detail.label }}</dt>
+                <dd>{{ detail.value }}</dd>
+              </div>
+            }
+          </dl>
+        </aside>
+      </section>
+    }
+  </div>
 </main>

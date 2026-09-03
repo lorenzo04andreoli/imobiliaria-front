@@ -22,4 +22,8 @@ export class PropertyService {
 
     return this.http.get<PageResponse<Property>>(`${this.apiUrl}/imoveis`, { params });
   }
+
+  findById(id: number): Observable<Property> {
+    return this.http.get<Property>(`${this.apiUrl}/imoveis/${id}`);
+  }
 }
