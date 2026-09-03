@@ -7,7 +7,6 @@ import { PageResponse } from '../models/page-response.model';
 import {
   Property,
   PropertyImage,
-  PropertyImageRequest,
   PropertyRequest,
   PropertyStatus,
   PropertyType
@@ -115,14 +114,6 @@ export class PropertyService {
     return this.http.put<Property>(`${this.apiUrl}/admin/imoveis/${id}`, request);
   }
 
-  listImages(id: number): Observable<PropertyImage[]> {
-    return this.http.get<PropertyImage[]>(`${this.apiUrl}/admin/imoveis/${id}/imagens`);
-  }
-
-  addImage(id: number, request: PropertyImageRequest): Observable<PropertyImage> {
-    return this.http.post<PropertyImage>(`${this.apiUrl}/admin/imoveis/${id}/imagens`, request);
-  }
-
   uploadImage(id: number, file: File, ordem: number | null, capa: boolean): Observable<PropertyImage> {
     const formData = new FormData();
     formData.append('arquivo', file);
@@ -134,14 +125,6 @@ export class PropertyService {
     formData.append('capa', String(capa));
 
     return this.http.post<PropertyImage>(`${this.apiUrl}/admin/imoveis/${id}/imagens/upload`, formData);
-  }
-
-  setCoverImage(id: number, imageId: number): Observable<PropertyImage> {
-    return this.http.patch<PropertyImage>(`${this.apiUrl}/admin/imoveis/${id}/imagens/${imageId}/capa`, {});
-  }
-
-  removeImage(id: number, imageId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/admin/imoveis/${id}/imagens/${imageId}`);
   }
 
   publish(id: number): Observable<Property> {

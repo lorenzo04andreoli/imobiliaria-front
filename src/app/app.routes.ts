@@ -45,14 +45,6 @@ export const routes: Routes = [
       )
   },
   {
-    path: 'admin/imoveis/:id/imagens',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./features/admin/property-images/property-images.component').then(
-        (component) => component.PropertyImagesComponent
-      )
-  },
-  {
     path: '**',
     redirectTo: ''
   }
