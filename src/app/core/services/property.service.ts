@@ -20,6 +20,14 @@ export interface PropertyAdminFilters {
   status: PropertyStatus | '';
 }
 
+export interface PropertyPublicFilters {
+  q: string;
+  cidade: string;
+  tipo: PropertyType | '';
+  precoMin: number | null;
+  precoMax: number | null;
+}
+
 export interface PropertyAdminPageParams {
   page: number;
   size: number;
@@ -32,12 +40,32 @@ export class PropertyService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = appConfig.apiUrl;
 
-  listFeatured(): Observable<PageResponse<Property>> {
-    const params = new HttpParams()
+  listFeatured(filters?: PropertyPublicFilters): Observable<PageResponse<Property>> {
+    let params = new HttpParams()
       .set('page', 0)
-      .set('size', 6)
+      .set('size', 12)
       .set('sort', 'criadoEm')
       .set('direction', 'desc');
+
+    if (filters?.q.trim()) {
+      params = params.set('q', filters.q.trim());
+    }
+
+    if (filters?.cidade.trim()) {
+      params = params.set('cidade', filters.cidade.trim());
+    }
+
+    if (filters?.tipo) {
+      params = params.set('tipo', filters.tipo);
+    }
+
+    if (filters?.precoMin !== null && filters?.precoMin !== undefined) {
+      params = params.set('precoMin', filters.precoMin);
+    }
+
+    if (filters?.precoMax !== null && filters?.precoMax !== undefined) {
+      params = params.set('precoMax', filters.precoMax);
+    }
 
     return this.http.get<PageResponse<Property>>(`${this.apiUrl}/imoveis`, { params });
   }

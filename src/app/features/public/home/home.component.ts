@@ -1,14 +1,15 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 import { appConfig } from '../../../core/config/app-config';
-import { Property } from '../../../core/models/property.model';
+import { Property, PropertyType } from '../../../core/models/property.model';
 import { PropertyService } from '../../../core/services/property.service';
 import { WhatsappService } from '../../../core/services/whatsapp.service';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -16,12 +17,29 @@ export class HomeComponent implements OnInit {
   readonly properties = signal<Property[]>([]);
   readonly loading = signal(true);
   readonly error = signal(false);
+  readonly propertyTypes: PropertyType[] = ['CASA', 'APARTAMENTO', 'TERRENO', 'COMERCIAL', 'CHACARA', 'OUTRO'];
 
+  private readonly formBuilder = inject(FormBuilder);
   private readonly propertyService = inject(PropertyService);
   private readonly whatsappService = inject(WhatsappService);
 
+  readonly filtersForm = this.formBuilder.nonNullable.group({
+    q: [''],
+    cidade: [''],
+    tipo: ['' as PropertyType | ''],
+    precoMin: [null as number | null],
+    precoMax: [null as number | null]
+  });
+
   ngOnInit(): void {
-    this.propertyService.listFeatured().subscribe({
+    this.loadProperties();
+  }
+
+  loadProperties(): void {
+    this.loading.set(true);
+    this.error.set(false);
+
+    this.propertyService.listFeatured(this.filtersForm.getRawValue()).subscribe({
       next: (response) => {
         this.properties.set(response.content);
         this.loading.set(false);
@@ -31,6 +49,21 @@ export class HomeComponent implements OnInit {
         this.loading.set(false);
       }
     });
+  }
+
+  applyFilters(): void {
+    this.loadProperties();
+  }
+
+  clearFilters(): void {
+    this.filtersForm.reset({
+      q: '',
+      cidade: '',
+      tipo: '',
+      precoMin: null,
+      precoMax: null
+    });
+    this.loadProperties();
   }
 
   coverImage(property: Property): string | null {

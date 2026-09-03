@@ -17,10 +17,47 @@
     <div class="section__header">
       <div>
         <span class="eyebrow">Catalogo</span>
-        <h2>Imoveis em destaque</h2>
+        <h2>Encontre seu imovel</h2>
       </div>
       <p>Escolha um imovel e fale diretamente com a Eliane pelo WhatsApp.</p>
     </div>
+
+    <form class="filters-panel" [formGroup]="filtersForm" (ngSubmit)="applyFilters()">
+      <label>
+        Buscar
+        <input type="search" formControlName="q" />
+      </label>
+
+      <label>
+        Cidade
+        <input type="text" formControlName="cidade" />
+      </label>
+
+      <label>
+        Tipo
+        <select formControlName="tipo">
+          <option value="">Todos</option>
+          @for (type of propertyTypes; track type) {
+            <option [value]="type">{{ type }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        Valor minimo
+        <input type="number" min="0" formControlName="precoMin" />
+      </label>
+
+      <label>
+        Valor maximo
+        <input type="number" min="0" formControlName="precoMax" />
+      </label>
+
+      <div class="filter-actions">
+        <button class="button button--primary" type="submit">Filtrar</button>
+        <button class="button button--light" type="button" (click)="clearFilters()">Limpar</button>
+      </div>
+    </form>
 
     @if (loading()) {
       <div class="empty-state">
@@ -34,8 +71,8 @@
       </div>
     } @else if (properties().length === 0) {
       <div class="empty-state">
-        <strong>Nenhum imovel publicado</strong>
-        <p>Assim que a Eliane publicar os imoveis, eles aparecem aqui.</p>
+        <strong>Nenhum imovel encontrado</strong>
+        <p>Ajuste os filtros para ver outras oportunidades.</p>
       </div>
     } @else {
       <div class="property-grid">

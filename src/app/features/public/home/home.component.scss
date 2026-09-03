@@ -83,6 +83,12 @@ h1 {
   color: #ffffff;
 }
 
+.button--light {
+  border-color: #dfd5c8;
+  background: #ffffff;
+  color: #26313b;
+}
+
 .section {
   padding: 64px 24px;
 }
@@ -117,6 +123,52 @@ h1 {
 
 .empty-state p {
   color: #68737d;
+}
+
+.filters-panel {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.4fr) minmax(140px, 1fr) minmax(130px, 0.8fr) minmax(130px, 0.8fr) minmax(130px, 0.8fr) auto;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 24px;
+  border: 1px solid #dfd5c8;
+  border-radius: 8px;
+  padding: 18px;
+  background: #fffaf4;
+}
+
+.filters-panel label {
+  display: grid;
+  gap: 8px;
+  color: #394653;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.filters-panel input,
+.filters-panel select {
+  min-height: 42px;
+  border: 1px solid #d8cbbb;
+  border-radius: 6px;
+  padding: 0 12px;
+  background: #ffffff;
+  color: #26313b;
+  font: inherit;
+}
+
+.filters-panel input:focus,
+.filters-panel select:focus {
+  border-color: #8a6042;
+  outline: none;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.filter-actions .button {
+  min-height: 42px;
 }
 
 .property-grid {
@@ -229,6 +281,14 @@ h1 {
     display: grid;
   }
 
+  .filters-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .filter-actions {
+    grid-column: 1 / -1;
+  }
+
   .property-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -240,6 +300,12 @@ h1 {
   }
 
   .property-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filters-panel,
+  .filter-actions {
+    display: grid;
     grid-template-columns: 1fr;
   }
 
