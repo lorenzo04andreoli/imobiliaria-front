@@ -1,0 +1,126 @@
+.admin-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid var(--color-line);
+  padding: 14px 32px;
+  background: rgb(255 255 255 / 94%);
+  backdrop-filter: blur(12px);
+}
+
+.admin-nav__brand,
+.admin-nav__links,
+.admin-nav__links a,
+.admin-nav__links button {
+  display: inline-flex;
+  align-items: center;
+}
+
+.admin-nav__brand {
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--color-primary-dark);
+  text-decoration: none;
+}
+
+.admin-nav__brand span {
+  color: var(--color-accent-dark);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.admin-nav__brand strong {
+  font-size: 1rem;
+}
+
+.admin-nav__links {
+  gap: 8px;
+}
+
+.admin-nav__links a,
+.admin-nav__links button {
+  min-height: 40px;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0 12px;
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.admin-nav__links a:hover,
+.admin-nav__links button:hover,
+.admin-nav__links .is-active {
+  border-color: var(--color-line);
+  background: var(--color-panel-soft);
+  color: var(--color-primary-dark);
+}
+
+.admin-nav__icon {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-nav__icon svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+@media (max-width: 720px) {
+  .admin-nav {
+    position: fixed;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    justify-content: center;
+    border-top: 1px solid var(--color-line);
+    border-bottom: 0;
+    padding: 8px 10px max(8px, env(safe-area-inset-bottom));
+  }
+
+  .admin-nav__brand {
+    display: none;
+  }
+
+  .admin-nav__links {
+    display: grid;
+    width: min(420px, 100%);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .admin-nav__links a,
+  .admin-nav__links button {
+    display: grid;
+    min-height: 58px;
+    justify-items: center;
+    gap: 4px;
+    padding: 6px 4px;
+    font-size: 0.72rem;
+  }
+
+  .admin-nav__icon,
+  .admin-nav__icon svg {
+    width: 22px;
+    height: 22px;
+  }
+}

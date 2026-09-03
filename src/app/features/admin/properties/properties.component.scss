@@ -1,6 +1,6 @@
 .admin-shell {
   min-height: 100vh;
-  padding: 32px;
+  padding: 28px 32px 32px;
   background: var(--color-page);
   color: var(--color-text);
 }
@@ -225,7 +225,7 @@ td small {
 
 @media (max-width: 720px) {
   .admin-shell {
-    padding: 24px 16px;
+    padding: 24px 16px 96px;
   }
 
   header {

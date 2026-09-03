@@ -6,6 +6,7 @@ import { forkJoin, Observable, of, switchMap } from 'rxjs';
 import { appConfig } from '../../../core/config/app-config';
 import { Property, PropertyImage, PropertyRequest, PropertyStatus, PropertyType } from '../../../core/models/property.model';
 import { PropertyService } from '../../../core/services/property.service';
+import { AdminNavComponent } from '../admin-nav/admin-nav.component';
 
 interface PendingImageItem {
   type: 'pending';
@@ -24,7 +25,7 @@ type EditableImage = ExistingImageItem | PendingImageItem;
 
 @Component({
   selector: 'app-property-form',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, AdminNavComponent],
   templateUrl: './property-form.component.html',
   styleUrl: './property-form.component.scss'
 })

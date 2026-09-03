@@ -1,15 +1,15 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 import { Property, PropertyStatus, PropertyType } from '../../../core/models/property.model';
 import { PageResponse } from '../../../core/models/page-response.model';
-import { AuthService } from '../../../core/services/auth.service';
 import { PropertyService } from '../../../core/services/property.service';
+import { AdminNavComponent } from '../admin-nav/admin-nav.component';
 
 @Component({
   selector: 'app-properties',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, AdminNavComponent],
   templateUrl: './properties.component.html',
   styleUrl: './properties.component.scss'
 })
@@ -22,10 +22,8 @@ export class PropertiesComponent implements OnInit {
   readonly propertyTypes: PropertyType[] = ['CASA', 'APARTAMENTO', 'TERRENO', 'COMERCIAL', 'CHACARA', 'OUTRO'];
   readonly propertyStatuses: PropertyStatus[] = ['RASCUNHO', 'PUBLICADO', 'INATIVO', 'VENDIDO'];
 
-  private readonly authService = inject(AuthService);
   private readonly formBuilder = inject(FormBuilder);
   private readonly propertyService = inject(PropertyService);
-  private readonly router = inject(Router);
 
   readonly filtersForm = this.formBuilder.nonNullable.group({
     q: [''],
@@ -116,11 +114,6 @@ export class PropertiesComponent implements OnInit {
 
   markAsSold(property: Property): void {
     this.updateStatus(property, () => this.propertyService.markAsSold(property.id));
-  }
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigateByUrl('/admin/login');
   }
 
   formattedPrice(property: Property): string {

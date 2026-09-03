@@ -1,0 +1,44 @@
+<nav class="admin-nav" aria-label="Navegacao administrativa">
+  <a class="admin-nav__brand" routerLink="/admin/imoveis">
+    <span>Painel</span>
+    <strong>Eliane Imoveis</strong>
+  </a>
+
+  <div class="admin-nav__links">
+    <a routerLink="/admin/imoveis" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">
+      <span class="admin-nav__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z" />
+        </svg>
+      </span>
+      <span>Imoveis</span>
+    </a>
+
+    <a routerLink="/admin/imoveis/novo" routerLinkActive="is-active">
+      <span class="admin-nav__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 5v14M5 12h14" />
+        </svg>
+      </span>
+      <span>Novo</span>
+    </a>
+
+    <a routerLink="/">
+      <span class="admin-nav__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 5h16v11H4zM8 21h8M12 16v5" />
+        </svg>
+      </span>
+      <span>Site</span>
+    </a>
+
+    <button type="button" (click)="logout()">
+      <span class="admin-nav__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M10 17 5 12l5-5M5 12h11M15 5h3a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-3" />
+        </svg>
+      </span>
+      <span>Sair</span>
+    </button>
+  </div>
+</nav>
