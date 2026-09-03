@@ -14,7 +14,7 @@
   gap: 24px;
   border-bottom: 1px solid var(--color-line);
   padding: 16px 32px;
-  background: rgb(255 255 255 / 94%);
+  background: rgb(255 255 255 / 88%);
   backdrop-filter: blur(12px);
 }
 
@@ -69,7 +69,7 @@
   align-items: end;
   padding: 96px 24px 48px;
   background:
-    linear-gradient(180deg, rgb(33 56 50 / 14%), rgb(33 56 50 / 86%)),
+    linear-gradient(180deg, rgb(33 56 50 / 20%), rgb(33 56 50 / 90%)),
     url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1800&q=80')
       center / cover;
   color: var(--color-panel);
@@ -116,6 +116,12 @@ h1 {
   line-height: 1.7;
 }
 
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .button {
   display: inline-flex;
   min-height: 46px;
@@ -139,9 +145,45 @@ h1 {
   color: var(--color-text);
 }
 
+.button--glass {
+  border-color: rgb(255 255 255 / 42%);
+  background: rgb(255 255 255 / 12%);
+  color: var(--color-panel);
+  backdrop-filter: blur(10px);
+}
+
 .button--whatsapp {
   background: var(--color-whatsapp);
   color: var(--color-panel);
+}
+
+.trust-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  width: min(760px, 100%);
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 18%);
+  backdrop-filter: blur(12px);
+}
+
+.trust-strip div {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  background: rgb(33 56 50 / 42%);
+}
+
+.trust-strip strong {
+  color: var(--color-panel);
+  font-size: 0.92rem;
+}
+
+.trust-strip span {
+  color: #edf5ef;
+  font-size: 0.78rem;
 }
 
 .filters-panel {
@@ -152,9 +194,10 @@ h1 {
   border: 1px solid var(--color-line);
   border-radius: 8px;
   padding: 18px;
-  background: var(--color-panel);
+  background: rgb(255 255 255 / 94%);
   color: var(--color-text);
   box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(12px);
 }
 
 .filters-panel--hero {
@@ -248,6 +291,16 @@ h1 {
   border-radius: 8px;
   background: var(--color-panel);
   box-shadow: var(--shadow-soft);
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.property-card:hover {
+  border-color: rgb(180 111 69 / 42%);
+  box-shadow: 0 22px 60px rgb(31 41 51 / 14%);
+  transform: translateY(-3px);
 }
 
 .property-card__media {
@@ -262,6 +315,23 @@ h1 {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 220ms ease;
+}
+
+.property-card:hover .property-card__media img {
+  transform: scale(1.04);
+}
+
+.property-card__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: rgb(255 255 255 / 92%);
+  color: var(--color-primary-dark);
+  font-size: 0.72rem;
+  font-weight: 800;
 }
 
 .property-card__placeholder {
@@ -296,7 +366,8 @@ h1 {
   color: var(--color-accent-dark);
   font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .property-card__header strong {
@@ -346,6 +417,32 @@ h1 {
   border-top: 1px solid var(--color-line);
   border-bottom: 1px solid var(--color-line);
   padding: 46px 24px;
+}
+
+.conversion-band {
+  display: grid;
+  width: min(1120px, calc(100% - 48px));
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  margin: 18px auto 0;
+  border-radius: 8px;
+  padding: 32px;
+  background: var(--color-primary-dark);
+  color: var(--color-panel);
+}
+
+.conversion-band h2 {
+  max-width: 660px;
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  line-height: 1.05;
+}
+
+.conversion-band p {
+  max-width: 520px;
+  margin-top: 10px;
+  color: #edf5ef;
+  line-height: 1.6;
 }
 
 .location-tags {
@@ -399,7 +496,8 @@ h1 {
   }
 
   .location-band,
-  .site-footer {
+  .site-footer,
+  .conversion-band {
     grid-template-columns: 1fr;
   }
 
@@ -458,6 +556,14 @@ h1 {
     display: grid;
   }
 
+  .hero__actions {
+    display: grid;
+  }
+
+  .trust-strip {
+    grid-template-columns: 1fr;
+  }
+
   .section {
     padding: 42px 16px;
   }
@@ -480,9 +586,22 @@ h1 {
     grid-template-columns: 1fr;
   }
 
+  .property-card__actions .button--whatsapp {
+    order: -1;
+  }
+
   .location-band,
   .site-footer {
     padding: 38px 16px;
+  }
+
+  .conversion-band {
+    width: calc(100% - 32px);
+    padding: 24px;
+  }
+
+  .conversion-band .button {
+    width: 100%;
   }
 
   .location-tags {

@@ -1,4 +1,4 @@
-<main class="public-page">
+<main id="topo" class="public-page">
   <header class="site-header">
     <a class="site-brand" href="#topo">
       <strong>Eliane</strong>
@@ -19,6 +19,28 @@
       <p>
         {{ brand.tagline }}.
       </p>
+
+      <div class="hero__actions">
+        <a class="button button--primary" href="#imoveis">Ver oportunidades</a>
+        <a class="button button--glass" [href]="contactLink()" target="_blank" rel="noopener">
+          Falar com a Eliane
+        </a>
+      </div>
+
+      <div class="trust-strip" aria-label="Diferenciais do atendimento">
+        <div>
+          <strong>Atendimento direto</strong>
+          <span>sem intermediarios</span>
+        </div>
+        <div>
+          <strong>Imoveis selecionados</strong>
+          <span>catalogo simples</span>
+        </div>
+        <div>
+          <strong>Contato rapido</strong>
+          <span>via WhatsApp</span>
+        </div>
+      </div>
 
       <form class="filters-panel filters-panel--hero" [formGroup]="filtersForm" (ngSubmit)="applyFilters()">
         <label>
@@ -95,11 +117,12 @@
                   <span>{{ property.tipo }}</span>
                 </div>
               }
+              <span class="property-card__badge">{{ property.tipo }}</span>
             </a>
 
             <div class="property-card__body">
               <div class="property-card__header">
-                <span>{{ property.tipo }}</span>
+                <span>{{ property.bairro }}</span>
                 <strong>{{ formattedPrice(property) }}</strong>
               </div>
 
@@ -145,6 +168,18 @@
         }
       </div>
     }
+  </section>
+
+  <section class="conversion-band">
+    <div>
+      <span class="eyebrow">Pronto para visitar?</span>
+      <h2>Escolha o imovel e fale direto pelo WhatsApp</h2>
+      <p>A conversa ja abre com uma mensagem pronta para agilizar o atendimento.</p>
+    </div>
+
+    <a class="button button--primary" [href]="contactLink()" target="_blank" rel="noopener">
+      Chamar no WhatsApp
+    </a>
   </section>
 
   <footer id="contato" class="site-footer">
