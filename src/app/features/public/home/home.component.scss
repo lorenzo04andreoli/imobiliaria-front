@@ -1,7 +1,7 @@
 .public-page {
   min-height: 100vh;
-  background: #f7f4ef;
-  color: #1f2933;
+  background: var(--color-page);
+  color: var(--color-text);
 }
 
 .hero {
@@ -10,10 +10,10 @@
   align-items: end;
   padding: 96px 24px 56px;
   background:
-    linear-gradient(180deg, rgb(31 41 51 / 20%), rgb(31 41 51 / 78%)),
+    linear-gradient(180deg, rgb(33 56 50 / 14%), rgb(33 56 50 / 84%)),
     url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1800&q=80')
       center / cover;
-  color: #ffffff;
+  color: var(--color-panel);
 }
 
 .hero__content,
@@ -28,7 +28,7 @@
 }
 
 .eyebrow {
-  color: #b08968;
+  color: var(--color-accent);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -49,7 +49,7 @@ h1 {
 
 .hero p {
   max-width: 560px;
-  color: #f3eee8;
+  color: #edf5ef;
   font-size: 1.1rem;
   line-height: 1.7;
 }
@@ -74,19 +74,19 @@ h1 {
 }
 
 .button--primary {
-  background: #b08968;
-  color: #ffffff;
+  background: var(--color-accent);
+  color: var(--color-panel);
 }
 
 .button--secondary {
   border-color: rgb(255 255 255 / 56%);
-  color: #ffffff;
+  color: var(--color-panel);
 }
 
 .button--light {
-  border-color: #dfd5c8;
-  background: #ffffff;
-  color: #26313b;
+  border-color: var(--color-line);
+  background: var(--color-panel);
+  color: var(--color-text);
 }
 
 .section {
@@ -102,27 +102,28 @@ h1 {
 }
 
 .section h2 {
-  color: #26313b;
+  color: var(--color-primary-dark);
   font-size: clamp(2rem, 4vw, 3rem);
 }
 
 .section__header p {
   max-width: 420px;
-  color: #68737d;
+  color: var(--color-muted);
   line-height: 1.6;
 }
 
 .empty-state {
   display: grid;
   gap: 8px;
-  border: 1px solid #dfd5c8;
+  border: 1px solid var(--color-line);
   border-radius: 8px;
   padding: 24px;
-  background: #fffaf4;
+  background: var(--color-panel);
+  box-shadow: var(--shadow-soft);
 }
 
 .empty-state p {
-  color: #68737d;
+  color: var(--color-muted);
 }
 
 .filters-panel {
@@ -131,16 +132,16 @@ h1 {
   gap: 12px;
   align-items: end;
   margin-bottom: 24px;
-  border: 1px solid #dfd5c8;
+  border: 1px solid var(--color-line);
   border-radius: 8px;
   padding: 18px;
-  background: #fffaf4;
+  background: var(--color-panel);
 }
 
 .filters-panel label {
   display: grid;
   gap: 8px;
-  color: #394653;
+  color: var(--color-text);
   font-size: 0.86rem;
   font-weight: 800;
 }
@@ -148,17 +149,17 @@ h1 {
 .filters-panel input,
 .filters-panel select {
   min-height: 42px;
-  border: 1px solid #d8cbbb;
+  border: 1px solid var(--color-line);
   border-radius: 6px;
   padding: 0 12px;
-  background: #ffffff;
-  color: #26313b;
+  background: var(--color-panel);
+  color: var(--color-text);
   font: inherit;
 }
 
 .filters-panel input:focus,
 .filters-panel select:focus {
-  border-color: #8a6042;
+  border-color: var(--color-accent);
   outline: none;
 }
 
@@ -179,15 +180,16 @@ h1 {
 
 .property-card {
   overflow: hidden;
-  border: 1px solid #dfd5c8;
+  border: 1px solid var(--color-line);
   border-radius: 8px;
-  background: #fffaf4;
+  background: var(--color-panel);
+  box-shadow: var(--shadow-soft);
 }
 
 .property-card__media {
   display: block;
   aspect-ratio: 4 / 3;
-  background: #26313b;
+  background: var(--color-primary-dark);
 }
 
 .property-card__media img {
@@ -201,7 +203,7 @@ h1 {
   display: grid;
   height: 100%;
   place-items: center;
-  color: #f7f4ef;
+  color: var(--color-panel-soft);
 }
 
 .property-card__placeholder span {
@@ -226,19 +228,19 @@ h1 {
 }
 
 .property-card__header span {
-  color: #8a6042;
+  color: var(--color-accent-dark);
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.08em;
 }
 
 .property-card__header strong {
-  color: #26313b;
+  color: var(--color-primary-dark);
 }
 
 .property-card h3 {
   margin: 0;
-  color: #26313b;
+  color: var(--color-primary-dark);
   font-size: 1.18rem;
   line-height: 1.25;
 }
@@ -249,12 +251,12 @@ h1 {
 }
 
 .property-card p {
-  color: #68737d;
+  color: var(--color-muted);
   line-height: 1.5;
 }
 
 .property-card small {
-  color: #394653;
+  color: var(--color-text);
   font-weight: 700;
 }
 
@@ -272,8 +274,8 @@ h1 {
 }
 
 .button--whatsapp {
-  background: #1f8f5f;
-  color: #ffffff;
+  background: var(--color-whatsapp);
+  color: var(--color-panel);
 }
 
 @media (max-width: 860px) {

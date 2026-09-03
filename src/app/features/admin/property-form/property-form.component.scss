@@ -1,8 +1,8 @@
 .admin-shell {
   min-height: 100vh;
   padding: 32px;
-  background: #f3f5f7;
-  color: #1f2933;
+  background: var(--color-page);
+  color: var(--color-text);
 }
 
 header {
@@ -14,7 +14,7 @@ header {
 }
 
 span {
-  color: #8a6042;
+  color: var(--color-accent-dark);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -34,12 +34,12 @@ h1 {
 
 h2 {
   grid-column: 1 / -1;
-  color: #26313b;
+  color: var(--color-primary-dark);
   font-size: 1.15rem;
 }
 
 a {
-  color: #8a6042;
+  color: var(--color-accent-dark);
   font-weight: 800;
   text-decoration: none;
 }
@@ -53,16 +53,17 @@ section {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
-  border: 1px solid #d9e0e6;
+  border: 1px solid var(--color-line);
   border-radius: 8px;
   padding: 24px;
-  background: #ffffff;
+  background: var(--color-panel);
+  box-shadow: var(--shadow-soft);
 }
 
 .field {
   display: grid;
   gap: 8px;
-  color: #394653;
+  color: var(--color-text);
   font-size: 0.88rem;
   font-weight: 800;
 }
@@ -76,11 +77,11 @@ select,
 textarea {
   width: 100%;
   min-height: 44px;
-  border: 1px solid #cbd5df;
+  border: 1px solid var(--color-line);
   border-radius: 6px;
   padding: 0 12px;
-  background: #ffffff;
-  color: #26313b;
+  background: var(--color-panel);
+  color: var(--color-text);
   font: inherit;
 }
 
@@ -92,12 +93,12 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: #8a6042;
+  border-color: var(--color-accent);
   outline: none;
 }
 
 .form-error {
-  color: #a42020;
+  color: var(--color-danger);
   font-weight: 800;
 }
 
@@ -119,15 +120,15 @@ button {
 }
 
 .form-actions a {
-  border: 1px solid #d9e0e6;
-  background: #ffffff;
-  color: #26313b;
+  border: 1px solid var(--color-line);
+  background: var(--color-panel);
+  color: var(--color-text);
 }
 
 button {
   border: 0;
-  background: #26313b;
-  color: #ffffff;
+  background: var(--color-primary);
+  color: var(--color-panel);
   cursor: pointer;
   font: inherit;
 }

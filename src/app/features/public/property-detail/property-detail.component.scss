@@ -1,8 +1,8 @@
 .detail-page {
   min-height: 100vh;
   padding: 32px 24px 72px;
-  background: #f7f4ef;
-  color: #26313b;
+  background: var(--color-page);
+  color: var(--color-text);
 }
 
 .detail-page__inner {
@@ -13,7 +13,7 @@
 .back-link {
   display: inline-flex;
   margin-bottom: 28px;
-  color: #8a6042;
+  color: var(--color-accent-dark);
   font-weight: 800;
   text-decoration: none;
 }
@@ -21,14 +21,15 @@
 .empty-state {
   display: grid;
   gap: 8px;
-  border: 1px solid #dfd5c8;
+  border: 1px solid var(--color-line);
   border-radius: 8px;
   padding: 24px;
-  background: #fffaf4;
+  background: var(--color-panel);
+  box-shadow: var(--shadow-soft);
 }
 
 .empty-state p {
-  color: #68737d;
+  color: var(--color-muted);
 }
 
 .detail-hero {
@@ -38,10 +39,10 @@
   border-radius: 8px;
   padding: 48px;
   background:
-    linear-gradient(135deg, rgb(38 49 59 / 96%), rgb(38 49 59 / 72%)),
+    linear-gradient(135deg, rgb(33 56 50 / 96%), rgb(54 83 74 / 72%)),
     url('https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=1600&q=80')
       center / cover;
-  color: #ffffff;
+  color: var(--color-panel);
 }
 
 .detail-hero__content {
@@ -51,7 +52,7 @@
 }
 
 span {
-  color: #b08968;
+  color: var(--color-accent);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -70,7 +71,7 @@ h1 {
 }
 
 .detail-hero p {
-  color: #f3eee8;
+  color: #edf5ef;
   font-size: 1.12rem;
 }
 
@@ -98,8 +99,8 @@ h1 {
 }
 
 .button--whatsapp {
-  background: #1f8f5f;
-  color: #ffffff;
+  background: var(--color-whatsapp);
+  color: var(--color-panel);
 }
 
 .gallery {
@@ -136,16 +137,17 @@ h1 {
 }
 
 .description p {
-  color: #68737d;
+  color: var(--color-muted);
   font-size: 1.05rem;
   line-height: 1.8;
 }
 
 .facts {
-  border: 1px solid #dfd5c8;
+  border: 1px solid var(--color-line);
   border-radius: 8px;
   padding: 22px;
-  background: #fffaf4;
+  background: var(--color-panel);
+  box-shadow: var(--shadow-soft);
 }
 
 dl {
@@ -159,14 +161,14 @@ dl div {
 }
 
 dt {
-  color: #68737d;
+  color: var(--color-muted);
   font-size: 0.82rem;
   font-weight: 800;
 }
 
 dd {
   margin: 0;
-  color: #26313b;
+  color: var(--color-text);
   font-weight: 800;
 }
 

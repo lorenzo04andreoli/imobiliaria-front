@@ -3,22 +3,26 @@
   min-height: 100vh;
   place-items: center;
   padding: 24px;
-  background: #26313b;
-  color: #ffffff;
+  background:
+    linear-gradient(135deg, rgb(33 56 50 / 94%), rgb(54 83 74 / 82%)),
+    url('https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=1600&q=80')
+      center / cover;
+  color: var(--color-panel);
 }
 
 .auth-panel {
   display: grid;
   width: min(420px, 100%);
   gap: 12px;
-  border: 1px solid rgb(255 255 255 / 12%);
+  border: 1px solid rgb(255 255 255 / 18%);
   border-radius: 8px;
   padding: 28px;
-  background: #1f2933;
+  background: rgb(31 41 51 / 86%);
+  box-shadow: var(--shadow-soft);
 }
 
 span {
-  color: #d8b08c;
+  color: var(--color-accent);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -31,7 +35,7 @@ p {
 }
 
 p {
-  color: #c9d1d8;
+  color: #d9e6df;
 }
 
 form {
@@ -43,7 +47,7 @@ form {
 label {
   display: grid;
   gap: 8px;
-  color: #e8edf2;
+  color: #edf5ef;
   font-size: 0.9rem;
   font-weight: 800;
 }
@@ -53,13 +57,13 @@ input {
   border: 1px solid rgb(255 255 255 / 16%);
   border-radius: 6px;
   padding: 0 14px;
-  background: #26313b;
-  color: #ffffff;
+  background: rgb(255 255 255 / 8%);
+  color: var(--color-panel);
   font: inherit;
 }
 
 input:focus {
-  border-color: #d8b08c;
+  border-color: var(--color-accent);
   outline: none;
 }
 
@@ -67,8 +71,8 @@ button {
   min-height: 46px;
   border: 0;
   border-radius: 6px;
-  background: #d8b08c;
-  color: #1f2933;
+  background: var(--color-accent);
+  color: var(--color-panel);
   cursor: pointer;
   font: inherit;
   font-weight: 800;

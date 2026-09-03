@@ -4,6 +4,22 @@
   box-sizing: border-box;
 }
 
+:root {
+  --color-page: #eef2ee;
+  --color-panel: #ffffff;
+  --color-panel-soft: #f8faf7;
+  --color-text: #1f2933;
+  --color-muted: #63706b;
+  --color-primary: #36534a;
+  --color-primary-dark: #213832;
+  --color-accent: #b46f45;
+  --color-accent-dark: #8e5638;
+  --color-line: #d8e0d9;
+  --color-danger: #a42020;
+  --color-whatsapp: #1f8f5f;
+  --shadow-soft: 0 18px 50px rgb(31 41 51 / 10%);
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -19,7 +35,8 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-  background: #f7f4ef;
+  background: var(--color-page);
+  color: var(--color-text);
 }
 
 button,
@@ -27,4 +44,23 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+button,
+a {
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+button:not(:disabled):hover,
+a:hover {
+  transform: translateY(-1px);
+}
+
+:focus-visible {
+  outline: 3px solid rgb(180 111 69 / 34%);
+  outline-offset: 3px;
 }
