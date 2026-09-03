@@ -8,6 +8,8 @@ import { Property, PropertyImage, PropertyRequest, PropertyStatus, PropertyType 
 import { PropertyService } from '../../../core/services/property.service';
 import { AdminNavComponent } from '../admin-nav/admin-nav.component';
 
+const DEFAULT_CITY = 'Paranaguá';
+
 interface PendingImageItem {
   type: 'pending';
   id: string;
@@ -50,7 +52,7 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
     descricao: ['', [Validators.required]],
     preco: [0, [Validators.required, Validators.min(0)]],
     tipo: ['CASA' as PropertyType, [Validators.required]],
-    cidade: ['', [Validators.required]],
+    cidade: [DEFAULT_CITY, [Validators.required]],
     bairro: ['', [Validators.required]],
     endereco: [''],
     quartos: [null as number | null, [Validators.min(0)]],
@@ -74,7 +76,7 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
           descricao: property.descricao,
           preco: property.preco,
           tipo: property.tipo,
-          cidade: property.cidade,
+          cidade: property.cidade || DEFAULT_CITY,
           bairro: property.bairro,
           endereco: property.endereco ?? '',
           quartos: property.quartos,
@@ -101,7 +103,7 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
   }
 
   title(): string {
-    return this.propertyId === null ? 'Novo imovel' : 'Editar imovel';
+    return this.propertyId === null ? 'Novo imóvel' : 'Editar imóvel';
   }
 
   submit(): void {

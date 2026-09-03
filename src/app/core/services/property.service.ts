@@ -14,14 +14,12 @@ import {
 
 export interface PropertyAdminFilters {
   q: string;
-  cidade: string;
   tipo: PropertyType | '';
   status: PropertyStatus | '';
 }
 
 export interface PropertyPublicFilters {
   q: string;
-  cidade: string;
   tipo: PropertyType | '';
   precoMin: number | null;
   precoMax: number | null;
@@ -48,10 +46,6 @@ export class PropertyService {
 
     if (filters?.q.trim()) {
       params = params.set('q', filters.q.trim());
-    }
-
-    if (filters?.cidade.trim()) {
-      params = params.set('cidade', filters.cidade.trim());
     }
 
     if (filters?.tipo) {
@@ -81,10 +75,6 @@ export class PropertyService {
 
     if (filters?.q.trim()) {
       params = params.set('q', filters.q.trim());
-    }
-
-    if (filters?.cidade.trim()) {
-      params = params.set('cidade', filters.cidade.trim());
     }
 
     if (filters?.tipo) {

@@ -36,7 +36,7 @@
     } @else if (error() || !property()) {
       <section class="empty-state">
         <strong>Imóvel não encontrado</strong>
-        <p>Volte para a pagina inicial e escolha outro imóvel.</p>
+        <p>Volte para a página inicial e escolha outro imóvel.</p>
       </section>
     } @else {
       @let selectedProperty = property()!;
@@ -53,7 +53,7 @@
       </section>
 
       @if (propertyDetails(selectedProperty).length > 0) {
-        <section class="feature-strip" aria-label="Caracteristicas do imóvel">
+        <section class="feature-strip" aria-label="Características do imóvel">
           @for (detail of propertyDetails(selectedProperty); track detail) {
             <div>
               <span>{{ detail.label }}</span>

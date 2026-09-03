@@ -4,7 +4,7 @@
   <header>
     <div>
       <span>Painel administrativo</span>
-      <h1>Imoveis</h1>
+      <h1>Imóveis</h1>
     </div>
   </header>
 
@@ -13,11 +13,6 @@
       <label>
         Buscar
         <input type="search" formControlName="q" />
-      </label>
-
-      <label>
-        Cidade
-        <input type="text" formControlName="cidade" />
       </label>
 
       <label>
@@ -49,27 +44,27 @@
 
   <section>
     @if (loading()) {
-      <p>Carregando imoveis...</p>
+      <p>Carregando imóveis...</p>
     } @else if (error()) {
       <div class="empty-state">
-        <strong>Nao foi possivel carregar os imoveis</strong>
+        <strong>Não foi possível carregar os imóveis</strong>
         <button type="button" (click)="loadProperties()">Tentar novamente</button>
       </div>
     } @else if (properties().length === 0) {
       <div class="empty-state">
-        <strong>Nenhum imovel encontrado</strong>
-        <p>Ajuste os filtros ou cadastre um novo imovel.</p>
+        <strong>Nenhum imóvel encontrado</strong>
+        <p>Ajuste os filtros ou cadastre um novo imóvel.</p>
       </div>
     } @else {
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Imovel</th>
-              <th>Localizacao</th>
+              <th>Imóvel</th>
+              <th>Localização</th>
               <th>Valor</th>
               <th>Status</th>
-              <th>Acoes</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -117,7 +112,7 @@
         </table>
       </div>
 
-      <div class="mobile-property-list" aria-label="Imoveis cadastrados">
+      <div class="mobile-property-list" aria-label="Imóveis cadastrados">
         @for (property of properties(); track property.id) {
           <article class="mobile-property-card">
             <div class="mobile-property-card__header">
@@ -130,7 +125,7 @@
 
             <dl>
               <div>
-                <dt>Localizacao</dt>
+                <dt>Localização</dt>
                 <dd>{{ property.bairro }}, {{ property.cidade }}</dd>
               </div>
               <div>
@@ -170,12 +165,12 @@
 
       @if (pageInfo(); as page) {
         <div class="pagination">
-          <span>{{ page.totalElements }} imoveis</span>
+          <span>{{ page.totalElements }} imóveis</span>
 
           <div>
             <button type="button" [disabled]="page.first || loading()" (click)="previousPage()">Anterior</button>
             <strong>{{ pageLabel() }}</strong>
-            <button type="button" [disabled]="page.last || loading()" (click)="nextPage()">Proxima</button>
+            <button type="button" [disabled]="page.last || loading()" (click)="nextPage()">Próxima</button>
           </div>
         </div>
       }

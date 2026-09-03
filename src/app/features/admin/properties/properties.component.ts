@@ -27,7 +27,6 @@ export class PropertiesComponent implements OnInit {
 
   readonly filtersForm = this.formBuilder.nonNullable.group({
     q: [''],
-    cidade: [''],
     tipo: ['' as PropertyType | ''],
     status: ['' as PropertyStatus | '']
   });
@@ -67,7 +66,6 @@ export class PropertiesComponent implements OnInit {
   clearFilters(): void {
     this.filtersForm.reset({
       q: '',
-      cidade: '',
       tipo: '',
       status: ''
     });
@@ -98,10 +96,10 @@ export class PropertiesComponent implements OnInit {
     const pageInfo = this.pageInfo();
 
     if (!pageInfo || pageInfo.totalPages === 0) {
-      return 'Pagina 0 de 0';
+      return 'Página 0 de 0';
     }
 
-    return `Pagina ${pageInfo.page + 1} de ${pageInfo.totalPages}`;
+    return `Página ${pageInfo.page + 1} de ${pageInfo.totalPages}`;
   }
 
   publish(property: Property): void {

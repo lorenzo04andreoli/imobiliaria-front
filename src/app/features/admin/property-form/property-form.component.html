@@ -11,7 +11,7 @@
 
   @if (loading()) {
     <section>
-      <p>Carregando imovel...</p>
+      <p>Carregando imóvel...</p>
     </section>
   } @else {
     <form [formGroup]="form" (ngSubmit)="submit()">
@@ -19,12 +19,12 @@
       <h2>Dados principais</h2>
 
       <label class="field field-wide">
-        Titulo
+        Título
         <input type="text" formControlName="titulo" />
       </label>
 
       <label class="field field-wide">
-        Descricao
+        Descrição
         <textarea rows="6" formControlName="descricao"></textarea>
       </label>
 
@@ -53,12 +53,12 @@
     </section>
 
     <section>
-      <h2>Localizacao</h2>
+      <h2>Localização</h2>
 
-      <label class="field">
+      <div class="field field-note">
         Cidade
-        <input type="text" formControlName="cidade" />
-      </label>
+        <strong>Paranaguá</strong>
+      </div>
 
       <label class="field">
         Bairro
@@ -66,13 +66,13 @@
       </label>
 
       <label class="field field-wide">
-        Endereco
+        Endereço
         <input type="text" formControlName="endereco" />
       </label>
     </section>
 
     <section>
-      <h2>Caracteristicas</h2>
+      <h2>Características</h2>
 
       <label class="field">
         Quartos
@@ -99,7 +99,7 @@
       <h2>Imagens</h2>
 
       <label class="field field-wide">
-        Fotos do imovel
+        Fotos do imóvel
         <input #imageInput type="file" accept="image/*" multiple (change)="selectImages($event)" />
       </label>
 
@@ -143,13 +143,13 @@
     </section>
 
     @if (error()) {
-      <p class="form-error">Nao foi possivel salvar o imovel.</p>
+      <p class="form-error">Não foi possível salvar o imóvel.</p>
     }
 
     <div class="form-actions">
       <a routerLink="/admin/imoveis">Cancelar</a>
       <button type="submit" [disabled]="saving()">
-        {{ saving() ? 'Salvando...' : 'Salvar imovel' }}
+        {{ saving() ? 'Salvando...' : 'Salvar imóvel' }}
       </button>
     </div>
     </form>

@@ -27,7 +27,6 @@ export class HomeComponent implements OnInit {
 
   readonly filtersForm = this.formBuilder.nonNullable.group({
     q: [''],
-    cidade: [''],
     tipo: ['' as PropertyType | ''],
     precoMin: [null as number | null],
     precoMax: [null as number | null]
@@ -60,7 +59,6 @@ export class HomeComponent implements OnInit {
   clearFilters(): void {
     this.filtersForm.reset({
       q: '',
-      cidade: '',
       tipo: '',
       precoMin: null,
       precoMax: null
