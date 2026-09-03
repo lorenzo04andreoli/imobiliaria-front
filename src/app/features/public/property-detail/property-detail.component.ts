@@ -102,6 +102,14 @@ export class PropertyDetailComponent implements OnInit {
     ].filter((item): item is { label: string; value: string } => item !== null);
   }
 
+  propertySummary(property: Property): string {
+    const details = this.propertyDetails(property)
+      .map((detail) => detail.value)
+      .join(', ');
+
+    return details ? `${property.bairro}, ${details}` : property.bairro;
+  }
+
   whatsappLink(property: Property): string {
     return this.whatsappService.createPropertyInterestLink(property);
   }

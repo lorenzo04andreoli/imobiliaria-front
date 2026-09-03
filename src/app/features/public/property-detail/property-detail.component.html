@@ -14,47 +14,91 @@
       </section>
     } @else {
       @let selectedProperty = property()!;
+      @let galleryImages = images(selectedProperty);
 
-      <section class="detail-hero">
-        <div class="detail-hero__content">
+      <section class="property-heading">
+        <div>
           <span>{{ selectedProperty.tipo }}</span>
           <h1>{{ selectedProperty.titulo }}</h1>
-          <p>{{ selectedProperty.bairro }}, {{ selectedProperty.cidade }}</p>
-
-          <div class="detail-hero__actions">
-            <strong>{{ formattedPrice(selectedProperty) }}</strong>
-            <a
-              class="button button--whatsapp"
-              [href]="whatsappLink(selectedProperty)"
-              target="_blank"
-              rel="noopener"
-            >
-              Tenho interesse
-            </a>
-          </div>
+          <p>{{ propertySummary(selectedProperty) }}</p>
         </div>
+
+        <strong>{{ formattedPrice(selectedProperty) }}</strong>
       </section>
 
-      @if (images(selectedProperty).length > 0) {
-        <section class="gallery" aria-label="Fotos do imovel">
-          @for (image of images(selectedProperty); track image.id; let index = $index) {
-            <button type="button" (click)="openGallery(index)" [attr.aria-label]="'Abrir foto ' + (index + 1)">
-              <img [src]="imageUrl(image)" [alt]="selectedProperty.titulo" />
-            </button>
+      @if (propertyDetails(selectedProperty).length > 0) {
+        <section class="feature-strip" aria-label="Caracteristicas do imovel">
+          @for (detail of propertyDetails(selectedProperty); track detail) {
+            <div>
+              <span>{{ detail.label }}</span>
+              <strong>{{ detail.value }}</strong>
+            </div>
           }
         </section>
       }
 
-      <section class="detail-content">
-        <div class="description">
-          <span>Descricao</span>
-          <p>{{ selectedProperty.descricao }}</p>
+      <section class="property-showcase">
+        <div class="media-column">
+          @if (galleryImages.length > 0) {
+            <section class="gallery" aria-label="Fotos do imovel">
+              <button
+                class="gallery__main"
+                type="button"
+                (click)="openGallery(0)"
+                aria-label="Abrir foto principal"
+              >
+                <img [src]="imageUrl(galleryImages[0])" [alt]="selectedProperty.titulo" />
+              </button>
+
+              @if (galleryImages.length > 1) {
+                <div class="gallery__thumbs">
+                  @for (image of galleryImages; track image.id; let index = $index) {
+                    <button
+                      type="button"
+                      (click)="openGallery(index)"
+                      [attr.aria-label]="'Abrir foto ' + (index + 1)"
+                    >
+                      <img [src]="imageUrl(image)" [alt]="selectedProperty.titulo" />
+                    </button>
+                  }
+                </div>
+              }
+            </section>
+          } @else {
+            <section class="gallery-placeholder">
+              <strong>Imovel sem fotos cadastradas</strong>
+            </section>
+          }
+
+          <section class="description">
+            <div class="section-title">
+              <span>Descricao</span>
+              <h2>Sobre este imovel</h2>
+            </div>
+            <p>{{ selectedProperty.descricao }}</p>
+          </section>
         </div>
 
-        <aside class="facts">
-          <span>Detalhes</span>
+        <aside class="contact-card">
+          <span>Atendimento direto</span>
+          <h2>Fale com a Eliane</h2>
+          <p>{{ selectedProperty.bairro }}, {{ selectedProperty.cidade }}</p>
+
+          <a
+            class="button button--whatsapp"
+            [href]="whatsappLink(selectedProperty)"
+            target="_blank"
+            rel="noopener"
+          >
+            Tenho interesse
+          </a>
 
           <dl>
+            <div>
+              <dt>Valor</dt>
+              <dd>{{ formattedPrice(selectedProperty) }}</dd>
+            </div>
+
             <div>
               <dt>Localizacao</dt>
               <dd>{{ selectedProperty.bairro }}, {{ selectedProperty.cidade }}</dd>
@@ -71,7 +115,6 @@
       </section>
 
       @if (activeImageIndex() !== null) {
-        @let galleryImages = images(selectedProperty);
         @let activeImage = galleryImages[activeImageIndex()!];
 
         <div class="lightbox" role="dialog" aria-modal="true" aria-label="Galeria de fotos">
