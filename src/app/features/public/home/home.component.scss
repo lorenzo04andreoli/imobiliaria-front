@@ -25,12 +25,17 @@
 }
 
 .site-brand {
-  gap: 10px;
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 10px;
+  row-gap: 2px;
+  align-items: center;
   color: var(--color-primary-dark);
   text-decoration: none;
 }
 
 .site-brand strong {
+  grid-row: span 2;
   color: var(--color-accent-dark);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 2rem;
@@ -43,6 +48,13 @@
   font-size: 0.8rem;
   font-weight: 800;
   line-height: 1.1;
+}
+
+.site-brand small {
+  color: var(--color-muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
 }
 
 .site-header nav {
@@ -501,6 +513,12 @@ h1 {
   text-transform: uppercase;
 }
 
+.site-footer__brand small {
+  color: var(--color-accent);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
 .site-footer p {
   color: #b7c1bd;
 }
@@ -558,6 +576,10 @@ h1 {
   .site-brand span {
     max-width: 108px;
     text-align: left;
+  }
+
+  .site-brand small {
+    font-size: 0.66rem;
   }
 
   .site-header nav {

@@ -2,7 +2,8 @@
   <header class="site-header">
     <a class="site-brand" href="#topo">
       <strong>Eliane</strong>
-      <span>Corretora de Imoveis</span>
+      <span>Corretora de Imóveis</span>
+      <small>{{ brand.creci }}</small>
     </a>
 
     <button
@@ -17,15 +18,15 @@
       <span></span>
     </button>
 
-    <nav [class.is-open]="menuOpen()" aria-label="Navegacao principal">
-      <a href="#imoveis" (click)="closeMenu()">Imoveis</a>
+    <nav [class.is-open]="menuOpen()" aria-label="Navegação principal">
+      <a href="#imoveis" (click)="closeMenu()">Imóveis</a>
       <a href="#contato" (click)="closeMenu()">Contato</a>
     </nav>
   </header>
 
   <section class="hero">
     <div class="hero__content">
-      <span class="eyebrow">Imoveis selecionados</span>
+      <span class="eyebrow">Imóveis selecionados</span>
       <h1>{{ brand.siteName }}</h1>
       <p>
         {{ brand.tagline }}.
@@ -41,14 +42,14 @@
       <div class="trust-strip" aria-label="Diferenciais do atendimento">
         <div>
           <strong>Atendimento direto</strong>
-          <span>sem intermediarios</span>
+          <span>sem intermediários</span>
         </div>
         <div>
-          <strong>Imoveis selecionados</strong>
-          <span>catalogo simples</span>
+          <strong>Imóveis selecionados</strong>
+          <span>catálogo simples</span>
         </div>
         <div>
-          <strong>Contato rapido</strong>
+          <strong>Contáto rapido</strong>
           <span>via WhatsApp</span>
         </div>
       </div>
@@ -75,12 +76,12 @@
         </label>
 
         <label>
-          Valor minimo
+          Valor mínimo
           <input type="number" min="0" formControlName="precoMin" />
         </label>
 
         <label>
-          Valor maximo
+          Valor máximo
           <input type="number" min="0" formControlName="precoMax" />
         </label>
 
@@ -96,24 +97,24 @@
     <div class="section__header">
       <div>
         <span class="eyebrow">Destaques</span>
-        <h2>Imoveis disponiveis</h2>
+        <h2>Imóveis disponíveis</h2>
       </div>
-      <p>Escolha um imovel e fale diretamente com {{ brand.brokerName }} pelo WhatsApp.</p>
+      <p>Escolha um imóvel e fale diretamente com {{ brand.brokerName }} pelo WhatsApp.</p>
     </div>
 
     @if (loading()) {
       <div class="empty-state">
-        <strong>Carregando imoveis</strong>
-        <p>Estamos buscando as oportunidades disponiveis.</p>
+        <strong>Carregando imóveis</strong>
+        <p>Estamos buscando as oportunidades disponíveis.</p>
       </div>
     } @else if (error()) {
       <div class="empty-state">
-        <strong>Nao foi possivel carregar os imoveis</strong>
+        <strong>Não foi possível carregar os imóveis</strong>
         <p>Tente novamente em alguns instantes.</p>
       </div>
     } @else if (properties().length === 0) {
       <div class="empty-state">
-        <strong>Nenhum imovel encontrado</strong>
+        <strong>Nenhum imóvel encontrado</strong>
         <p>Ajuste os filtros para ver outras oportunidades.</p>
       </div>
     } @else {
@@ -168,20 +169,20 @@
   <section class="location-band">
     <div>
       <span class="eyebrow">Atendimento local</span>
-      <h2>Imoveis em Paranagua</h2>
-      <p>Compra e venda com atendimento direto, sem etapas desnecessarias.</p>
+      <h2>Imóveis em Paranaguá</h2>
+      <p>Compra e venda com atendimento direto, sem etapas desnecessárias.</p>
     </div>
 
-    <div class="location-tags" aria-label="Area de atendimento">
-      <span>Paranagua</span>
+    <div class="location-tags" aria-label="Área de atendimento">
+      <span>Paranaguá</span>
     </div>
   </section>
 
   <section class="conversion-band">
     <div>
       <span class="eyebrow">Pronto para visitar?</span>
-      <h2>Escolha o imovel e fale direto pelo WhatsApp</h2>
-      <p>A conversa ja abre com uma mensagem pronta para agilizar o atendimento.</p>
+      <h2>Escolha o imóvel e fale direto pelo WhatsApp</h2>
+      <p>A conversa já abre com uma mensagem pronta para agilizar o atendimento.</p>
     </div>
 
     <a class="button button--primary" [href]="contactLink()" target="_blank" rel="noopener">
@@ -192,20 +193,21 @@
   <footer id="contato" class="site-footer">
     <div class="site-footer__brand">
       <strong>Eliane</strong>
-      <span>Corretora de Imoveis</span>
+      <span>Corretora de Imóveis</span>
+      <small>{{ brand.creci }}</small>
       <p>{{ brand.tagline }}.</p>
     </div>
 
     <div class="site-footer__links">
       <span>Mapa do site</span>
-      <a href="#topo">Inicio</a>
-      <a href="#imoveis">Imoveis</a>
+      <a href="#topo">Início</a>
+      <a href="#imoveis">Imóveis</a>
     </div>
 
     <div class="site-footer__links">
       <span>Contato</span>
       <a [href]="contactLink()" target="_blank" rel="noopener">Falar pelo WhatsApp</a>
-      <p>Atendimento direto para compra e venda de imoveis.</p>
+      <p>Atendimento direto para compra e venda de imóveis.</p>
     </div>
   </footer>
 </main>

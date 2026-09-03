@@ -2,7 +2,8 @@
   <header class="site-header">
     <a class="site-brand" routerLink="/">
       <strong>Eliane</strong>
-      <span>Corretora de Imoveis</span>
+      <span>Corretora de Imóveis</span>
+      <small>{{ brand.creci }}</small>
     </a>
 
     <button
@@ -17,25 +18,25 @@
       <span></span>
     </button>
 
-    <nav [class.is-open]="menuOpen()" aria-label="Navegacao principal">
-      <a routerLink="/" (click)="closeMenu()">Inicio</a>
-      <a routerLink="/" fragment="imoveis" (click)="closeMenu()">Imoveis</a>
+    <nav [class.is-open]="menuOpen()" aria-label="Navegação principal">
+      <a routerLink="/" (click)="closeMenu()">Início</a>
+      <a routerLink="/" fragment="imoveis" (click)="closeMenu()">Imóveis</a>
       <a routerLink="/" fragment="contato" (click)="closeMenu()">Contato</a>
     </nav>
   </header>
 
   <div class="detail-page__inner">
-    <a class="back-link" routerLink="/">Voltar para imoveis</a>
+    <a class="back-link" routerLink="/">Voltar para imóveis</a>
 
     @if (loading()) {
       <section class="empty-state">
-        <strong>Carregando imovel</strong>
-        <p>Estamos buscando os detalhes deste imovel.</p>
+        <strong>Carregando imóvel</strong>
+        <p>Estamos buscando os detalhes deste imóvel.</p>
       </section>
     } @else if (error() || !property()) {
       <section class="empty-state">
-        <strong>Imovel nao encontrado</strong>
-        <p>Volte para a pagina inicial e escolha outro imovel.</p>
+        <strong>Imóvel não encontrado</strong>
+        <p>Volte para a pagina inicial e escolha outro imóvel.</p>
       </section>
     } @else {
       @let selectedProperty = property()!;
@@ -52,7 +53,7 @@
       </section>
 
       @if (propertyDetails(selectedProperty).length > 0) {
-        <section class="feature-strip" aria-label="Caracteristicas do imovel">
+        <section class="feature-strip" aria-label="Caracteristicas do imóvel">
           @for (detail of propertyDetails(selectedProperty); track detail) {
             <div>
               <span>{{ detail.label }}</span>
@@ -65,7 +66,7 @@
       <section class="property-showcase">
         <div class="media-column">
           @if (galleryImages.length > 0) {
-            <section class="gallery" aria-label="Fotos do imovel">
+            <section class="gallery" aria-label="Fotos do imóvel">
               <button
                 class="gallery__main"
                 type="button"
@@ -94,7 +95,7 @@
             </section>
           } @else {
             <section class="gallery-placeholder">
-              <strong>Imovel sem fotos cadastradas</strong>
+              <strong>Imóvel sem fotos cadastradas</strong>
             </section>
           }
 
@@ -121,13 +122,13 @@
             </div>
 
             <div>
-              <dt>Localizacao</dt>
+              <dt>Localização</dt>
               <dd>{{ selectedProperty.bairro }}, {{ selectedProperty.cidade }}</dd>
             </div>
           </dl>
 
           @if (propertyDetails(selectedProperty).length > 0) {
-            <div class="contact-card__chips" aria-label="Resumo do imovel">
+            <div class="contact-card__chips" aria-label="Resumo do imóvel">
               @for (detail of propertyDetails(selectedProperty); track detail) {
                 <span>{{ detail.value }}</span>
               }
@@ -138,8 +139,8 @@
 
       <section class="description">
         <div class="section-title">
-          <span>Descricao</span>
-          <h2>Sobre este imovel</h2>
+          <span>Descrição</span>
+          <h2>Sobre este imóvel</h2>
         </div>
         <p>{{ selectedProperty.descricao }}</p>
       </section>
@@ -185,7 +186,7 @@
               <button
                 class="lightbox__nav lightbox__nav--next"
                 type="button"
-                aria-label="Proxima foto"
+                aria-label="Próxima foto"
                 (click)="nextImage(selectedProperty)"
               >
                 &gt;
@@ -202,20 +203,21 @@
   <footer class="site-footer">
     <div class="site-footer__brand">
       <strong>Eliane</strong>
-      <span>Corretora de Imoveis</span>
+      <span>Corretora de Imóveis</span>
+      <small>{{ brand.creci }}</small>
       <p>{{ brand.tagline }}.</p>
     </div>
 
     <div class="site-footer__links">
       <span>Mapa do site</span>
-      <a routerLink="/">Inicio</a>
-      <a routerLink="/" fragment="imoveis">Imoveis</a>
+      <a routerLink="/">Início</a>
+      <a routerLink="/" fragment="imoveis">Imóveis</a>
     </div>
 
     <div class="site-footer__links">
       <span>Contato</span>
       <a [href]="contactLink()" target="_blank" rel="noopener">Falar pelo WhatsApp</a>
-      <p>Atendimento direto para compra e venda de imoveis.</p>
+      <p>Atendimento direto para compra e venda de imóveis.</p>
     </div>
   </footer>
 </main>
