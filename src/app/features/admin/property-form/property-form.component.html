@@ -2,12 +2,17 @@
   <header>
     <div>
       <span>Painel administrativo</span>
-      <h1>Novo imovel</h1>
+      <h1>{{ title() }}</h1>
     </div>
     <a routerLink="/admin/imoveis">Voltar</a>
   </header>
 
-  <form [formGroup]="form" (ngSubmit)="submit()">
+  @if (loading()) {
+    <section>
+      <p>Carregando imovel...</p>
+    </section>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="submit()">
     <section>
       <h2>Dados principais</h2>
 
@@ -98,5 +103,6 @@
         {{ saving() ? 'Salvando...' : 'Salvar imovel' }}
       </button>
     </div>
-  </form>
+    </form>
+  }
 </main>

@@ -37,8 +37,16 @@ export class PropertyService {
     return this.http.get<Property>(`${this.apiUrl}/imoveis/${id}`);
   }
 
+  findAdminById(id: number): Observable<Property> {
+    return this.http.get<Property>(`${this.apiUrl}/admin/imoveis/${id}`);
+  }
+
   create(request: PropertyRequest): Observable<Property> {
     return this.http.post<Property>(`${this.apiUrl}/admin/imoveis`, request);
+  }
+
+  update(id: number, request: PropertyRequest): Observable<Property> {
+    return this.http.put<Property>(`${this.apiUrl}/admin/imoveis/${id}`, request);
   }
 
   publish(id: number): Observable<Property> {

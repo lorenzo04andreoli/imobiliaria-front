@@ -37,6 +37,14 @@ export const routes: Routes = [
       )
   },
   {
+    path: 'admin/imoveis/:id/editar',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/admin/property-form/property-form.component').then(
+        (component) => component.PropertyFormComponent
+      )
+  },
+  {
     path: '**',
     redirectTo: ''
   }
