@@ -62,6 +62,10 @@ article {
   padding: 24px;
 }
 
+.form-panel + .form-panel {
+  margin-top: 18px;
+}
+
 form {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 120px auto;
@@ -85,6 +89,10 @@ input {
   background: #ffffff;
   color: #26313b;
   font: inherit;
+}
+
+input[type='file'] {
+  padding-top: 10px;
 }
 
 input:focus {

@@ -57,6 +57,19 @@ export class PropertyService {
     return this.http.post<PropertyImage>(`${this.apiUrl}/admin/imoveis/${id}/imagens`, request);
   }
 
+  uploadImage(id: number, file: File, ordem: number | null, capa: boolean): Observable<PropertyImage> {
+    const formData = new FormData();
+    formData.append('arquivo', file);
+
+    if (ordem !== null) {
+      formData.append('ordem', String(ordem));
+    }
+
+    formData.append('capa', String(capa));
+
+    return this.http.post<PropertyImage>(`${this.apiUrl}/admin/imoveis/${id}/imagens/upload`, formData);
+  }
+
   setCoverImage(id: number, imageId: number): Observable<PropertyImage> {
     return this.http.patch<PropertyImage>(`${this.apiUrl}/admin/imoveis/${id}/imagens/${imageId}/capa`, {});
   }

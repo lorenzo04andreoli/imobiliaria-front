@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
@@ -16,9 +16,13 @@ export class PropertyImagesComponent implements OnInit {
   readonly property = signal<Property | null>(null);
   readonly images = signal<PropertyImage[]>([]);
   readonly loading = signal(true);
-  readonly saving = signal(false);
+  readonly savingUrl = signal(false);
+  readonly uploadingFile = signal(false);
   readonly updatingId = signal<number | null>(null);
   readonly error = signal(false);
+  readonly selectedFileName = signal<string | null>(null);
+  private selectedFile: File | null = null;
+  private readonly fileInput = viewChild<ElementRef<HTMLInputElement>>('fileInput');
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly propertyService = inject(PropertyService);
@@ -27,6 +31,11 @@ export class PropertyImagesComponent implements OnInit {
 
   readonly form = this.formBuilder.nonNullable.group({
     url: ['', [Validators.required]],
+    ordem: [null as number | null, [Validators.min(0)]],
+    capa: [false]
+  });
+
+  readonly uploadForm = this.formBuilder.nonNullable.group({
     ordem: [null as number | null, [Validators.min(0)]],
     capa: [false]
   });
@@ -63,23 +72,54 @@ export class PropertyImagesComponent implements OnInit {
   }
 
   addImage(): void {
-    if (this.form.invalid || this.saving() || this.propertyId === null) {
+    if (this.form.invalid || this.savingUrl() || this.propertyId === null) {
       this.form.markAllAsTouched();
       return;
     }
 
-    this.saving.set(true);
+    this.savingUrl.set(true);
     this.error.set(false);
 
     this.propertyService.addImage(this.propertyId, this.form.getRawValue()).subscribe({
       next: (image) => {
-        this.images.update((items) => this.sortedImages([...items, image]));
+        this.addImageToList(image);
         this.form.reset({ url: '', ordem: null, capa: false });
-        this.saving.set(false);
+        this.savingUrl.set(false);
       },
       error: () => {
         this.error.set(true);
-        this.saving.set(false);
+        this.savingUrl.set(false);
+      }
+    });
+  }
+
+  selectFile(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.selectedFile = input.files?.[0] ?? null;
+    this.selectedFileName.set(this.selectedFile?.name ?? null);
+  }
+
+  uploadImage(): void {
+    if (this.uploadForm.invalid || this.uploadingFile() || this.propertyId === null || this.selectedFile === null) {
+      this.uploadForm.markAllAsTouched();
+      return;
+    }
+
+    const { ordem, capa } = this.uploadForm.getRawValue();
+
+    this.uploadingFile.set(true);
+    this.error.set(false);
+
+    this.propertyService.uploadImage(this.propertyId, this.selectedFile, ordem, capa).subscribe({
+      next: (image) => {
+        this.addImageToList(image);
+        this.clearSelectedFile();
+        this.uploadForm.reset({ ordem: null, capa: false });
+        this.uploadingFile.set(false);
+      },
+      error: () => {
+        this.error.set(true);
+        this.uploadingFile.set(false);
       }
     });
   }
@@ -139,6 +179,27 @@ export class PropertyImagesComponent implements OnInit {
 
   private sortedImages(images: PropertyImage[]): PropertyImage[] {
     return [...images].sort((first, second) => first.ordem - second.ordem);
+  }
+
+  private addImageToList(image: PropertyImage): void {
+    this.images.update((items) => {
+      const nextItems = image.capa
+        ? items.map((item) => ({ ...item, capa: false }))
+        : items;
+
+      return this.sortedImages([...nextItems, image]);
+    });
+  }
+
+  private clearSelectedFile(): void {
+    this.selectedFile = null;
+    this.selectedFileName.set(null);
+
+    const input = this.fileInput();
+
+    if (input) {
+      input.nativeElement.value = '';
+    }
   }
 
   private apiOrigin(): string {

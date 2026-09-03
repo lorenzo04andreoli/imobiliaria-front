@@ -21,7 +21,35 @@
     </section>
   } @else {
     <section class="form-panel">
-      <h2>Adicionar imagem</h2>
+      <h2>Enviar arquivo</h2>
+
+      <form [formGroup]="uploadForm" (ngSubmit)="uploadImage()">
+        <label class="field field-wide">
+          Arquivo
+          <input #fileInput type="file" accept="image/*" (change)="selectFile($event)" />
+          @if (selectedFileName()) {
+            <small>{{ selectedFileName() }}</small>
+          }
+        </label>
+
+        <label class="field">
+          Ordem
+          <input type="number" min="0" formControlName="ordem" />
+        </label>
+
+        <label class="checkbox-field">
+          <input type="checkbox" formControlName="capa" />
+          Usar como capa
+        </label>
+
+        <button type="submit" [disabled]="uploadingFile() || !selectedFileName()">
+          {{ uploadingFile() ? 'Enviando...' : 'Enviar imagem' }}
+        </button>
+      </form>
+    </section>
+
+    <section class="form-panel">
+      <h2>Adicionar por URL</h2>
 
       <form [formGroup]="form" (ngSubmit)="addImage()">
         <label class="field field-wide">
@@ -39,8 +67,8 @@
           Usar como capa
         </label>
 
-        <button type="submit" [disabled]="saving()">
-          {{ saving() ? 'Adicionando...' : 'Adicionar imagem' }}
+        <button type="submit" [disabled]="savingUrl()">
+          {{ savingUrl() ? 'Adicionando...' : 'Adicionar URL' }}
         </button>
       </form>
     </section>
@@ -52,7 +80,7 @@
     @if (images().length === 0) {
       <section class="empty-state">
         <strong>Nenhuma imagem cadastrada</strong>
-        <p>Adicione uma imagem por URL para aparecer na landing page.</p>
+        <p>Adicione uma imagem para aparecer na landing page.</p>
       </section>
     } @else {
       <section class="image-grid" aria-label="Imagens cadastradas">
