@@ -125,14 +125,15 @@
               <dt>Localizacao</dt>
               <dd>{{ selectedProperty.bairro }}, {{ selectedProperty.cidade }}</dd>
             </div>
-
-            @for (detail of propertyDetails(selectedProperty); track detail) {
-              <div>
-                <dt>{{ detail.label }}</dt>
-                <dd>{{ detail.value }}</dd>
-              </div>
-            }
           </dl>
+
+          @if (propertyDetails(selectedProperty).length > 0) {
+            <div class="contact-card__chips" aria-label="Resumo do imovel">
+              @for (detail of propertyDetails(selectedProperty); track detail) {
+                <span>{{ detail.value }}</span>
+              }
+            </div>
+          }
         </aside>
       </section>
 

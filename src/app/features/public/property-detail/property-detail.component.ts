@@ -105,9 +105,9 @@ export class PropertyDetailComponent implements OnInit {
 
   propertyDetails(property: Property): { label: string; value: string }[] {
     return [
-      property.quartos !== null ? { label: 'Quartos', value: String(property.quartos) } : null,
-      property.banheiros !== null ? { label: 'Banheiros', value: String(property.banheiros) } : null,
-      property.vagas !== null ? { label: 'Vagas', value: String(property.vagas) } : null,
+      property.quartos !== null ? { label: 'Quartos', value: this.pluralize(property.quartos, 'quarto', 'quartos') } : null,
+      property.banheiros !== null ? { label: 'Banheiros', value: this.pluralize(property.banheiros, 'banheiro', 'banheiros') } : null,
+      property.vagas !== null ? { label: 'Vagas', value: this.pluralize(property.vagas, 'vaga', 'vagas') } : null,
       property.area !== null ? { label: 'Area', value: `${property.area} m2` } : null
     ].filter((item): item is { label: string; value: string } => item !== null);
   }
@@ -134,5 +134,9 @@ export class PropertyDetailComponent implements OnInit {
     }
 
     return new URL(appConfig.apiUrl).origin;
+  }
+
+  private pluralize(value: number, singular: string, plural: string): string {
+    return `${value} ${value === 1 ? singular : plural}`;
   }
 }

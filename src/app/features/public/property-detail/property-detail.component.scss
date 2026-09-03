@@ -289,6 +289,23 @@ h1 {
   line-height: 1.5;
 }
 
+.contact-card__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.contact-card__chips span {
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  padding: 8px 10px;
+  background: var(--color-panel-soft);
+  color: var(--color-primary-dark);
+  font-size: 0.78rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
 .button {
   display: inline-flex;
   min-height: 46px;
@@ -650,7 +667,7 @@ dd {
     line-height: 1;
   }
 
-  .contact-card dl div:not(:first-child) {
+  .contact-card dl div:nth-child(2) {
     border: 1px solid var(--color-line);
     border-radius: 8px;
     padding: 14px;
@@ -665,6 +682,19 @@ dd {
 
   .contact-card .button--whatsapp {
     display: none;
+  }
+
+  .contact-card__chips {
+    display: flex;
+    gap: 8px;
+    margin-top: -2px;
+  }
+
+  .contact-card__chips span {
+    border-color: var(--color-line);
+    border-radius: 6px;
+    background: var(--color-panel-soft);
+    color: var(--color-text);
   }
 
   .description {
