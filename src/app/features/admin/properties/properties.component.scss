@@ -31,6 +31,13 @@ h1 {
   font-size: 2.5rem;
 }
 
+.header-actions,
+.row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 button {
   min-height: 42px;
   border: 0;
@@ -38,7 +45,19 @@ button {
   padding: 0 16px;
   background: #26313b;
   color: #ffffff;
+  cursor: pointer;
   font-weight: 800;
+}
+
+.button-secondary {
+  border: 1px solid #d9e0e6;
+  background: #ffffff;
+  color: #26313b;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 section {
@@ -46,4 +65,96 @@ section {
   border-radius: 8px;
   padding: 24px;
   background: #ffffff;
+}
+
+.empty-state {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid #e7edf2;
+  padding: 16px 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+th {
+  color: #68737d;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+td {
+  color: #26313b;
+}
+
+td strong,
+td small {
+  display: block;
+}
+
+td small {
+  margin-top: 4px;
+  color: #68737d;
+}
+
+.status {
+  display: inline-flex;
+  color: #8a6042;
+  font-size: 0.78rem;
+  letter-spacing: 0;
+}
+
+.row-actions {
+  min-width: 300px;
+}
+
+.row-actions a,
+.row-actions button {
+  min-height: 34px;
+  border: 1px solid #d9e0e6;
+  border-radius: 6px;
+  padding: 0 10px;
+  background: #ffffff;
+  color: #26313b;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.row-actions a,
+.row-actions button {
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (max-width: 720px) {
+  .admin-shell {
+    padding: 24px 16px;
+  }
+
+  header {
+    display: grid;
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  .header-actions button {
+    flex: 1;
+  }
 }

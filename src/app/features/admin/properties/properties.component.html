@@ -4,10 +4,80 @@
       <span>Painel administrativo</span>
       <h1>Imoveis</h1>
     </div>
-    <button type="button">Novo imovel</button>
+    <div class="header-actions">
+      <button type="button">Novo imovel</button>
+      <button class="button-secondary" type="button" (click)="logout()">Sair</button>
+    </div>
   </header>
 
   <section>
-    <p>A listagem administrativa sera conectada a API nos proximos passos.</p>
+    @if (loading()) {
+      <p>Carregando imoveis...</p>
+    } @else if (error()) {
+      <div class="empty-state">
+        <strong>Nao foi possivel carregar os imoveis</strong>
+        <button type="button" (click)="loadProperties()">Tentar novamente</button>
+      </div>
+    } @else if (properties().length === 0) {
+      <div class="empty-state">
+        <strong>Nenhum imovel cadastrado</strong>
+        <p>Use o botao de novo imovel para iniciar o catalogo.</p>
+      </div>
+    } @else {
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Imovel</th>
+              <th>Localizacao</th>
+              <th>Valor</th>
+              <th>Status</th>
+              <th>Acoes</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (property of properties(); track property.id) {
+              <tr>
+                <td>
+                  <strong>{{ property.titulo }}</strong>
+                  <small>{{ property.tipo }}</small>
+                </td>
+                <td>{{ property.bairro }}, {{ property.cidade }}</td>
+                <td>{{ formattedPrice(property) }}</td>
+                <td>
+                  <span class="status">{{ property.status }}</span>
+                </td>
+                <td>
+                  <div class="row-actions">
+                    <a [routerLink]="['/imoveis', property.id]" target="_blank" rel="noopener">Ver</a>
+                    <button
+                      type="button"
+                      [disabled]="updatingId() === property.id || property.status === 'PUBLICADO'"
+                      (click)="publish(property)"
+                    >
+                      Publicar
+                    </button>
+                    <button
+                      type="button"
+                      [disabled]="updatingId() === property.id || property.status === 'INATIVO'"
+                      (click)="inactivate(property)"
+                    >
+                      Inativar
+                    </button>
+                    <button
+                      type="button"
+                      [disabled]="updatingId() === property.id || property.status === 'VENDIDO'"
+                      (click)="markAsSold(property)"
+                    >
+                      Vendido
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
   </section>
 </main>
