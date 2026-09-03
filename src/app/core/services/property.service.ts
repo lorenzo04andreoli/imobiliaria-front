@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { appConfig } from '../config/app-config';
 import { PageResponse } from '../models/page-response.model';
-import { Property } from '../models/property.model';
+import { Property, PropertyRequest } from '../models/property.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +35,10 @@ export class PropertyService {
 
   findById(id: number): Observable<Property> {
     return this.http.get<Property>(`${this.apiUrl}/imoveis/${id}`);
+  }
+
+  create(request: PropertyRequest): Observable<Property> {
+    return this.http.post<Property>(`${this.apiUrl}/admin/imoveis`, request);
   }
 
   publish(id: number): Observable<Property> {

@@ -27,3 +27,18 @@ export interface Property {
   criadoEm: string;
   atualizadoEm: string;
 }
+
+export interface PropertyRequest {
+  titulo: string;
+  descricao: string;
+  preco: number;
+  tipo: PropertyType;
+  cidade: string;
+  bairro: string;
+  endereco: string | null;
+  quartos: number | null;
+  banheiros: number | null;
+  vagas: number | null;
+  area: number | null;
+  status: PropertyStatus;
+}

@@ -1,0 +1,102 @@
+<main class="admin-shell">
+  <header>
+    <div>
+      <span>Painel administrativo</span>
+      <h1>Novo imovel</h1>
+    </div>
+    <a routerLink="/admin/imoveis">Voltar</a>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <section>
+      <h2>Dados principais</h2>
+
+      <label class="field field-wide">
+        Titulo
+        <input type="text" formControlName="titulo" />
+      </label>
+
+      <label class="field field-wide">
+        Descricao
+        <textarea rows="6" formControlName="descricao"></textarea>
+      </label>
+
+      <label class="field">
+        Valor
+        <input type="number" min="0" formControlName="preco" />
+      </label>
+
+      <label class="field">
+        Tipo
+        <select formControlName="tipo">
+          @for (type of propertyTypes; track type) {
+            <option [value]="type">{{ type }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="field">
+        Status
+        <select formControlName="status">
+          @for (status of propertyStatuses; track status) {
+            <option [value]="status">{{ status }}</option>
+          }
+        </select>
+      </label>
+    </section>
+
+    <section>
+      <h2>Localizacao</h2>
+
+      <label class="field">
+        Cidade
+        <input type="text" formControlName="cidade" />
+      </label>
+
+      <label class="field">
+        Bairro
+        <input type="text" formControlName="bairro" />
+      </label>
+
+      <label class="field field-wide">
+        Endereco
+        <input type="text" formControlName="endereco" />
+      </label>
+    </section>
+
+    <section>
+      <h2>Caracteristicas</h2>
+
+      <label class="field">
+        Quartos
+        <input type="number" min="0" formControlName="quartos" />
+      </label>
+
+      <label class="field">
+        Banheiros
+        <input type="number" min="0" formControlName="banheiros" />
+      </label>
+
+      <label class="field">
+        Vagas
+        <input type="number" min="0" formControlName="vagas" />
+      </label>
+
+      <label class="field">
+        Area
+        <input type="number" min="0" formControlName="area" />
+      </label>
+    </section>
+
+    @if (error()) {
+      <p class="form-error">Nao foi possivel salvar o imovel.</p>
+    }
+
+    <div class="form-actions">
+      <a routerLink="/admin/imoveis">Cancelar</a>
+      <button type="submit" [disabled]="saving()">
+        {{ saving() ? 'Salvando...' : 'Salvar imovel' }}
+      </button>
+    </div>
+  </form>
+</main>
