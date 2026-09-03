@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { appConfig } from '../../../core/config/app-config';
 import { Property, PropertyImage } from '../../../core/models/property.model';
 import { PropertyService } from '../../../core/services/property.service';
+import { SeoService } from '../../../core/services/seo.service';
 import { WhatsappService } from '../../../core/services/whatsapp.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class PropertyDetailComponent implements OnInit {
 
   private readonly route = inject(ActivatedRoute);
   private readonly propertyService = inject(PropertyService);
+  private readonly seoService = inject(SeoService);
   private readonly whatsappService = inject(WhatsappService);
 
   ngOnInit(): void {
@@ -36,6 +38,7 @@ export class PropertyDetailComponent implements OnInit {
     this.propertyService.findById(id).subscribe({
       next: (property) => {
         this.property.set(property);
+        this.updateSeo(property);
         this.loading.set(false);
       },
       error: () => {
@@ -134,6 +137,22 @@ export class PropertyDetailComponent implements OnInit {
     }
 
     return new URL(appConfig.apiUrl).origin;
+  }
+
+  private updateSeo(property: Property): void {
+    const title = `${property.titulo} em ${property.bairro} | ${this.brand.siteName}`;
+    const description = [
+      `${this.formattedPrice(property)} em ${property.bairro}, Paranaguá.`,
+      this.propertySummary(property),
+      'Fale direto com a Eliane pelo WhatsApp.'
+    ].join(' ');
+    const coverImage = this.images(property).find((image) => image.capa) ?? this.images(property)[0];
+
+    this.seoService.update({
+      title,
+      description,
+      image: coverImage ? this.imageUrl(coverImage) : null
+    });
   }
 
   private pluralize(value: number, singular: string, plural: string): string {

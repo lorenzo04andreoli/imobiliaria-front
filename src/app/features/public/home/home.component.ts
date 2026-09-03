@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { appConfig } from '../../../core/config/app-config';
 import { Property, PropertyType } from '../../../core/models/property.model';
 import { PropertyService } from '../../../core/services/property.service';
+import { SeoService } from '../../../core/services/seo.service';
 import { WhatsappService } from '../../../core/services/whatsapp.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit {
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly propertyService = inject(PropertyService);
+  private readonly seoService = inject(SeoService);
   private readonly whatsappService = inject(WhatsappService);
 
   readonly filtersForm = this.formBuilder.nonNullable.group({
@@ -33,6 +35,10 @@ export class HomeComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.seoService.update({
+      title: `${this.brand.siteName} | Imóveis em Paranaguá`,
+      description: 'Imóveis selecionados em Paranaguá com atendimento direto pelo WhatsApp.'
+    });
     this.loadProperties();
   }
 
