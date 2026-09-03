@@ -117,6 +117,57 @@
         </table>
       </div>
 
+      <div class="mobile-property-list" aria-label="Imoveis cadastrados">
+        @for (property of properties(); track property.id) {
+          <article class="mobile-property-card">
+            <div class="mobile-property-card__header">
+              <div>
+                <strong>{{ property.titulo }}</strong>
+                <small>{{ property.tipo }}</small>
+              </div>
+              <span class="status">{{ property.status }}</span>
+            </div>
+
+            <dl>
+              <div>
+                <dt>Localizacao</dt>
+                <dd>{{ property.bairro }}, {{ property.cidade }}</dd>
+              </div>
+              <div>
+                <dt>Valor</dt>
+                <dd>{{ formattedPrice(property) }}</dd>
+              </div>
+            </dl>
+
+            <div class="mobile-property-card__actions">
+              <a [routerLink]="['/imoveis', property.id]" target="_blank" rel="noopener">Ver</a>
+              <a [routerLink]="['/admin/imoveis', property.id, 'editar']">Editar</a>
+              <button
+                type="button"
+                [disabled]="updatingId() === property.id || property.status === 'PUBLICADO'"
+                (click)="publish(property)"
+              >
+                Publicar
+              </button>
+              <button
+                type="button"
+                [disabled]="updatingId() === property.id || property.status === 'INATIVO'"
+                (click)="inactivate(property)"
+              >
+                Inativar
+              </button>
+              <button
+                type="button"
+                [disabled]="updatingId() === property.id || property.status === 'VENDIDO'"
+                (click)="markAsSold(property)"
+              >
+                Vendido
+              </button>
+            </div>
+          </article>
+        }
+      </div>
+
       @if (pageInfo(); as page) {
         <div class="pagination">
           <span>{{ page.totalElements }} imoveis</span>
