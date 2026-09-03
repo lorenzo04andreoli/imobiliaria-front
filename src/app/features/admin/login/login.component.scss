@@ -33,3 +33,53 @@ p {
 p {
   color: #c9d1d8;
 }
+
+form {
+  display: grid;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  color: #e8edf2;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+input {
+  min-height: 46px;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 6px;
+  padding: 0 14px;
+  background: #26313b;
+  color: #ffffff;
+  font: inherit;
+}
+
+input:focus {
+  border-color: #d8b08c;
+  outline: none;
+}
+
+button {
+  min-height: 46px;
+  border: 0;
+  border-radius: 6px;
+  background: #d8b08c;
+  color: #1f2933;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.form-error {
+  color: #ffc9c9;
+  font-weight: 800;
+}
