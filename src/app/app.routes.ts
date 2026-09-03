@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { authGuard } from './core/guards/auth.guard';
+
 export const routes: Routes = [
   {
     path: '',
@@ -20,6 +22,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin/imoveis',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/admin/properties/properties.component').then(
         (component) => component.PropertiesComponent

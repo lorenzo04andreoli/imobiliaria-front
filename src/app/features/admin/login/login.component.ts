@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -16,6 +16,7 @@ export class LoginComponent {
 
   private readonly authService = inject(AuthService);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
   readonly form = this.formBuilder.nonNullable.group({
@@ -35,12 +36,16 @@ export class LoginComponent {
     this.authService.login(this.form.getRawValue()).subscribe({
       next: () => {
         this.loading.set(false);
-        this.router.navigateByUrl('/admin/imoveis');
+        this.router.navigateByUrl(this.redirectTo());
       },
       error: () => {
         this.loading.set(false);
         this.error.set(true);
       }
     });
+  }
+
+  private redirectTo(): string {
+    return this.route.snapshot.queryParamMap.get('redirectTo') ?? '/admin/imoveis';
   }
 }
