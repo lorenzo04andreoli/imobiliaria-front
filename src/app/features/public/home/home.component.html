@@ -1,4 +1,17 @@
 <main class="public-page">
+  <header class="site-header">
+    <a class="site-brand" href="#topo">
+      <strong>Eliane</strong>
+      <span>Corretora de Imoveis</span>
+    </a>
+
+    <nav aria-label="Navegacao principal">
+      <a href="#imoveis">Imoveis</a>
+      <a href="#contato">Contato</a>
+      <a routerLink="/admin/login">Admin</a>
+    </nav>
+  </header>
+
   <section class="hero">
     <div class="hero__content">
       <span class="eyebrow">Imoveis selecionados</span>
@@ -6,58 +19,54 @@
       <p>
         {{ brand.tagline }}.
       </p>
-      <div class="hero__actions">
-        <a class="button button--primary" href="#imoveis">Ver imoveis</a>
-        <a class="button button--secondary" routerLink="/admin/login">Area administrativa</a>
-      </div>
+
+      <form class="filters-panel filters-panel--hero" [formGroup]="filtersForm" (ngSubmit)="applyFilters()">
+        <label>
+          Buscar
+          <input type="search" formControlName="q" />
+        </label>
+
+        <label>
+          Cidade
+          <input type="text" formControlName="cidade" />
+        </label>
+
+        <label>
+          Tipo
+          <select formControlName="tipo">
+            <option value="">Todos</option>
+            @for (type of propertyTypes; track type) {
+              <option [value]="type">{{ type }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          Valor minimo
+          <input type="number" min="0" formControlName="precoMin" />
+        </label>
+
+        <label>
+          Valor maximo
+          <input type="number" min="0" formControlName="precoMax" />
+        </label>
+
+        <div class="filter-actions">
+          <button class="button button--primary" type="submit">Buscar</button>
+          <button class="button button--light" type="button" (click)="clearFilters()">Limpar</button>
+        </div>
+      </form>
     </div>
   </section>
 
   <section id="imoveis" class="section">
     <div class="section__header">
       <div>
-        <span class="eyebrow">Catalogo</span>
-        <h2>Encontre seu imovel</h2>
+        <span class="eyebrow">Destaques</span>
+        <h2>Imoveis disponiveis</h2>
       </div>
       <p>Escolha um imovel e fale diretamente com {{ brand.brokerName }} pelo WhatsApp.</p>
     </div>
-
-    <form class="filters-panel" [formGroup]="filtersForm" (ngSubmit)="applyFilters()">
-      <label>
-        Buscar
-        <input type="search" formControlName="q" />
-      </label>
-
-      <label>
-        Cidade
-        <input type="text" formControlName="cidade" />
-      </label>
-
-      <label>
-        Tipo
-        <select formControlName="tipo">
-          <option value="">Todos</option>
-          @for (type of propertyTypes; track type) {
-            <option [value]="type">{{ type }}</option>
-          }
-        </select>
-      </label>
-
-      <label>
-        Valor minimo
-        <input type="number" min="0" formControlName="precoMin" />
-      </label>
-
-      <label>
-        Valor maximo
-        <input type="number" min="0" formControlName="precoMax" />
-      </label>
-
-      <div class="filter-actions">
-        <button class="button button--primary" type="submit">Filtrar</button>
-        <button class="button button--light" type="button" (click)="clearFilters()">Limpar</button>
-      </div>
-    </form>
 
     @if (loading()) {
       <div class="empty-state">
@@ -121,4 +130,34 @@
       </div>
     }
   </section>
+
+  <section class="location-band">
+    <div>
+      <span class="eyebrow">Atendimento local</span>
+      <h2>Imoveis em Paranagua e regiao</h2>
+      <p>Compra e venda com atendimento direto, sem etapas desnecessarias.</p>
+    </div>
+
+    @if (publishedCities().length > 0) {
+      <div class="location-tags" aria-label="Cidades com imoveis publicados">
+        @for (city of publishedCities(); track city) {
+          <span>{{ city }}</span>
+        }
+      </div>
+    }
+  </section>
+
+  <footer id="contato" class="site-footer">
+    <div>
+      <span class="eyebrow">Sobre</span>
+      <h2>{{ brand.brokerName }}</h2>
+      <p>{{ brand.tagline }}.</p>
+    </div>
+
+    <div>
+      <span class="eyebrow">Contato</span>
+      <a [href]="contactLink()" target="_blank" rel="noopener">Falar pelo WhatsApp</a>
+      <a routerLink="/admin/login">Area administrativa</a>
+    </div>
+  </footer>
 </main>

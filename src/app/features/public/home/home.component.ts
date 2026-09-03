@@ -99,8 +99,18 @@ export class HomeComponent implements OnInit {
       .join(' - ');
   }
 
+  publishedCities(): string[] {
+    return [...new Set(this.properties().map((property) => property.cidade))]
+      .filter(Boolean)
+      .slice(0, 4);
+  }
+
   whatsappLink(property: Property): string {
     return this.whatsappService.createPropertyInterestLink(property);
+  }
+
+  contactLink(): string {
+    return `https://wa.me/${this.brand.whatsappNumber}`;
   }
 
   private apiOrigin(): string {
