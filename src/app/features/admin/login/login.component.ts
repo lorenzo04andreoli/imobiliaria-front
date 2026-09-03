@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { appConfig } from '../../../core/config/app-config';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -11,6 +12,7 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  readonly brand = appConfig.brand;
   readonly loading = signal(false);
   readonly error = signal(false);
 

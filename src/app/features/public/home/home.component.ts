@@ -14,6 +14,7 @@ import { WhatsappService } from '../../../core/services/whatsapp.service';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
+  readonly brand = appConfig.brand;
   readonly properties = signal<Property[]>([]);
   readonly loading = signal(true);
   readonly error = signal(false);

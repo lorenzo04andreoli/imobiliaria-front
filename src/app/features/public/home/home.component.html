@@ -2,9 +2,9 @@
   <section class="hero">
     <div class="hero__content">
       <span class="eyebrow">Imoveis selecionados</span>
-      <h1>Eliane Corretora</h1>
+      <h1>{{ brand.siteName }}</h1>
       <p>
-        Encontre casas, apartamentos e terrenos com atendimento direto pelo WhatsApp.
+        {{ brand.tagline }}.
       </p>
       <div class="hero__actions">
         <a class="button button--primary" href="#imoveis">Ver imoveis</a>
@@ -19,7 +19,7 @@
         <span class="eyebrow">Catalogo</span>
         <h2>Encontre seu imovel</h2>
       </div>
-      <p>Escolha um imovel e fale diretamente com a Eliane pelo WhatsApp.</p>
+      <p>Escolha um imovel e fale diretamente com {{ brand.brokerName }} pelo WhatsApp.</p>
     </div>
 
     <form class="filters-panel" [formGroup]="filtersForm" (ngSubmit)="applyFilters()">

@@ -9,11 +9,11 @@ import { Property } from '../models/property.model';
 export class WhatsappService {
   createPropertyInterestLink(property: Property): string {
     const message = [
-      `Ola, Eliane! Tenho interesse no imovel "${property.titulo}".`,
+      `Ola, ${appConfig.brand.brokerName}! Tenho interesse no imovel "${property.titulo}".`,
       `Ele fica em ${property.bairro}, ${property.cidade}.`,
       'Pode me passar mais informacoes?'
     ].join(' ');
 
-    return `https://wa.me/${appConfig.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    return `https://wa.me/${appConfig.brand.whatsappNumber}?text=${encodeURIComponent(message)}`;
   }
 }
