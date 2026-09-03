@@ -1,59 +1,82 @@
-# ImobiliariaFront
+# Imobiliaria Front
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.26.
+Frontend Angular do site da Eliane Corretora de Imóveis.
 
-## Development server
+## Requisitos
 
-To start a local development server, run:
+- Node.js 22 ou superior
+- npm
 
-```bash
-ng serve
-```
+## Rodar localmente
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Instale as dependências:
 
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Inicie o servidor local:
 
 ```bash
-ng generate --help
+npm start
 ```
 
-## Building
+A aplicação fica disponível em:
 
-To build the project run:
+```text
+http://localhost:4200
+```
+
+Por padrão, o ambiente local consome a API em:
+
+```text
+http://localhost:8080/api
+```
+
+## Build
 
 ```bash
-ng build
+npm run build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Os arquivos finais são gerados em:
 
-## Running unit tests
+```text
+dist/imobiliaria-front/browser
+```
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Testes
 
 ```bash
-ng test
+npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-## Running end-to-end tests
+## Produção com Docker
 
-For end-to-end (e2e) testing, run:
+Gerar a imagem:
 
 ```bash
-ng e2e
+docker build -t imobiliaria-front:latest .
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Rodar o container:
 
-## Additional Resources
+```bash
+docker run --rm -p 8081:80 imobiliaria-front:latest
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Em produção, o frontend usa `apiUrl: '/api'`. O `nginx.conf` já encaminha:
+
+- `/api` para `http://api-prod:8080/api`
+- `/uploads` para `http://api-prod:8080/uploads`
+
+Por isso, ao usar Docker Compose, o serviço do backend deve estar na mesma rede do frontend com o nome `api-prod`.
+
+## Rotas principais
+
+- `/` - landing page pública
+- `/imoveis/:id` - detalhe público do imóvel
+- `/admin/login` - login administrativo
+- `/admin/imoveis` - painel de imóveis
+- `/admin/imoveis/novo` - cadastro de imóvel
+- `/admin/imoveis/:id/editar` - edição de imóvel
