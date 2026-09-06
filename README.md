@@ -59,12 +59,6 @@ Gerar a imagem:
 docker build -t imobiliaria-front:latest .
 ```
 
-Rodar o container:
-
-```bash
-docker run --rm -p 8081:80 imobiliaria-front:latest
-```
-
 Em produção, o frontend usa `apiUrl: '/api'`. O `nginx.conf` já encaminha:
 
 - `/api` para `http://api-prod:8080/api`
@@ -72,27 +66,27 @@ Em produção, o frontend usa `apiUrl: '/api'`. O `nginx.conf` já encaminha:
 
 Por isso, ao usar Docker Compose, o serviço do backend deve estar na mesma rede do frontend com o nome `api-prod`.
 
-## Deploy final na Oracle
+## Deploy no Lightsail
 
-O deploy de produção deve ser executado a partir do repositório do backend, usando o `docker-compose.prod.yml` de lá. Esse compose sobe:
+O deploy de produção deve ser executado a partir do repositório do backend.
+Siga o `DEPLOY_HTTPS_IP.md` de lá, usando os três arquivos Compose:
+
+```bash
+sudo docker compose -p imobiliaria --env-file .env.prod -f docker-compose.prod.yml -f docker-compose.ip.yml -f docker-compose.ip-https.yml up -d --no-build
+```
+
+As imagens devem estar previamente construídas e carregadas. A stack sobe:
 
 - MySQL
 - API Spring Boot
 - Frontend Angular com Nginx
+- Proxy Nginx com HTTPS
 
 No servidor, deixe os dois repositórios no mesmo diretório base:
 
 ```text
 /opt/imobiliaria/imobiliaria-api
 /opt/imobiliaria/imobiliaria-front
-```
-
-No arquivo `.env.prod` do backend, configure:
-
-```env
-FRONTEND_PATH=../imobiliaria-front
-FRONTEND_PORT=80
-APP_CORS_ALLOWED_ORIGINS=https://seudominio.com
 ```
 
 O frontend de produção usa:
@@ -114,17 +108,11 @@ https://seudominio.com/admin/login
 https://seudominio.com/api/imoveis
 ```
 
-Se ainda estiver sem domínio, use temporariamente o IP público da VM:
-
-```env
-APP_CORS_ALLOWED_ORIGINS=http://IP_PUBLICO_DA_VM
-```
-
-E acesse:
+Enquanto não houver domínio, use o IP fixo com certificado HTTPS:
 
 ```text
-http://IP_PUBLICO_DA_VM
-http://IP_PUBLICO_DA_VM/admin/login
+https://54.94.105.56
+https://54.94.105.56/admin/login
 ```
 
 ## Rotas principais
