@@ -2,6 +2,44 @@ import { expect, Page, test } from '@playwright/test';
 import path from 'node:path';
 
 const imagePath = path.resolve('e2e/house.jpg');
+
+test('modal: foco, Escape, fundo e confirmação', async ({ page }, testInfo) => {
+  const writes = await setup(page);
+  await page.getByText('Alterar situação', { exact: true }).click();
+  await page.getByRole('button', { name: 'Ocultar do site', exact: true }).click();
+  const dialog = page.getByRole('dialog', { name: 'Ocultar por enquanto' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Manter no site' })).toBeFocused();
+  await noOverflow(page);
+  await page.screenshot({ path: testInfo.outputPath('confirmacao.png') });
+  await page.keyboard.press('Escape');
+  await expect(dialog).not.toBeVisible();
+  expect(writes).toHaveLength(0);
+  await expect(page.getByRole('button', { name: 'Ocultar do site', exact: true })).toBeFocused();
+  await page.getByRole('button', { name: 'Ocultar do site', exact: true }).click();
+  await expect(dialog).toBeVisible();
+  await page.mouse.click(2, 2);
+  await expect(dialog).not.toBeVisible();
+  expect(writes).toHaveLength(0);
+  await page.getByRole('button', { name: 'Ocultar do site', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Ocultar imóvel', exact: true }).click();
+  await expect(page.getByText('Situação do imóvel atualizada.', { exact: true })).toBeVisible();
+  expect(writes.filter((write) => write.path.endsWith('/inativar'))).toHaveLength(1);
+});
+
+test('modal de saída e sessão preservada ao cancelar logout', async ({ page }) => {
+  await setup(page);
+  await page.getByRole('link', { name: 'Cadastrar imóvel' }).click();
+  await page.locator('[formControlName="titulo"]').fill('Edição pendente');
+  await page.getByRole('button', { name: 'Sair do painel' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Sua edição ainda não foi salva' });
+  await dialog.getByRole('button', { name: 'Continuar editando' }).click();
+  expect(await page.evaluate(() => !!localStorage.getItem('imobiliaria_admin_session'))).toBe(true);
+  await page.getByRole('link', { name: 'Meus imóveis', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Sair sem salvar' }).click();
+  await expect(page.getByRole('heading', { name: 'Meus imóveis' })).toBeVisible();
+  await expect(dialog).not.toBeVisible();
+});
 const property = {
   id: 1,
   titulo: 'Casa com quintal em Paranaguá',
@@ -184,8 +222,8 @@ test('validação e proteção ao sair sem salvar', async ({ page }, testInfo) =
   await expect(page.getByText('Informe o título do imóvel.')).toBeVisible();
   await expect(page.locator('[formControlName="titulo"]')).toBeFocused();
   await page.locator('[formControlName="titulo"]').fill('Casa em edição');
-  page.once('dialog', (dialog) => dialog.dismiss());
   await page.getByRole('link', { name: 'Meus imóveis', exact: true }).click();
+  await page.getByRole('button', { name: 'Continuar editando', exact: true }).click();
   await expect(
     page.getByRole('heading', { name: 'Novo imóvel' }),
   ).toBeVisible();
@@ -200,15 +238,15 @@ test('remoção confirmada e seleção de arquivos', async ({ page }) => {
   const writes = await setup(page);
   await page.getByRole('link', { name: 'Editar imóvel', exact: true }).click();
   await page.getByRole('button', { name: '2 Fotos', exact: true }).click();
-  page.once('dialog', (dialog) => dialog.dismiss());
   await page
     .getByRole('button', { name: 'Remover foto 1', exact: true })
     .click();
+  await page.getByRole('button', { name: 'Manter foto', exact: true }).click();
   await expect(page.getByRole('article')).toHaveCount(3);
-  page.once('dialog', (dialog) => dialog.accept());
   await page
     .getByRole('button', { name: 'Remover foto 1', exact: true })
     .click();
+  await page.getByRole('dialog', { name: 'Remover esta foto' }).getByRole('button', { name: 'Remover foto', exact: true }).click();
   await expect(page.getByRole('article')).toHaveCount(2);
   expect(writes).toHaveLength(0);
   await page

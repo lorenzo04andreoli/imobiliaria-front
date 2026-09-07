@@ -21,6 +21,7 @@ import {
   LucideArrowLeft,
 } from '@lucide/angular';
 import { STATUS_LABELS, TYPE_LABELS } from '../admin-labels';
+import { ConfirmationService } from '../../../shared/confirmation/confirmation.service';
 
 import { appConfig } from '../../../core/config/app-config';
 import {
@@ -102,6 +103,7 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly propertyService = inject(PropertyService);
+  private readonly confirmation = inject(ConfirmationService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private propertyId = this.getPropertyId();
@@ -245,8 +247,18 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
     input.value = '';
   }
 
-  removeImage(image: EditableImage): void {
-    if (this.saving() || !window.confirm('Remover esta foto do imóvel?'))
+  async removeImage(image: EditableImage): Promise<void> {
+    if (this.saving()) return;
+    if (
+      !(await this.confirmation.ask({
+        title: 'Remover esta foto',
+        message:
+          'Esta foto sairá do anúncio quando você salvar o imóvel. As outras fotos serão mantidas.',
+        confirmLabel: 'Remover foto',
+        cancelLabel: 'Manter foto',
+        image: this.imageSource(image),
+      }))
+    )
       return;
     this.imageChanges.set(true);
     if (image.type === 'pending') {
@@ -301,12 +313,16 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
     return control.invalid && control.touched;
   }
 
-  canLeave(): boolean {
+  canLeave(): boolean | Promise<boolean> {
     if (this.saving()) return false;
-    return (
-      !(this.form.dirty || this.imageChanges()) ||
-      window.confirm('Há alterações não salvas. Sair sem salvar?')
-    );
+    if (!(this.form.dirty || this.imageChanges())) return true;
+    return this.confirmation.ask({
+      title: 'Sua edição ainda não foi salva',
+      message:
+        'Você pode continuar editando ou sair e deixar de lado as alterações desta edição.',
+      confirmLabel: 'Sair sem salvar',
+      cancelLabel: 'Continuar editando',
+    });
   }
 
   @HostListener('window:beforeunload', ['$event'])

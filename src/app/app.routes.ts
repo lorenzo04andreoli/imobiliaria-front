@@ -35,7 +35,8 @@ export const routes: Routes = [
   {
     path: 'admin/imoveis/novo',
     canDeactivate: [
-      (component: { canLeave: () => boolean }) => component.canLeave(),
+      (component: { canLeave: () => boolean | Promise<boolean> }) =>
+        component.canLeave(),
     ],
     canActivate: [authGuard],
     loadComponent: () =>
@@ -46,7 +47,8 @@ export const routes: Routes = [
   {
     path: 'admin/imoveis/:id/editar',
     canDeactivate: [
-      (component: { canLeave: () => boolean }) => component.canLeave(),
+      (component: { canLeave: () => boolean | Promise<boolean> }) =>
+        component.canLeave(),
     ],
     canActivate: [authGuard],
     loadComponent: () =>

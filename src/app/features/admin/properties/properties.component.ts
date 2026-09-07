@@ -12,6 +12,7 @@ import { PropertyService } from '../../../core/services/property.service';
 import { AdminNavComponent } from '../admin-nav/admin-nav.component';
 import { appConfig } from '../../../core/config/app-config';
 import { STATUS_LABELS, TYPE_LABELS } from '../admin-labels';
+import { ConfirmationService } from '../../../shared/confirmation/confirmation.service';
 import {
   LucidePlus,
   LucidePencil,
@@ -66,6 +67,7 @@ export class PropertiesComponent implements OnInit {
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly propertyService = inject(PropertyService);
+  private readonly confirmation = inject(ConfirmationService);
 
   readonly filtersForm = this.formBuilder.nonNullable.group({
     q: [''],
@@ -146,22 +148,44 @@ export class PropertiesComponent implements OnInit {
     return `Página ${pageInfo.page + 1} de ${pageInfo.totalPages}`;
   }
 
-  publish(property: Property): void {
-    if (!window.confirm('Publicar este imóvel no site?')) return;
+  async publish(property: Property): Promise<void> {
+    if (
+      !(await this.confirmation.ask({
+        title: 'Publicar imóvel',
+        message: `“${property.titulo}” ficará visível no site para os visitantes.`,
+        confirmLabel: 'Publicar no site',
+      }))
+    )
+      return;
     this.updateStatus(property, () =>
       this.propertyService.publish(property.id),
     );
   }
 
-  inactivate(property: Property): void {
-    if (!window.confirm('Ocultar este imóvel do site?')) return;
+  async inactivate(property: Property): Promise<void> {
+    if (
+      !(await this.confirmation.ask({
+        title: 'Ocultar por enquanto',
+        message: `“${property.titulo}” sairá do site, mas continuará salvo no painel. Você pode publicá-lo novamente depois.`,
+        confirmLabel: 'Ocultar imóvel',
+        cancelLabel: 'Manter no site',
+      }))
+    )
+      return;
     this.updateStatus(property, () =>
       this.propertyService.inactivate(property.id),
     );
   }
 
-  markAsSold(property: Property): void {
-    if (!window.confirm('Marcar este imóvel como vendido?')) return;
+  async markAsSold(property: Property): Promise<void> {
+    if (
+      !(await this.confirmation.ask({
+        title: 'Imóvel vendido',
+        message: `“${property.titulo}” será marcado como vendido. O cadastro e as fotos continuarão salvos.`,
+        confirmLabel: 'Marcar como vendido',
+      }))
+    )
+      return;
     this.updateStatus(property, () =>
       this.propertyService.markAsSold(property.id),
     );
