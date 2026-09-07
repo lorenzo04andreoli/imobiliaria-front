@@ -1,179 +1,167 @@
 <app-admin-nav />
-
 <main class="admin-shell">
   <header>
     <div>
-      <span>Painel administrativo</span>
-      <h1>Imóveis</h1>
-    </div>
-  </header>
-
-  <section class="filters-panel">
-    <form [formGroup]="filtersForm" (ngSubmit)="applyFilters()">
-      <label>
-        Buscar
-        <input type="search" formControlName="q" />
-      </label>
-
-      <label>
-        Tipo
-        <select formControlName="tipo">
-          <option value="">Todos</option>
-          @for (type of propertyTypes; track type) {
-            <option [value]="type">{{ type }}</option>
-          }
-        </select>
-      </label>
-
-      <label>
-        Status
-        <select formControlName="status">
-          <option value="">Todos</option>
-          @for (status of propertyStatuses; track status) {
-            <option [value]="status">{{ status }}</option>
-          }
-        </select>
-      </label>
-
-      <div class="filter-actions">
-        <button type="submit">Filtrar</button>
-        <button class="button-secondary" type="button" (click)="clearFilters()">Limpar</button>
-      </div>
-    </form>
-  </section>
-
-  <section>
-    @if (loading()) {
-      <p>Carregando imóveis...</p>
-    } @else if (error()) {
-      <div class="empty-state">
-        <strong>Não foi possível carregar os imóveis</strong>
-        <button type="button" (click)="loadProperties()">Tentar novamente</button>
-      </div>
-    } @else if (properties().length === 0) {
-      <div class="empty-state">
-        <strong>Nenhum imóvel encontrado</strong>
-        <p>Ajuste os filtros ou cadastre um novo imóvel.</p>
-      </div>
-    } @else {
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Imóvel</th>
-              <th>Localização</th>
-              <th>Valor</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (property of properties(); track property.id) {
-              <tr>
-                <td>
-                  <strong>{{ property.titulo }}</strong>
-                  <small>{{ property.tipo }}</small>
-                </td>
-                <td>{{ property.bairro }}, {{ property.cidade }}</td>
-                <td>{{ formattedPrice(property) }}</td>
-                <td>
-                  <span class="status">{{ property.status }}</span>
-                </td>
-                <td>
-                  <div class="row-actions">
-                    <a [routerLink]="['/imoveis', property.id]" target="_blank" rel="noopener">Ver</a>
-                    <a [routerLink]="['/admin/imoveis', property.id, 'editar']">Editar</a>
-                    <button
-                      type="button"
-                      [disabled]="updatingId() === property.id || property.status === 'PUBLICADO'"
-                      (click)="publish(property)"
-                    >
-                      Publicar
-                    </button>
-                    <button
-                      type="button"
-                      [disabled]="updatingId() === property.id || property.status === 'INATIVO'"
-                      (click)="inactivate(property)"
-                    >
-                      Inativar
-                    </button>
-                    <button
-                      type="button"
-                      [disabled]="updatingId() === property.id || property.status === 'VENDIDO'"
-                      (click)="markAsSold(property)"
-                    >
-                      Vendido
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-
-      <div class="mobile-property-list" aria-label="Imóveis cadastrados">
-        @for (property of properties(); track property.id) {
-          <article class="mobile-property-card">
-            <div class="mobile-property-card__header">
-              <div>
-                <strong>{{ property.titulo }}</strong>
-                <small>{{ property.tipo }}</small>
-              </div>
-              <span class="status">{{ property.status }}</span>
-            </div>
-
-            <dl>
-              <div>
-                <dt>Localização</dt>
-                <dd>{{ property.bairro }}, {{ property.cidade }}</dd>
-              </div>
-              <div>
-                <dt>Valor</dt>
-                <dd>{{ formattedPrice(property) }}</dd>
-              </div>
-            </dl>
-
-            <div class="mobile-property-card__actions">
-              <a [routerLink]="['/imoveis', property.id]" target="_blank" rel="noopener">Ver</a>
-              <a [routerLink]="['/admin/imoveis', property.id, 'editar']">Editar</a>
-              <button
-                type="button"
-                [disabled]="updatingId() === property.id || property.status === 'PUBLICADO'"
-                (click)="publish(property)"
-              >
-                Publicar
-              </button>
-              <button
-                type="button"
-                [disabled]="updatingId() === property.id || property.status === 'INATIVO'"
-                (click)="inactivate(property)"
-              >
-                Inativar
-              </button>
-              <button
-                type="button"
-                [disabled]="updatingId() === property.id || property.status === 'VENDIDO'"
-                (click)="markAsSold(property)"
-              >
-                Vendido
-              </button>
-            </div>
-          </article>
-        }
-      </div>
-
+      <h1>Meus imóveis</h1>
       @if (pageInfo(); as page) {
-        <div class="pagination">
-          <span>{{ page.totalElements }} imóveis</span>
-
-          <div>
-            <button type="button" [disabled]="page.first || loading()" (click)="previousPage()">Anterior</button>
-            <strong>{{ pageLabel() }}</strong>
-            <button type="button" [disabled]="page.last || loading()" (click)="nextPage()">Próxima</button>
-          </div>
-        </div>
+        <p>{{ page.totalElements }} cadastrados</p>
       }
+    </div>
+    <a class="primary" routerLink="/admin/imoveis/novo"
+      ><svg lucidePlus aria-hidden="true"></svg> Cadastrar imóvel</a
+    >
+  </header>
+  <form class="filters" [formGroup]="filtersForm" (ngSubmit)="applyFilters()">
+    <label class="search"
+      >Buscar imóvel<input
+        type="search"
+        formControlName="q"
+        placeholder="Título ou bairro"
+    /></label>
+    <label
+      >Tipo<select formControlName="tipo">
+        <option value="">Todos</option>
+        @for (type of propertyTypes; track type) {
+          <option [value]="type">{{ typeLabels[type] }}</option>
+        }
+      </select></label
+    >
+    <label
+      >Situação<select formControlName="status">
+        <option value="">Todas</option>
+        @for (status of propertyStatuses; track status) {
+          <option [value]="status">{{ statusLabels[status] }}</option>
+        }
+      </select></label
+    >
+    <div class="filter-actions">
+      <button type="submit" [disabled]="loading()">
+        <svg lucideSearch aria-hidden="true"></svg> Buscar</button
+      ><button
+        class="secondary"
+        type="button"
+        (click)="clearFilters()"
+        [disabled]="loading()"
+      >
+        Limpar
+      </button>
+    </div>
+  </form>
+  @if (feedback()) {
+    <p role="status" class="success">{{ feedback() }}</p>
+  }
+  @if (actionError()) {
+    <p role="alert" class="error">{{ actionError() }}</p>
+  }
+  @if (loading()) {
+    <p role="status" class="empty">Carregando imóveis...</p>
+  } @else if (error()) {
+    <div class="empty" role="alert">
+      <p>Não foi possível carregar os imóveis.</p>
+      <button type="button" (click)="loadProperties()">Tentar novamente</button>
+    </div>
+  } @else if (!properties().length) {
+    <div class="empty">
+      <h2>Nenhum imóvel encontrado</h2>
+      <button class="secondary" type="button" (click)="clearFilters()">
+        Limpar filtros
+      </button>
+    </div>
+  } @else {
+    <section class="property-list" aria-label="Imóveis cadastrados">
+      @for (property of properties(); track property.id) {
+        <article class="property">
+          <div class="photo">
+            @if (coverUrl(property); as photo) {
+              <img [src]="photo" [alt]="property.titulo" loading="lazy" />
+            } @else {
+              <span class="no-photo"
+                ><svg lucideHouse aria-hidden="true"></svg>Sem foto</span
+              >
+            }
+            <span class="status" [attr.data-status]="property.status">{{
+              statusLabels[property.status]
+            }}</span>
+          </div>
+          <div class="property-body">
+            <small>{{ typeLabels[property.tipo] }}</small>
+            <h2>{{ property.titulo }}</h2>
+            <p>{{ property.bairro }}, {{ property.cidade }}</p>
+            <strong class="price">{{ formattedPrice(property) }}</strong>
+            <div class="actions">
+              <a
+                class="primary"
+                [routerLink]="['/admin/imoveis', property.id, 'editar']"
+                ><svg lucidePencil aria-hidden="true"></svg>Editar imóvel</a
+              >
+              @if (property.status === "PUBLICADO") {
+                <a
+                  class="secondary"
+                  [routerLink]="['/imoveis', property.id]"
+                  target="_blank"
+                  rel="noopener"
+                  ><svg lucideExternalLink aria-hidden="true"></svg>Ver no
+                  site</a
+                >
+              }
+            </div>
+            <details>
+              <summary>Alterar situação</summary>
+              <div class="status-actions">
+                @if (property.status !== "PUBLICADO") {
+                  <button
+                    type="button"
+                    [disabled]="updatingId() !== null"
+                    (click)="publish(property)"
+                  >
+                    Publicar no site
+                  </button>
+                }
+                @if (property.status !== "INATIVO") {
+                  <button
+                    class="secondary"
+                    type="button"
+                    [disabled]="updatingId() !== null"
+                    (click)="inactivate(property)"
+                  >
+                    Ocultar do site
+                  </button>
+                }
+                @if (property.status !== "VENDIDO") {
+                  <button
+                    class="secondary"
+                    type="button"
+                    [disabled]="updatingId() !== null"
+                    (click)="markAsSold(property)"
+                  >
+                    Marcar como vendido
+                  </button>
+                }
+              </div>
+            </details>
+          </div>
+        </article>
+      }
+    </section>
+    @if (pageInfo(); as page) {
+      <nav class="pagination" aria-label="Paginação">
+        <button
+          class="secondary"
+          type="button"
+          [disabled]="page.first || loading()"
+          (click)="previousPage()"
+        >
+          Anterior</button
+        ><span>{{ pageLabel() }}</span
+        ><button
+          class="secondary"
+          type="button"
+          [disabled]="page.last || loading()"
+          (click)="nextPage()"
+        >
+          Próxima
+        </button>
+      </nav>
     }
-  </section>
+  }
 </main>

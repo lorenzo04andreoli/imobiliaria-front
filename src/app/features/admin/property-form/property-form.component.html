@@ -1,157 +1,337 @@
 <app-admin-nav />
-
 <main class="admin-shell">
   <header>
-    <div>
-      <span>Painel administrativo</span>
-      <h1>{{ title() }}</h1>
-    </div>
-    <a routerLink="/admin/imoveis">Voltar</a>
+    <a routerLink="/admin/imoveis" class="back-link"
+      ><svg lucideArrowLeft aria-hidden="true"></svg> Meus imóveis</a
+    >
+    <h1>{{ title() }}</h1>
   </header>
-
   @if (loading()) {
-    <section>
-      <p>Carregando imóvel...</p>
-    </section>
+    <p role="status">Carregando imóvel...</p>
+  } @else if (loadError()) {
+    <p role="alert" class="form-error">
+      Não foi possível abrir o imóvel. Volte à lista e tente novamente.
+    </p>
   } @else {
-    <form [formGroup]="form" (ngSubmit)="submit()">
-    <section>
-      <h2>Dados principais</h2>
-
-      <label class="field field-wide">
-        Título
-        <input type="text" formControlName="titulo" />
-      </label>
-
-      <label class="field field-wide">
-        Descrição
-        <textarea rows="6" formControlName="descricao"></textarea>
-      </label>
-
-      <label class="field">
-        Valor
-        <input type="number" min="0" formControlName="preco" />
-      </label>
-
-      <label class="field">
-        Tipo
-        <select formControlName="tipo">
-          @for (type of propertyTypes; track type) {
-            <option [value]="type">{{ type }}</option>
-          }
-        </select>
-      </label>
-
-      <label class="field">
-        Status
-        <select formControlName="status">
-          @for (status of propertyStatuses; track status) {
-            <option [value]="status">{{ status }}</option>
-          }
-        </select>
-      </label>
-    </section>
-
-    <section>
-      <h2>Localização</h2>
-
-      <div class="field field-note">
-        Cidade
-        <strong>Paranaguá</strong>
-      </div>
-
-      <label class="field">
-        Bairro
-        <input type="text" formControlName="bairro" />
-      </label>
-
-      <label class="field field-wide">
-        Endereço
-        <input type="text" formControlName="endereco" />
-      </label>
-    </section>
-
-    <section>
-      <h2>Características</h2>
-
-      <label class="field">
-        Quartos
-        <input type="number" min="0" formControlName="quartos" />
-      </label>
-
-      <label class="field">
-        Banheiros
-        <input type="number" min="0" formControlName="banheiros" />
-      </label>
-
-      <label class="field">
-        Vagas
-        <input type="number" min="0" formControlName="vagas" />
-      </label>
-
-      <label class="field">
-        Area
-        <input type="number" min="0" formControlName="area" />
-      </label>
-    </section>
-
-    <section class="images-section">
-      <h2>Imagens</h2>
-
-      <label class="field field-wide">
-        Fotos do imóvel
-        <input #imageInput type="file" accept="image/*" multiple (change)="selectImages($event)" />
-      </label>
-
-      @if (editableImages().length > 0) {
-        <div class="editable-images">
-          @for (image of editableImages(); track image.id; let index = $index) {
-            <article
-              draggable="true"
-              (dragover)="$event.preventDefault()"
-              (drop)="dropImage($event, index)"
-              (dragstart)="startDraggingImage($event, index)"
-            >
-              <img [src]="imageSource(image)" [alt]="imageName(image)" />
-              <div>
-                <strong>{{ index === 0 ? 'Foto da vitrine' : 'Foto adicional' }}</strong>
-                <small>{{ image.type === 'pending' ? 'Nova foto' : 'Foto salva' }}</small>
-                <div class="image-actions">
-                  <button type="button" [disabled]="index === 0 || saving()" (click)="moveImage(index, index - 1)">
-                    Antes
-                  </button>
-                  <button
-                    type="button"
-                    [disabled]="index === editableImages().length - 1 || saving()"
-                    (click)="moveImage(index, index + 1)"
-                  >
-                    Depois
-                  </button>
-                  <button
-                    type="button"
-                    [disabled]="saving()"
-                    (click)="removeImage(image)"
-                  >
-                    Remover
-                  </button>
-                </div>
-              </div>
-            </article>
-          }
-        </div>
+    <nav class="steps" aria-label="Etapas do imóvel">
+      @for (
+        label of ["Dados", "Fotos", "Publicação"];
+        track label;
+        let index = $index
+      ) {
+        <button
+          type="button"
+          [class.active]="step() === index"
+          [attr.aria-current]="step() === index ? 'step' : null"
+          (click)="setStep(index)"
+          [disabled]="saving()"
+        >
+          <span>{{ index + 1 }}</span
+          >{{ label }}
+        </button>
       }
-    </section>
-
-    @if (error()) {
-      <p class="form-error">Não foi possível salvar o imóvel.</p>
-    }
-
-    <div class="form-actions">
-      <a routerLink="/admin/imoveis">Cancelar</a>
-      <button type="submit" [disabled]="saving()">
-        {{ saving() ? 'Salvando...' : 'Salvar imóvel' }}
-      </button>
-    </div>
+    </nav>
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <fieldset [disabled]="saving()">
+        <div [hidden]="step() !== 0">
+          <section>
+            <h2>Sobre o imóvel</h2>
+            <label class="field field-wide"
+              >Título do anúncio *
+              <input
+                formControlName="titulo"
+                autocomplete="off"
+                [attr.aria-invalid]="invalid('titulo')"
+              />
+              @if (invalid("titulo")) {
+                <small class="form-error">Informe o título do imóvel.</small>
+              }
+            </label>
+            <label class="field"
+              >Tipo de imóvel
+              <select formControlName="tipo">
+                @for (type of propertyTypes; track type) {
+                  <option [value]="type">{{ typeLabels[type] }}</option>
+                }
+              </select>
+            </label>
+            <label class="field"
+              >Valor (R$) *
+              <input
+                type="number"
+                inputmode="decimal"
+                min="0"
+                step="0.01"
+                formControlName="preco"
+                [attr.aria-invalid]="invalid('preco')"
+              />
+              @if (invalid("preco")) {
+                <small class="form-error"
+                  >Informe um valor igual ou maior que zero.</small
+                >
+              }
+            </label>
+            <label class="field field-wide"
+              >Descrição *
+              <textarea
+                rows="5"
+                formControlName="descricao"
+                [attr.aria-invalid]="invalid('descricao')"
+              ></textarea>
+              @if (invalid("descricao")) {
+                <small class="form-error">Informe a descrição do imóvel.</small>
+              }
+            </label>
+          </section>
+          <section>
+            <h2>Localização</h2>
+            <label class="field"
+              >Cidade *<input
+                formControlName="cidade"
+                autocomplete="address-level2"
+                [attr.aria-invalid]="invalid('cidade')"
+              />
+              @if (invalid("cidade")) {
+                <small class="form-error">Informe a cidade.</small>
+              }
+            </label>
+            <label class="field"
+              >Bairro *<input
+                formControlName="bairro"
+                [attr.aria-invalid]="invalid('bairro')"
+              />
+              @if (invalid("bairro")) {
+                <small class="form-error">Informe o bairro.</small>
+              }
+            </label>
+            <label class="field field-wide"
+              >Endereço (opcional)<input
+                formControlName="endereco"
+                autocomplete="street-address"
+            /></label>
+          </section>
+          <section class="features">
+            <h2>Características</h2>
+            <label class="field"
+              >Quartos<input
+                type="number"
+                inputmode="numeric"
+                min="0"
+                formControlName="quartos"
+              />
+              @if (invalid("quartos")) {
+                <small class="form-error">Use zero ou mais.</small>
+              }
+            </label>
+            <label class="field"
+              >Banheiros<input
+                type="number"
+                inputmode="numeric"
+                min="0"
+                formControlName="banheiros"
+              />
+              @if (invalid("banheiros")) {
+                <small class="form-error">Use zero ou mais.</small>
+              }
+            </label>
+            <label class="field"
+              >Vagas<input
+                type="number"
+                inputmode="numeric"
+                min="0"
+                formControlName="vagas"
+              />
+              @if (invalid("vagas")) {
+                <small class="form-error">Use zero ou mais.</small>
+              }
+            </label>
+            <label class="field"
+              >Área (m²)<input
+                type="number"
+                inputmode="decimal"
+                min="0"
+                step="0.01"
+                formControlName="area"
+              />
+              @if (invalid("area")) {
+                <small class="form-error">Use zero ou mais.</small>
+              }
+            </label>
+          </section>
+        </div>
+        <section class="images-section" [hidden]="step() !== 1">
+          <h2>
+            Fotos do imóvel <small>({{ editableImages().length }})</small>
+          </h2>
+          <input
+            #imageInput
+            class="file-input"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+            (change)="selectImages($event)"
+            tabindex="-1"
+            aria-label="Fotos do imóvel"
+          />
+          <button class="add-photos" type="button" (click)="imageInput.click()">
+            <svg lucideImagePlus aria-hidden="true"></svg> Adicionar fotos
+          </button>
+          @if (imageError()) {
+            <p class="form-error" role="alert">{{ imageError() }}</p>
+          }
+          @if (editableImages().length === 0) {
+            <p class="empty-state">Nenhuma foto adicionada.</p>
+          }
+          <div class="editable-images">
+            @for (
+              image of editableImages();
+              track image.id;
+              let index = $index
+            ) {
+              <article
+                [class.cover]="index === 0"
+                [attr.aria-label]="'Foto ' + (index + 1)"
+              >
+                <button
+                  class="photo-preview"
+                  type="button"
+                  (click)="openPreview(image)"
+                  [attr.aria-label]="'Ampliar foto ' + (index + 1)"
+                  title="Ampliar foto"
+                >
+                  <img
+                    [src]="imageSource(image)"
+                    [alt]="'Foto ' + (index + 1) + ' do imóvel'"
+                  />
+                </button>
+                <div class="photo-details">
+                  <strong>{{
+                    index === 0 ? "Capa do anúncio" : "Foto " + (index + 1)
+                  }}</strong>
+                  <div class="image-actions">
+                    <button
+                      type="button"
+                      class="cover-button"
+                      [disabled]="index === 0"
+                      (click)="moveImage(index, 0)"
+                    >
+                      <svg lucideStar aria-hidden="true"></svg
+                      >{{ index === 0 ? "Capa" : "Usar como capa" }}
+                    </button>
+                    <div class="order-actions">
+                      <button
+                        type="button"
+                        [disabled]="index === 0"
+                        (click)="moveImage(index, index - 1)"
+                        [attr.aria-label]="
+                          'Mover foto ' + (index + 1) + ' para antes'
+                        "
+                        title="Mover para antes"
+                      >
+                        <svg lucideArrowUp aria-hidden="true"></svg>
+                      </button>
+                      <button
+                        type="button"
+                        [disabled]="index === editableImages().length - 1"
+                        (click)="moveImage(index, index + 1)"
+                        [attr.aria-label]="
+                          'Mover foto ' + (index + 1) + ' para depois'
+                        "
+                        title="Mover para depois"
+                      >
+                        <svg lucideArrowDown aria-hidden="true"></svg>
+                      </button>
+                      <button
+                        class="remove"
+                        type="button"
+                        (click)="removeImage(image)"
+                        [attr.aria-label]="'Remover foto ' + (index + 1)"
+                        title="Remover foto"
+                      >
+                        <svg lucideTrash2 aria-hidden="true"></svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            }
+          </div>
+        </section>
+        <section [hidden]="step() !== 2">
+          <h2>Publicação</h2>
+          <label class="field field-wide"
+            >Situação do anúncio
+            <select formControlName="status">
+              <option value="RASCUNHO">Rascunho</option>
+              <option value="PUBLICADO">Publicado no site</option>
+              <option value="INATIVO">Oculto do site</option>
+              <option value="VENDIDO">Vendido</option>
+            </select>
+          </label>
+          <dl class="review">
+            <div>
+              <dt>Imóvel</dt>
+              <dd>
+                {{ form.controls.titulo.value || "Título não informado" }}
+              </dd>
+            </div>
+            <div>
+              <dt>Fotos</dt>
+              <dd>{{ editableImages().length }}</dd>
+            </div>
+            <div>
+              <dt>Situação</dt>
+              <dd>{{ statusLabels[form.controls.status.value] }}</dd>
+            </div>
+          </dl>
+        </section>
+      </fieldset>
+      <p class="feedback" role="status">{{ feedback() }}</p>
+      @if (error()) {
+        <p class="form-error" role="alert">
+          Não foi possível concluir. Seus dados continuam aqui; tente salvar
+          novamente.
+        </p>
+      }
+      <div class="form-actions">
+        @if (step() > 0) {
+          <button
+            class="secondary"
+            type="button"
+            [disabled]="saving()"
+            (click)="setStep(step() - 1)"
+          >
+            Voltar
+          </button>
+        }
+        @if (step() < 2) {
+          <button
+            type="button"
+            [disabled]="saving()"
+            (click)="setStep(step() + 1)"
+          >
+            {{ step() === 0 ? "Continuar para fotos" : "Continuar" }}
+          </button>
+        } @else {
+          <button type="submit" [disabled]="saving()">
+            <svg lucideSave aria-hidden="true"></svg
+            >{{ saving() ? saveProgress() : "Salvar imóvel" }}
+          </button>
+        }
+      </div>
     </form>
   }
 </main>
+<dialog
+  #photoDialog
+  aria-label="Foto ampliada"
+  (click)="$event.target === photoDialog && closePreview()"
+  (close)="previewSource.set('')"
+>
+  <button type="button" class="secondary" (click)="closePreview()">
+    Fechar foto
+  </button>
+  @if (previewSource()) {
+    <img [src]="previewSource()" alt="Foto ampliada do imóvel" />
+  }
+</dialog>

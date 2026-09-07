@@ -4,17 +4,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { appConfig } from '../../../core/config/app-config';
 import { AuthService } from '../../../core/services/auth.service';
+import { LucideEye, LucideEyeOff } from '@lucide/angular';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, LucideEye, LucideEyeOff],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   readonly brand = appConfig.brand;
   readonly loading = signal(false);
   readonly error = signal(false);
+  readonly showPassword = signal(false);
 
   private readonly authService = inject(AuthService);
   private readonly formBuilder = inject(FormBuilder);
@@ -23,7 +25,7 @@ export class LoginComponent {
 
   readonly form = this.formBuilder.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
-    senha: ['', [Validators.required]]
+    senha: ['', [Validators.required]],
   });
 
   submit(): void {
@@ -43,11 +45,13 @@ export class LoginComponent {
       error: () => {
         this.loading.set(false);
         this.error.set(true);
-      }
+      },
     });
   }
 
   private redirectTo(): string {
-    return this.route.snapshot.queryParamMap.get('redirectTo') ?? '/admin/imoveis';
+    return (
+      this.route.snapshot.queryParamMap.get('redirectTo') ?? '/admin/imoveis'
+    );
   }
 }

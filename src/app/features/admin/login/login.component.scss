@@ -5,7 +5,7 @@
   padding: 24px;
   background:
     linear-gradient(135deg, rgb(33 56 50 / 94%), rgb(54 83 74 / 82%)),
-    url('https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=1600&q=80')
+    url("https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=1600&q=80")
       center / cover;
   color: var(--color-panel);
 }
@@ -25,7 +25,7 @@ span {
   color: var(--color-accent);
   font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
@@ -53,6 +53,9 @@ label {
 }
 
 input {
+  width: 100%;
+  min-width: 0;
+  font-size: 16px;
   min-height: 46px;
   border: 1px solid rgb(255 255 255 / 16%);
   border-radius: 6px;
@@ -86,4 +89,41 @@ button:disabled {
 .form-error {
   color: #ffc9c9;
   font-weight: 800;
+}
+
+.password-field {
+  position: relative;
+}
+.password-field input {
+  padding-right: 58px;
+  font-size: 16px;
+}
+.password-field button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 48px;
+  height: 100%;
+  background: transparent;
+  display: grid;
+  place-items: center;
+}
+.password-field svg {
+  width: 22px;
+  height: 22px;
+}
+input {
+  font-size: 16px;
+}
+h1 {
+  font-size: 1.6rem;
+}
+@media (max-width: 480px) {
+  .admin-page {
+    padding: 16px;
+    min-height: 100dvh;
+  }
+  .auth-panel {
+    padding: 24px 20px;
+  }
 }
