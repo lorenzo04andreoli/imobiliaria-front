@@ -24,68 +24,19 @@
     </nav>
   </header>
 
-  <section class="hero">
-    <div class="hero__content">
-      <span class="eyebrow">Imóveis selecionados</span>
-      <h1>{{ brand.siteName }}</h1>
-      <p>
-        {{ brand.tagline }}.
-      </p>
-
-      <div class="hero__actions">
-        <a class="button button--primary" href="#imoveis">Ver oportunidades</a>
-        <a class="button button--glass" [href]="contactLink()" target="_blank" rel="noopener">
-          Falar com a Eliane
-        </a>
-      </div>
-
-      <div class="trust-strip" aria-label="Diferenciais do atendimento">
-        <div>
-          <strong>Atendimento direto</strong>
-          <span>sem intermediários</span>
-        </div>
-        <div>
-          <strong>Imóveis selecionados</strong>
-          <span>catálogo simples</span>
-        </div>
-        <div>
-          <strong>Contato rápido</strong>
-          <span>via WhatsApp</span>
-        </div>
-      </div>
-
-      <form class="filters-panel filters-panel--hero" [formGroup]="filtersForm" (ngSubmit)="applyFilters()">
-        <label>
-          Buscar
-          <input type="search" formControlName="q" />
-        </label>
-
-        <label>
-          Tipo
-          <select formControlName="tipo">
-            <option value="">Todos</option>
-            @for (type of propertyTypes; track type) {
-              <option [value]="type">{{ type }}</option>
-            }
-          </select>
-        </label>
-
-        <label>
-          Valor mínimo
-          <input type="number" min="0" formControlName="precoMin" />
-        </label>
-
-        <label>
-          Valor máximo
-          <input type="number" min="0" formControlName="precoMax" />
-        </label>
-
-        <div class="filter-actions">
-          <button class="button button--primary" type="submit">Buscar</button>
-          <button class="button button--light" type="button" (click)="clearFilters()">Limpar</button>
-        </div>
-      </form>
-    </div>
+  <section
+    class="brand-banner"
+    aria-label="Eliane Carneiro, Corretora de Imóveis"
+  >
+    <h1>
+      <img
+        src="/eliane-carneiro-banner.png"
+        width="1643"
+        height="957"
+        alt="Eliane Carneiro - Corretora de Imóveis"
+        fetchpriority="high"
+      />
+    </h1>
   </section>
 
   <section id="imoveis" class="section">
@@ -94,8 +45,54 @@
         <span class="eyebrow">Destaques</span>
         <h2>Imóveis disponíveis</h2>
       </div>
-      <p>Escolha um imóvel e fale diretamente com {{ brand.brokerName }} pelo WhatsApp.</p>
+      <p>
+        Escolha um imóvel e fale diretamente com {{ brand.brokerName }} pelo
+        WhatsApp.
+      </p>
     </div>
+
+    <form
+      class="filters-panel"
+      aria-label="Buscar imóveis"
+      [formGroup]="filtersForm"
+      (ngSubmit)="applyFilters()"
+    >
+      <label>
+        Buscar
+        <input type="search" formControlName="q" />
+      </label>
+
+      <label>
+        Tipo
+        <select formControlName="tipo">
+          <option value="">Todos</option>
+          @for (type of propertyTypes; track type) {
+            <option [value]="type">{{ type }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        Valor mínimo
+        <input type="number" min="0" formControlName="precoMin" />
+      </label>
+
+      <label>
+        Valor máximo
+        <input type="number" min="0" formControlName="precoMax" />
+      </label>
+
+      <div class="filter-actions">
+        <button class="button button--primary" type="submit">Buscar</button>
+        <button
+          class="button button--light"
+          type="button"
+          (click)="clearFilters()"
+        >
+          Limpar
+        </button>
+      </div>
+    </form>
 
     @if (loading()) {
       <div class="empty-state">
@@ -110,13 +107,16 @@
     } @else if (properties().length === 0) {
       <div class="empty-state">
         <strong>Nenhum imóvel encontrado</strong>
-              <p>Ajuste os filtros para ver outras oportunidades em Paranaguá.</p>
+        <p>Ajuste os filtros para ver outras oportunidades em Paranaguá.</p>
       </div>
     } @else {
       <div class="property-grid">
         @for (property of properties(); track property.id) {
           <article class="property-card">
-            <a class="property-card__media" [routerLink]="['/imoveis', property.id]">
+            <a
+              class="property-card__media"
+              [routerLink]="['/imoveis', property.id]"
+            >
               @if (coverImage(property); as imageUrl) {
                 <img [src]="imageUrl" [alt]="property.titulo" />
               } @else {
@@ -134,7 +134,9 @@
               </div>
 
               <h3>
-                <a [routerLink]="['/imoveis', property.id]">{{ property.titulo }}</a>
+                <a [routerLink]="['/imoveis', property.id]">{{
+                  property.titulo
+                }}</a>
               </h3>
 
               <p>{{ property.bairro }}, {{ property.cidade }}</p>
@@ -144,7 +146,11 @@
               }
 
               <div class="property-card__actions">
-                <a class="button button--primary" [routerLink]="['/imoveis', property.id]">Ver detalhes</a>
+                <a
+                  class="button button--primary"
+                  [routerLink]="['/imoveis', property.id]"
+                  >Ver detalhes</a
+                >
                 <a
                   class="button button--whatsapp"
                   [href]="whatsappLink(property)"
@@ -177,10 +183,17 @@
     <div>
       <span class="eyebrow">Pronto para visitar?</span>
       <h2>Escolha o imóvel e fale direto pelo WhatsApp</h2>
-      <p>A conversa já abre com uma mensagem pronta para agilizar o atendimento.</p>
+      <p>
+        A conversa já abre com uma mensagem pronta para agilizar o atendimento.
+      </p>
     </div>
 
-    <a class="button button--primary" [href]="contactLink()" target="_blank" rel="noopener">
+    <a
+      class="button button--primary"
+      [href]="contactLink()"
+      target="_blank"
+      rel="noopener"
+    >
       Chamar no WhatsApp
     </a>
   </section>
@@ -201,7 +214,9 @@
 
     <div class="site-footer__links">
       <span>Contato</span>
-      <a [href]="contactLink()" target="_blank" rel="noopener">Falar pelo WhatsApp</a>
+      <a [href]="contactLink()" target="_blank" rel="noopener"
+        >Falar pelo WhatsApp</a
+      >
       <p>Atendimento direto para compra e venda de imóveis.</p>
     </div>
   </footer>

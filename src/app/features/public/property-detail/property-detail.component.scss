@@ -241,7 +241,7 @@ h1 {
   bottom: 14px;
   border-radius: 6px;
   padding: 10px 14px;
-  background: rgb(31 41 51 / 86%);
+  background: rgb(23 23 23 / 86%);
   color: var(--color-panel);
   font-size: 0.76rem;
   letter-spacing: 0;
@@ -344,7 +344,7 @@ h1 {
   gap: 32px;
   margin-top: 48px;
   padding: 56px max(24px, calc((100vw - 1120px) / 2));
-  background: #101513;
+  background: var(--color-primary-dark);
   color: var(--color-panel);
 }
 
@@ -355,7 +355,7 @@ h1 {
 }
 
 .site-footer__brand strong {
-  color: var(--color-accent);
+  color: var(--color-panel);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 3.2rem;
   line-height: 0.9;
@@ -371,24 +371,24 @@ h1 {
 }
 
 .site-footer__brand small {
-  color: var(--color-accent);
+  color: var(--color-inverse-muted);
   font-weight: 800;
   letter-spacing: 0.04em;
 }
 
 .site-footer p {
-  color: #b7c1bd;
+  color: var(--color-inverse-muted);
   line-height: 1.6;
 }
 
 .site-footer a {
-  color: #edf5ef;
+  color: var(--color-panel);
   font-weight: 800;
   text-decoration: none;
 }
 
 .site-footer a:hover {
-  color: var(--color-accent);
+  color: #ff8589;
 }
 
 dl {
@@ -428,7 +428,7 @@ dd {
   position: absolute;
   inset: 0;
   border: 0;
-  background: rgb(10 18 16 / 88%);
+  background: rgb(0 0 0 / 88%);
   cursor: zoom-out;
 }
 
@@ -684,7 +684,7 @@ dd {
   }
 
   .contact-card dl div:first-child dd {
-    color: #0a96dd;
+    color: var(--color-accent-dark);
     font-size: 1.65rem;
     line-height: 1;
   }

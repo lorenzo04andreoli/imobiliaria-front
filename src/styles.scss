@@ -24,6 +24,38 @@ html {
   scroll-behavior: smooth;
 }
 
+// Public brand palette; keep the administration theme independent.
+.public-page,
+.detail-page {
+  --color-page: #f7f7f7;
+  --color-panel: #ffffff;
+  --color-panel-soft: #f1f1f1;
+  --color-text: #242424;
+  --color-muted: #626262;
+  --color-primary: #242424;
+  --color-primary-dark: #171717;
+  --color-accent: #cf2027;
+  --color-accent-dark: #ad171e;
+  --color-line: #dedede;
+  --color-whatsapp: #167847;
+  --color-inverse-muted: #cccccc;
+  --shadow-soft: 0 12px 36px rgb(0 0 0 / 7%);
+
+  :focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  .button--primary:hover {
+    background: var(--color-accent-dark);
+  }
+
+  .button--whatsapp:hover {
+    background: #116039;
+  }
+
+}
+
 body {
   min-width: 320px;
   margin: 0;
