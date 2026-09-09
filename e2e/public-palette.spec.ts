@@ -32,5 +32,8 @@ test('paleta pública consistente e botões legíveis', async ({ page }, testInf
     await page.screenshot({ path: testInfo.outputPath(url === '/' ? 'inicio.png' : 'detalhes.png'), fullPage: true });
   }
   await page.goto('/admin/login');
-  expect(await page.locator('body').evaluate((element) => getComputedStyle(element).getPropertyValue('--color-accent').trim())).toBe('#b46f45');
+  expect(await page.locator('body').evaluate((element) => getComputedStyle(element).getPropertyValue('--color-accent').trim())).toBe('#cf2027');
+  await expect(page.locator('.auth-panel')).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+  await expect(page.getByRole('button', { name: 'Entrar', exact: true })).toHaveCSS('background-color', 'rgb(207, 32, 39)');
+  await page.screenshot({ path: testInfo.outputPath('login.png'), fullPage: true });
 });

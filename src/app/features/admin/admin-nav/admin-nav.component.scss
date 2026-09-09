@@ -42,7 +42,7 @@ button {
 }
 .links .active {
   color: var(--color-primary-dark);
-  background: #e9f2ec;
+  background: var(--color-selection);
 }
 svg {
   width: 20px;
@@ -51,7 +51,7 @@ svg {
 a:hover,
 button:hover {
   transform: none;
-  background: #f1f5f2;
+  background: var(--color-panel-soft);
 }
 @media (min-width: 700px) {
   .admin-nav {

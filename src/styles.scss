@@ -5,26 +5,27 @@
 }
 
 :root {
-  --color-page: #eef2ee;
+  --color-page: #f7f7f7;
   --color-panel: #ffffff;
-  --color-panel-soft: #f8faf7;
-  --color-text: #1f2933;
-  --color-muted: #63706b;
-  --color-primary: #36534a;
-  --color-primary-dark: #213832;
-  --color-accent: #b46f45;
-  --color-accent-dark: #8e5638;
-  --color-line: #d8e0d9;
+  --color-panel-soft: #f1f1f1;
+  --color-text: #242424;
+  --color-muted: #626262;
+  --color-primary: #cf2027;
+  --color-primary-dark: #171717;
+  --color-accent: #cf2027;
+  --color-accent-dark: #ad171e;
+  --color-line: #dedede;
+  --color-selection: #fff0f1;
   --color-danger: #a42020;
   --color-whatsapp: #1f8f5f;
-  --shadow-soft: 0 18px 50px rgb(31 41 51 / 10%);
+  --shadow-soft: 0 12px 36px rgb(0 0 0 / 7%);
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-// Public brand palette; keep the administration theme independent.
+// Public headings stay neutral while administrative primary actions use red.
 .public-page,
 .detail-page {
   --color-page: #f7f7f7;
@@ -93,6 +94,6 @@ a:hover {
 }
 
 :focus-visible {
-  outline: 3px solid rgb(180 111 69 / 34%);
+  outline: 3px solid var(--color-accent);
   outline-offset: 3px;
 }

@@ -65,11 +65,11 @@ import { ConfirmationService } from './confirmation.service';
       border-radius: 8px;
       background: #fff;
       color: var(--color-text);
-      box-shadow: 0 16px 60px rgb(20 40 30 / 20%);
+      box-shadow: 0 16px 60px rgb(0 0 0 / 20%);
       overscroll-behavior: contain;
     }
     dialog::backdrop {
-      background: rgb(22 36 30 / 38%);
+      background: rgb(0 0 0 / 38%);
     }
     .content {
       position: relative;
@@ -94,7 +94,7 @@ import { ConfirmationService } from './confirmation.service';
       height: 148px;
       object-fit: contain;
       border-radius: 6px;
-      background: #f1f5f2;
+      background: var(--color-panel-soft);
       margin-bottom: 20px;
     }
     .actions {
