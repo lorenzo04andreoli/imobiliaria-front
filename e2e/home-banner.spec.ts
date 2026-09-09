@@ -39,6 +39,7 @@ test('banner inteiro, filtros abaixo e busca funcional', async ({
   const image = banner.locator('img');
   const filters = page.getByRole('form', { name: 'Buscar imóveis' });
   await expect(image).toBeVisible();
+  await image.evaluate((img: HTMLImageElement) => img.decode());
   await expect
     .poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth))
     .toBeGreaterThan(1500);
@@ -80,6 +81,32 @@ test('banner inteiro, filtros abaixo e busca funcional', async ({
   await expect.poll(() => queries.at(-1)?.searchParams.has('q')).toBe(false);
   await expect(filters.getByLabel('Buscar', { exact: true })).toHaveValue('');
   await expect(filters.getByRole('combobox', { name: 'Tipo', exact: true })).toHaveValue('');
+});
+
+test('logo e menu do cabeçalho sem sobrepor a busca', async ({ page }, testInfo) => {
+  await page.route('**/api/imoveis?*', (route) => route.fulfill({ json: { content: [] } }));
+  await page.goto('/');
+  await expect(page.locator('.site-brand strong')).toHaveText('Eliane');
+  await expect(page.locator('.site-brand small')).toContainText('CRECI');
+  await expect(page.locator('.site-header')).toHaveCSS('background-color', 'rgb(17, 17, 17)');
+  const menu = page.locator('.menu-toggle');
+  const nav = page.getByRole('navigation', { name: 'Navegação principal' });
+  if (page.viewportSize()!.width <= 620) {
+    await expect(nav).not.toBeVisible();
+    await menu.click();
+    await expect(nav).toBeVisible();
+    await expect(menu).toHaveAttribute('aria-expanded', 'true');
+    await page.screenshot({ path: testInfo.outputPath('menu.png') });
+    await page.keyboard.press('Escape');
+    await expect(nav).not.toBeVisible();
+    await menu.click();
+    await nav.getByRole('link', { name: 'Imóveis', exact: true }).click();
+    await expect(nav).not.toBeVisible();
+    await expect(page).toHaveURL(/#imoveis$/);
+  } else {
+    await expect(nav).toBeVisible();
+  }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
 test('banner permanece nos estados vazio e erro', async ({ page }) => {

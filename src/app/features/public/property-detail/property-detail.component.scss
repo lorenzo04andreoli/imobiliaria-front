@@ -11,17 +11,14 @@
 }
 
 .site-header {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  border-bottom: 1px solid var(--color-line);
-  padding: 16px 32px;
-  background: rgb(255 255 255 / 88%);
-  backdrop-filter: blur(12px);
+  padding: 20px max(24px, calc((100% - 1120px) / 2));
+  background: #111;
 }
 
 .site-brand,
@@ -36,13 +33,13 @@
   column-gap: 10px;
   row-gap: 2px;
   align-items: center;
-  color: var(--color-primary-dark);
+  color: #fff;
   text-decoration: none;
 }
 
 .site-brand strong {
   grid-row: span 2;
-  color: var(--color-accent-dark);
+  color: #ff555d;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 2rem;
   line-height: 0.9;
@@ -50,7 +47,7 @@
 
 .site-brand span {
   max-width: 120px;
-  color: var(--color-primary-dark);
+  color: #fff;
   font-size: 0.8rem;
   font-weight: 800;
   line-height: 1.1;
@@ -59,10 +56,10 @@
 }
 
 .site-brand small {
-  color: var(--color-muted);
+  color: #ccc;
   font-size: 0.68rem;
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
 }
 
 .site-header nav {
@@ -72,15 +69,15 @@
 .site-header nav a {
   border-radius: 6px;
   padding: 10px 12px;
-  color: var(--color-text);
+  color: #fff;
   font-size: 0.9rem;
   font-weight: 800;
   text-decoration: none;
 }
 
 .site-header nav a:hover {
-  background: var(--color-panel-soft);
-  color: var(--color-primary-dark);
+  background: #292929;
+  color: #fff;
 }
 
 .menu-toggle {
@@ -535,26 +532,27 @@ dd {
   .site-header {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 12px;
-    border-bottom: 1px solid var(--color-line);
-    padding: 14px 16px;
-    background: rgb(255 255 255 / 94%);
+    gap: 10px;
+    padding: 20px 24px;
   }
 
   .site-brand {
+    column-gap: 8px;
+    row-gap: 0;
     justify-self: start;
   }
 
   .site-brand strong {
-    font-size: 2.25rem;
+    font-size: 1.9rem;
   }
 
   .site-brand span {
-    max-width: 108px;
+    max-width: 94px;
+    font-size: 0.68rem;
   }
 
   .site-brand small {
-    font-size: 0.66rem;
+    font-size: 0.56rem;
   }
 
   .site-header nav {
@@ -573,29 +571,26 @@ dd {
     display: flex;
     min-height: 44px;
     align-items: center;
-    border: 1px solid var(--color-line);
-    background: var(--color-panel);
+    border: 1px solid #444;
+    background: #1c1c1c;
   }
 
   .menu-toggle {
     display: grid;
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     place-items: center;
-    border: 1px solid var(--color-line);
+    border: 0;
     border-radius: 6px;
-    background: var(--color-panel);
+    background: transparent;
+    color: #fff;
     cursor: pointer;
   }
 
-  .menu-toggle span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    border-radius: 999px;
-    background: var(--color-primary-dark);
-    letter-spacing: 0;
-    text-transform: none;
+  .menu-toggle svg {
+    width: 34px;
+    height: 34px;
+    stroke-width: 3.5;
   }
 
   .back-link {

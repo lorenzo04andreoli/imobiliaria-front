@@ -19,7 +19,23 @@ test('paleta pública consistente e botões legíveis', async ({ page }, testInf
   for (const url of ['/', '/imoveis/1']) {
     await page.goto(url);
     await expect(page.getByRole('heading', { name: 'Casa com quintal' })).toBeVisible();
-    await expect(page.locator('.site-brand strong')).toHaveCSS('color', 'rgb(173, 23, 30)');
+    await expect(page.locator('.site-brand strong')).toHaveCSS('color', 'rgb(255, 85, 93)');
+    await expect(page.locator('.site-header')).toHaveCSS('background-color', 'rgb(17, 17, 17)');
+    if (page.viewportSize()!.width <= 620) {
+      const menu = page.locator('.menu-toggle');
+      const nav = page.getByRole('navigation', { name: 'Navegação principal' });
+      await expect(nav).toBeHidden();
+      await menu.click();
+      await expect(menu).toHaveAccessibleName('Fechar menu');
+      await expect(nav).toBeVisible();
+      await page.screenshot({ path: testInfo.outputPath(url === '/' ? 'menu-inicio.png' : 'menu-detalhes.png') });
+      await page.keyboard.press('Escape');
+      await expect(nav).toBeHidden();
+      await expect(menu).toBeFocused();
+      await menu.click();
+      await menu.click();
+      await expect(nav).toBeHidden();
+    }
     await expect(page.locator('.site-footer')).toHaveCSS('background-color', 'rgb(23, 23, 23)');
     await expect(page.locator('.site-footer__brand strong')).toHaveCSS('color', 'rgb(255, 255, 255)');
     for (const button of await page.locator('.button--primary, .button--whatsapp').all()) {

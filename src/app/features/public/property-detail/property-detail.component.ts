@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { LucideMenu, LucideX } from '@lucide/angular';
 
 import { appConfig } from '../../../core/config/app-config';
 import { Property, PropertyImage } from '../../../core/models/property.model';
@@ -9,7 +10,7 @@ import { WhatsappService } from '../../../core/services/whatsapp.service';
 
 @Component({
   selector: 'app-property-detail',
-  imports: [RouterLink],
+  imports: [RouterLink, LucideMenu, LucideX],
   templateUrl: './property-detail.component.html',
   styleUrl: './property-detail.component.scss'
 })

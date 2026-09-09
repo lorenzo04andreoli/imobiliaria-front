@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { LucideMenu, LucideX } from '@lucide/angular';
 
 import { appConfig } from '../../../core/config/app-config';
 import { Property, PropertyType } from '../../../core/models/property.model';
@@ -10,7 +11,7 @@ import { WhatsappService } from '../../../core/services/whatsapp.service';
 
 @Component({
   selector: 'app-home',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, LucideMenu, LucideX],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

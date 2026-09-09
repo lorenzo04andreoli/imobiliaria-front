@@ -1,5 +1,5 @@
 <main class="detail-page">
-  <header class="site-header">
+  <header class="site-header" (keydown.escape)="closeMenu(); menuToggle.focus()">
     <a class="site-brand" routerLink="/">
       <strong>Eliane</strong>
       <span>Corretora de Imóveis</span>
@@ -8,17 +8,21 @@
 
     <button
       class="menu-toggle"
+      #menuToggle
       type="button"
       [attr.aria-expanded]="menuOpen()"
-      aria-label="Abrir menu"
+      [attr.aria-label]="menuOpen() ? 'Fechar menu' : 'Abrir menu'"
+      aria-controls="property-navigation"
       (click)="toggleMenu()"
     >
-      <span></span>
-      <span></span>
-      <span></span>
+      @if (menuOpen()) {
+        <svg lucideX aria-hidden="true"></svg>
+      } @else {
+        <svg lucideMenu aria-hidden="true"></svg>
+      }
     </button>
 
-    <nav [class.is-open]="menuOpen()" aria-label="Navegação principal">
+    <nav id="property-navigation" [class.is-open]="menuOpen()" aria-label="Navegação principal">
       <a routerLink="/" (click)="closeMenu()">Início</a>
       <a routerLink="/" fragment="imoveis" (click)="closeMenu()">Imóveis</a>
       <a routerLink="/" fragment="contato" (click)="closeMenu()">Contato</a>

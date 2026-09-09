@@ -1,6 +1,6 @@
 <main id="topo" class="public-page">
-  <header class="site-header">
-    <a class="site-brand" href="#topo">
+  <header class="site-header" (keydown.escape)="closeMenu(); menuToggle.focus()">
+    <a class="site-brand" href="#topo" aria-label="Eliane Carneiro - Início" (click)="closeMenu()">
       <strong>Eliane</strong>
       <span>Corretora de Imóveis</span>
       <small>{{ brand.creci }}</small>
@@ -8,17 +8,21 @@
 
     <button
       class="menu-toggle"
+      #menuToggle
       type="button"
       [attr.aria-expanded]="menuOpen()"
-      aria-label="Abrir menu"
+      [attr.aria-label]="menuOpen() ? 'Fechar menu' : 'Abrir menu'"
+      aria-controls="home-navigation"
       (click)="toggleMenu()"
     >
-      <span></span>
-      <span></span>
-      <span></span>
+      @if (menuOpen()) {
+        <svg lucideX aria-hidden="true"></svg>
+      } @else {
+        <svg lucideMenu aria-hidden="true"></svg>
+      }
     </button>
 
-    <nav [class.is-open]="menuOpen()" aria-label="Navegação principal">
+    <nav id="home-navigation" [class.is-open]="menuOpen()" aria-label="Navegação principal">
       <a href="#imoveis" (click)="closeMenu()">Imóveis</a>
       <a href="#contato" (click)="closeMenu()">Contato</a>
     </nav>
