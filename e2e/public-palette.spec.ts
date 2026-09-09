@@ -45,6 +45,26 @@ test('paleta pública consistente e botões legíveis', async ({ page }, testInf
       expect((light + 0.05) / (dark + 0.05)).toBeGreaterThanOrEqual(4.5);
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    if (url !== '/') {
+      const mobile = page.viewportSize()!.width <= 620;
+      const cta = page.locator(mobile ? '.whatsapp-dock a' : '.contact-card .button--whatsapp');
+      await expect(cta).toBeVisible();
+      await expect(cta).toContainText('Conversar no WhatsApp');
+      await cta.locator('img').evaluate((img: HTMLImageElement) => img.decode());
+      const destination = new URL((await cta.getAttribute('href'))!);
+      expect(destination.origin).toBe('https://wa.me');
+      expect(destination.pathname).toMatch(/^\/[0-9]+$/);
+      expect(destination.searchParams.get('text')).toContain('Casa em Centro, Paranaguá');
+      expect(destination.searchParams.get('text')).toContain('Código do imóvel: 1');
+      expect(destination.searchParams.get('text')).toContain('https://elianecarneiroimoveis.com.br/imoveis/1');
+      await expect(cta).toHaveAttribute('target', '_blank');
+      if (mobile) {
+        await page.locator('.gallery__main').click();
+        await expect(page.locator('.whatsapp-dock')).toHaveCount(0);
+        await page.locator('.lightbox__close').click();
+        await expect(cta).toBeVisible();
+      }
+    }
     await page.screenshot({ path: testInfo.outputPath(url === '/' ? 'inicio.png' : 'detalhes.png'), fullPage: true });
   }
   await page.goto('/admin/login');

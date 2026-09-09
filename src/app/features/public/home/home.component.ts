@@ -123,7 +123,7 @@ export class HomeComponent implements OnInit {
   }
 
   contactLink(): string {
-    return `https://wa.me/${this.brand.whatsappNumber}`;
+    return this.whatsappService.createContactLink();
   }
 
   private apiOrigin(): string {
