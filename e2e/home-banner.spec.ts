@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import path from 'node:path';
 
-test('banner inteiro, filtros abaixo e busca funcional', async ({
+test('banner com foto, filtros abaixo e busca funcional', async ({
   page,
 }, testInfo) => {
   const queries: URL[] = [];
@@ -42,7 +42,10 @@ test('banner inteiro, filtros abaixo e busca funcional', async ({
   await image.evaluate((img: HTMLImageElement) => img.decode());
   await expect
     .poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth))
-    .toBeGreaterThan(1500);
+    .toBe(984);
+  await expect(image).toHaveAttribute('src', '/cidade-banner.webp');
+  await expect(banner.getByRole('heading', { level: 1 })).toHaveText('Imóveis em Paranaguá');
+  expect(await banner.evaluate((element) => getComputedStyle(element, '::after').backgroundImage)).toContain('linear-gradient');
   await expect(
     page.getByRole('heading', { name: 'Casa com quintal' }),
   ).toBeVisible();
@@ -55,7 +58,7 @@ test('banner inteiro, filtros abaixo e busca funcional', async ({
     page.viewportSize()!.height - 60,
   );
   expect(await image.evaluate((img) => getComputedStyle(img).objectFit)).toBe(
-    'contain',
+    'cover',
   );
   expect(
     await page.evaluate(

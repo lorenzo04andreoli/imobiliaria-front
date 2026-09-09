@@ -75,20 +75,55 @@
 }
 
 .brand-banner {
-  padding-top: 44px;
-  background: linear-gradient(to bottom, #111, #000 44px);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: 360px;
+  height: min(460px, 58svh);
+  place-items: center;
+  padding: 48px 24px;
+  background: #111;
+  color: #fff;
+}
+
+.brand-banner::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background: linear-gradient(to bottom, #111 0%, rgb(17 17 17 / 86%) 24%, rgb(17 17 17 / 62%) 65%, rgb(17 17 17 / 48%) 100%);
+}
+
+.brand-banner__content {
+  width: min(760px, 100%);
+  text-align: center;
 }
 
 .brand-banner h1 {
   margin: 0;
-  line-height: 0;
+  font-size: 2.75rem;
+  line-height: 1.15;
+  letter-spacing: 0;
+  color: #fff;
+}
+
+.brand-banner p {
+  max-width: 660px;
+  margin: 20px auto 0;
+  font-size: 1.35rem;
+  line-height: 1.65;
+  color: #fff;
 }
 
 .brand-banner img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
   display: block;
   width: 100%;
-  height: min(380px, 52svh);
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 60%;
 }
 
 .section,
@@ -556,10 +591,20 @@ p {
     stroke-width: 3.5;
   }
 
-  .brand-banner img {
-    height: auto;
-    max-height: 52svh;
-    aspect-ratio: 1643 / 957;
+  .brand-banner {
+    min-height: 320px;
+    height: 48svh;
+    max-height: 420px;
+    padding: 36px 24px;
+  }
+
+  .brand-banner h1 {
+    font-size: 2rem;
+  }
+
+  .brand-banner p {
+    margin-top: 18px;
+    font-size: 1.1rem;
   }
 
   .filters-panel,
