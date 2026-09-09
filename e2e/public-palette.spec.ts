@@ -19,8 +19,8 @@ test('paleta pública consistente e botões legíveis', async ({ page }, testInf
   for (const url of ['/', '/imoveis/1']) {
     await page.goto(url);
     await expect(page.getByRole('heading', { name: 'Casa com quintal' })).toBeVisible();
-    await expect(page.locator('.site-brand strong')).toHaveCSS('color', 'rgb(255, 85, 93)');
-    await expect(page.locator('.site-header')).toHaveCSS('background-color', 'rgb(17, 17, 17)');
+    await expect(page.locator('.site-brand img')).toHaveAttribute('src', '/eliane-carneiro-banner.png');
+    await expect(page.locator('.site-header')).toHaveCSS('background-color', url === '/' ? 'rgba(0, 0, 0, 0)' : 'rgb(17, 17, 17)');
     if (page.viewportSize()!.width <= 620) {
       const menu = page.locator('.menu-toggle');
       const nav = page.getByRole('navigation', { name: 'Navegação principal' });

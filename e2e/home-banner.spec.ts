@@ -35,28 +35,27 @@ test('banner com foto, filtros abaixo e busca funcional', async ({
     }),
   );
   await page.goto('/');
-  const banner = page.locator('.brand-banner');
-  const image = banner.locator('img');
+  const banner = page.locator('.hero');
+  const image = banner.locator('.hero__image');
   const filters = page.getByRole('form', { name: 'Buscar imóveis' });
   await expect(image).toBeVisible();
   await image.evaluate((img: HTMLImageElement) => img.decode());
   await expect
     .poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth))
-    .toBe(984);
-  await expect(image).toHaveAttribute('src', '/cidade-banner.webp');
+    .toBe(1080);
+  await expect(image).toHaveAttribute('src', '/paranagua-aerea.jpeg');
   await expect(banner.getByRole('heading', { level: 1 })).toHaveText('Imóveis em Paranaguá');
-  expect(await banner.evaluate((element) => getComputedStyle(element, '::after').backgroundImage)).toContain('linear-gradient');
+  expect(await banner.evaluate((element) => getComputedStyle(element, '::before').backgroundImage)).toContain('linear-gradient');
   await expect(
     page.getByRole('heading', { name: 'Casa com quintal' }),
   ).toBeVisible();
   const bannerBox = (await banner.boundingBox())!;
   const filtersBox = (await filters.boundingBox())!;
   const cardBox = (await page.locator('.property-card').first().boundingBox())!;
-  expect(filtersBox.y).toBeGreaterThanOrEqual(bannerBox.y + bannerBox.height);
+  expect(filtersBox.y).toBeGreaterThan(bannerBox.y);
+  expect(filtersBox.y + filtersBox.height).toBeLessThanOrEqual(bannerBox.y + bannerBox.height);
   expect(cardBox.y).toBeGreaterThanOrEqual(filtersBox.y + filtersBox.height);
-  expect(bannerBox.y + bannerBox.height).toBeLessThan(
-    page.viewportSize()!.height - 60,
-  );
+  expect(bannerBox.height).toBeGreaterThanOrEqual(page.viewportSize()!.height - 24);
   expect(await image.evaluate((img) => getComputedStyle(img).objectFit)).toBe(
     'cover',
   );
@@ -71,6 +70,9 @@ test('banner com foto, filtros abaixo e busca funcional', async ({
   });
   await filters.getByLabel('Buscar', { exact: true }).fill('quintal');
   await filters.getByRole('combobox', { name: 'Tipo', exact: true }).selectOption('CASA');
+  await expect(filters.getByText('Comprar', { exact: true })).toHaveCount(0);
+  await expect(filters.getByLabel('Valor mínimo')).toBeVisible();
+  await expect(filters.getByLabel('Valor máximo')).toBeVisible();
   await filters.getByLabel('Valor mínimo').fill('100000');
   await filters.getByLabel('Valor máximo').fill('500000');
   await filters.getByRole('button', { name: 'Buscar', exact: true }).click();
@@ -89,9 +91,8 @@ test('banner com foto, filtros abaixo e busca funcional', async ({
 test('logo e menu do cabeçalho sem sobrepor a busca', async ({ page }, testInfo) => {
   await page.route('**/api/imoveis?*', (route) => route.fulfill({ json: { content: [] } }));
   await page.goto('/');
-  await expect(page.locator('.site-brand strong')).toHaveText('Eliane');
-  await expect(page.locator('.site-brand small')).toContainText('CRECI');
-  await expect(page.locator('.site-header')).toHaveCSS('background-color', 'rgb(17, 17, 17)');
+  await expect(page.locator('.site-brand img')).toHaveAttribute('src', '/eliane-carneiro-banner.png');
+  await expect(page.locator('.site-header')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
   const menu = page.locator('.menu-toggle');
   const nav = page.getByRole('navigation', { name: 'Navegação principal' });
   if (page.viewportSize()!.width <= 620) {
@@ -118,7 +119,7 @@ test('banner permanece nos estados vazio e erro', async ({ page }) => {
   );
   await page.goto('/');
   await expect(page.getByText('Nenhum imóvel encontrado')).toBeVisible();
-  await expect(page.locator('.brand-banner img')).toBeVisible();
+  await expect(page.locator('.hero__image')).toBeVisible();
   await page.route('**/api/imoveis?*', (route) =>
     route.fulfill({ status: 500, json: {} }),
   );
@@ -126,5 +127,5 @@ test('banner permanece nos estados vazio e erro', async ({ page }) => {
   await expect(
     page.getByText('Não foi possível carregar os imóveis'),
   ).toBeVisible();
-  await expect(page.locator('.brand-banner img')).toBeVisible();
+  await expect(page.locator('.hero__image')).toBeVisible();
 });

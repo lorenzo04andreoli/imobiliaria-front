@@ -45,6 +45,11 @@
   line-height: 0.9;
 }
 
+.site-brand img { display: block; width: 140px; height: 82px; object-fit: contain; }
+@media (max-width: 620px) {
+  .site-brand img { width: 106px; height: 62px; }
+}
+
 .site-brand span {
   max-width: 120px;
   color: #fff;

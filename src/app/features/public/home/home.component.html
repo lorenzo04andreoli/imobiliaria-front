@@ -1,9 +1,9 @@
 <main id="topo" class="public-page">
+  <div class="hero">
+    <img class="hero__image" src="/paranagua-aerea.jpeg" width="1080" height="1590" alt="" fetchpriority="high" />
   <header class="site-header" (keydown.escape)="closeMenu(); menuToggle.focus()">
     <a class="site-brand" href="#topo" aria-label="Eliane Carneiro - Início" (click)="closeMenu()">
-      <strong>Eliane</strong>
-      <span>Corretora de Imóveis</span>
-      <small>{{ brand.creci }}</small>
+      <img src="/eliane-carneiro-banner.png" width="1643" height="957" alt="Eliane Carneiro - Corretora de Imóveis" />
     </a>
 
     <button
@@ -32,64 +32,39 @@
     class="brand-banner"
     aria-label="Eliane Carneiro, Corretora de Imóveis"
   >
-    <img
-      src="/cidade-banner.webp"
-      width="984"
-      height="654"
-      alt=""
-      fetchpriority="high"
-    />
     <div class="brand-banner__content">
       <h1>Imóveis em Paranaguá</h1>
       <p>Seu sonho tem endereço. Encontre seu próximo lar com quem cuida de cada detalhe.</p>
     </div>
-  </section>
-
-  <section id="imoveis" class="section">
-    <div class="section__header">
-      <div>
-        <span class="eyebrow">Destaques</span>
-        <h2>Imóveis disponíveis</h2>
-      </div>
-      <p>
-        Escolha um imóvel e fale diretamente com {{ brand.brokerName }} pelo
-        WhatsApp.
-      </p>
-    </div>
-
     <form
       class="filters-panel"
       aria-label="Buscar imóveis"
       [formGroup]="filtersForm"
       (ngSubmit)="applyFilters()"
     >
-      <label>
-        Buscar
-        <input type="search" formControlName="q" />
+      <label class="search-field">
+        <svg lucideSearch aria-hidden="true"></svg>
+        <input type="search" formControlName="q" aria-label="Buscar" placeholder="Bairro ou nome do imóvel" />
       </label>
-
-      <label>
-        Tipo
-        <select formControlName="tipo">
-          <option value="">Todos</option>
+      <label class="search-field">
+        <svg lucideBuilding2 aria-hidden="true"></svg>
+        <select formControlName="tipo" aria-label="Tipo">
+          <option value="">Tipo de imóvel</option>
           @for (type of propertyTypes; track type) {
-            <option [value]="type">{{ type }}</option>
+            <option [value]="type">{{ propertyTypeLabel(type) }}</option>
           }
         </select>
       </label>
-
-      <label>
-        Valor mínimo
-        <input type="number" min="0" formControlName="precoMin" />
+      <label class="search-field search-field--price">
+        <span>Valor mínimo</span>
+        <input type="number" min="0" formControlName="precoMin" placeholder="R$" />
       </label>
-
-      <label>
-        Valor máximo
-        <input type="number" min="0" formControlName="precoMax" />
+      <label class="search-field search-field--price">
+        <span>Valor máximo</span>
+        <input type="number" min="0" formControlName="precoMax" placeholder="R$" />
       </label>
-
       <div class="filter-actions">
-        <button class="button button--primary" type="submit">Buscar</button>
+        <button class="button button--primary" type="submit"><svg lucideSearch aria-hidden="true"></svg>Buscar</button>
         <button
           class="button button--light"
           type="button"
@@ -99,7 +74,17 @@
         </button>
       </div>
     </form>
+  </section>
+  </div>
 
+  <section id="imoveis" class="section">
+    <div class="section__header">
+      <div>
+        <span class="eyebrow">Destaques</span>
+        <h2>Imóveis disponíveis</h2>
+      </div>
+      <p>Escolha um imóvel e fale diretamente com {{ brand.brokerName }} pelo WhatsApp.</p>
+    </div>
     @if (loading()) {
       <div class="empty-state">
         <strong>Carregando imóveis</strong>

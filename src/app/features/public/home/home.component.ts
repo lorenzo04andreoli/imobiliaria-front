@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { LucideMenu, LucideX } from '@lucide/angular';
+import { LucideMenu, LucideX, LucideSearch, LucideBuilding2 } from '@lucide/angular';
 
 import { appConfig } from '../../../core/config/app-config';
 import { Property, PropertyType } from '../../../core/models/property.model';
@@ -11,7 +11,7 @@ import { WhatsappService } from '../../../core/services/whatsapp.service';
 
 @Component({
   selector: 'app-home',
-  imports: [ReactiveFormsModule, RouterLink, LucideMenu, LucideX],
+  imports: [ReactiveFormsModule, RouterLink, LucideMenu, LucideX, LucideSearch, LucideBuilding2],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -61,6 +61,11 @@ export class HomeComponent implements OnInit {
 
   applyFilters(): void {
     this.loadProperties();
+    document.getElementById('imoveis')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  propertyTypeLabel(type: PropertyType): string {
+    return { CASA: 'Casa', APARTAMENTO: 'Apartamento', TERRENO: 'Terreno', COMERCIAL: 'Comercial', CHACARA: 'Chácara', OUTRO: 'Outro' }[type];
   }
 
   clearFilters(): void {
