@@ -1,6 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { LucideMenu, LucideX } from '@lucide/angular';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
 import { appConfig } from '../../../core/config/app-config';
 import { Property, PropertyImage } from '../../../core/models/property.model';
@@ -10,11 +12,12 @@ import { WhatsappService } from '../../../core/services/whatsapp.service';
 
 @Component({
   selector: 'app-property-detail',
-  imports: [RouterLink, LucideMenu, LucideX],
+  imports: [RouterLink, LucideMenu, LucideX, FaIconComponent],
   templateUrl: './property-detail.component.html',
   styleUrl: './property-detail.component.scss'
 })
 export class PropertyDetailComponent implements OnInit {
+  readonly whatsappIcon = faWhatsapp;
   readonly brand = appConfig.brand;
   readonly property = signal<Property | null>(null);
   readonly loading = signal(true);

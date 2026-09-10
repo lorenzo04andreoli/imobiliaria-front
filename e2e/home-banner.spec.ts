@@ -42,8 +42,8 @@ test('banner com foto, filtros abaixo e busca funcional', async ({
   await image.evaluate((img: HTMLImageElement) => img.decode());
   await expect
     .poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth))
-    .toBe(1080);
-  await expect(image).toHaveAttribute('src', '/paranagua-aerea.jpeg');
+    .toBe(2576);
+  await expect(image).toHaveAttribute('src', '/paranagua-panorama.jpg');
   await expect(banner.getByRole('heading', { level: 1 })).toHaveText('Imóveis em Paranaguá');
   expect(await banner.evaluate((element) => getComputedStyle(element, '::before').backgroundImage)).toContain('linear-gradient');
   await expect(

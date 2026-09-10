@@ -50,7 +50,7 @@ test('paleta pública consistente e botões legíveis', async ({ page }, testInf
       const cta = page.locator(mobile ? '.whatsapp-dock a' : '.contact-card .button--whatsapp');
       await expect(cta).toBeVisible();
       await expect(cta).toContainText('Conversar no WhatsApp');
-      await cta.locator('img').evaluate((img: HTMLImageElement) => img.decode());
+      await expect(cta.locator('fa-icon svg[data-icon="whatsapp"]')).toBeVisible();
       const destination = new URL((await cta.getAttribute('href'))!);
       expect(destination.origin).toBe('https://wa.me');
       expect(destination.pathname).toMatch(/^\/[0-9]+$/);

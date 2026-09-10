@@ -354,7 +354,7 @@ h1 {
   outline-offset: 3px;
 }
 
-.whatsapp-icon { flex-shrink: 0; width: 28px; height: 28px; }
+.whatsapp-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 28px; height: 28px; font-size: 28px; line-height: 1; }
 
 .whatsapp-dock {
   display: none;
