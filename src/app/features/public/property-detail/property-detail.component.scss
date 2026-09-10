@@ -379,9 +379,10 @@ h1 {
 
 .site-footer__brand strong {
   color: var(--color-panel);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 3.2rem;
-  line-height: 0.9;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: 0;
 }
 
 .site-footer__brand span,

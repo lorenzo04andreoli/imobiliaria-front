@@ -43,6 +43,9 @@ test('paleta pública consistente e botões legíveis', async ({ page }, testInf
     }
     await expect(page.locator('.site-footer')).toHaveCSS('background-color', 'rgb(23, 23, 23)');
     await expect(page.locator('.site-footer__brand strong')).toHaveCSS('color', 'rgb(255, 255, 255)');
+    await expect(page.locator('.site-footer__brand strong')).toHaveText('Eliane Carneiro');
+    const footerTextSize = await page.locator('.site-footer__brand span').evaluate(el => getComputedStyle(el).fontSize);
+    await expect(page.locator('.site-footer__brand strong')).toHaveCSS('font-size', footerTextSize);
     for (const button of await page.locator('.button--primary, .button--whatsapp').all()) {
       const colors = await button.evaluate((element) => ({ text: getComputedStyle(element).color, background: getComputedStyle(element).backgroundColor }));
       const light = Math.max(luminance(colors.text), luminance(colors.background));
