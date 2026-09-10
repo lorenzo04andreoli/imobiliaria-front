@@ -29,9 +29,10 @@
 
 .site-brand {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto;
+  justify-items: center;
   column-gap: 10px;
-  row-gap: 2px;
+  row-gap: 6px;
   align-items: center;
   color: #fff;
   text-decoration: none;
@@ -45,9 +46,9 @@
   line-height: 0.9;
 }
 
-.site-brand img { display: block; width: 140px; height: 82px; object-fit: contain; }
+.site-brand img { display: block; width: 164px; height: 96px; object-fit: contain; }
 @media (max-width: 620px) {
-  .site-brand img { width: 106px; height: 62px; }
+  .site-brand img { width: 128px; height: 75px; }
 }
 
 .site-brand span {
@@ -564,7 +565,7 @@ dd {
 
   .site-brand {
     column-gap: 8px;
-    row-gap: 0;
+    row-gap: 6px;
     justify-self: start;
   }
 
@@ -578,7 +579,7 @@ dd {
   }
 
   .site-brand small {
-    font-size: 0.56rem;
+    font-size: 0.65rem;
   }
 
   .site-header nav {

@@ -18,8 +18,13 @@ test('paleta pública consistente e botões legíveis', async ({ page }, testInf
   await page.route('**/uploads/test.jpg', (route) => route.fulfill({ path: path.resolve('e2e/house.jpg'), contentType: 'image/jpeg' }));
   for (const url of ['/', '/imoveis/1']) {
     await page.goto(url);
+    await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/eliane-carneiro-banner.png?v=3');
     await expect(page.getByRole('heading', { name: 'Casa com quintal' })).toBeVisible();
     await expect(page.locator('.site-brand img')).toHaveAttribute('src', '/eliane-carneiro-banner.png');
+    await expect(page.locator('.site-brand small')).toHaveText('CRECI-F 57833');
+    const logoBox = (await page.locator('.site-brand img').boundingBox())!;
+    const creciBox = (await page.locator('.site-brand small').boundingBox())!;
+    expect(creciBox.y).toBeGreaterThanOrEqual(logoBox.y + logoBox.height);
     await expect(page.locator('.site-header')).toHaveCSS('background-color', url === '/' ? 'rgba(0, 0, 0, 0)' : 'rgb(17, 17, 17)');
     if (page.viewportSize()!.width <= 620) {
       const menu = page.locator('.menu-toggle');
