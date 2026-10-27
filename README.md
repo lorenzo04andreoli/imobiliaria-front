@@ -60,11 +60,23 @@ dist/imobiliaria-front/browser
 
 ## Testes
 
+### Testes Unitários (Karma)
+
 É necessário ter Chrome ou Chromium instalado e disponível ao Karma.
 
 ```bash
 npm test -- --watch=false --browsers=ChromeHeadless
 ```
+
+### Testes E2E (Playwright)
+
+Com o Google Chrome instalado, execute os testes end-to-end (E2E) com o Playwright:
+
+```bash
+npm run test:mobile
+```
+
+O Playwright inicia automaticamente o servidor frontend na porta 4201 e simula a API (mocking), sem necessitar de credenciais ou modificar imóveis em produção. Os testes cobrem visões mobile (320 px e 390 px) e desktop, incluindo validação de formulários, fluxo de fotos, login e navegação. Capturas e traces em caso de falha ficam salvos na pasta `test-results/`.
 
 ## Painel no celular
 
@@ -79,19 +91,6 @@ necessário arrastar. São aceitos JPG, PNG e WebP de até 5 MB por arquivo.
 O formulário avisa antes de descartar alterações. Os envios são sequenciais
 e preservam os uploads confirmados quando uma tentativa falha; alterações
 não salvas não são armazenadas após fechar ou recarregar a página.
-
-### Testes de navegação mobile
-
-Com Google Chrome instalado:
-
-```bash
-npm run test:mobile
-```
-
-O Playwright inicia o frontend na porta 4201 e simula a API, sem acessar
-credenciais ou modificar imóveis de produção. Os testes cobrem telas de
-320 px, 390 px e desktop, validação, fotos, recuperação de uploads, login
-e proteção de alterações. Capturas e traces ficam em `test-results/`.
 A imagem em `e2e/house.jpg` é uma foto pública do próprio catálogo usada
 somente como fixture visual; os dados e as credenciais dos testes são fictícios.
 
